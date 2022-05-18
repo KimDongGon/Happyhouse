@@ -23,7 +23,7 @@
 export default {};
 </script>
 
-<style scope>
+<style scoped>
 h3 {
   margin-left: 32px;
 }
