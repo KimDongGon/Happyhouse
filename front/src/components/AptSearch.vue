@@ -4,28 +4,30 @@
       <b-row>
         <b-col>
           <b-form-select
-            v-model="selected"
-            :options="options"
+            v-model="sidoCode"
+            :options="sido"
+            @change="sidoChanged"
             class="bg-dark text-light"
           ></b-form-select>
         </b-col>
         <b-col>
           <b-form-select
-            v-model="selected"
-            :options="options"
+            v-model="gugunCode"
+            :options="gugun"
+            @change="gugunChanged"
             class="bg-dark text-light"
           ></b-form-select>
         </b-col>
         <b-col>
           <b-form-select
-            v-model="selected"
-            :options="options"
+            v-model="dongCode"
+            :options="dong"
             class="bg-dark text-light"
           ></b-form-select>
         </b-col>
 
         <b-col class="text-center" cols="1">
-          <b-button variant="primary">검색</b-button>
+          <b-button variant="primary" @click="search">검색</b-button>
         </b-col>
       </b-row>
     </div>
@@ -33,18 +35,37 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      selected: null,
-      options: [
-        { value: null, text: "Please select an option" },
-        { value: "a", text: "This is First option" },
-        { value: "b", text: "Selected Option" },
-        { value: { C: "3PO" }, text: "This is an option with object value" },
-        { value: "d", text: "This one is disabled", disabled: true },
-      ],
+      sidoCode: null,
+      gugunCode: null,
+      dongCode: null,
     };
+  },
+  computed: {
+    ...mapState(["sido", "gugun", "dong"]),
+  },
+  created() {
+    this.getSido();
+  },
+  methods: {
+    ...mapActions(["getSido", "getGugun", "getDong"]),
+    sidoChanged() {
+      this.gugunCode = null;
+      this.dongCode = null;
+      if (this.sidoCode !== null) {
+        this.getGugun(this.sidoCode);
+      }
+    },
+    gugunChanged() {
+      this.dongCode = null;
+      if (this.gugunCode !== null) {
+        this.getDong({ sidoCode: this.sidoCode, gugunCode: this.gugunCode });
+      }
+    },
+    search() {},
   },
 };
 </script>
