@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
-	public UserDto login(String id, String password) {
-		return userMapper.login(id, password);
+	public UserDto login(UserDto userDto) {
+		return userMapper.login(userDto);
 	}
 
 	public int addUser(UserDto dto) {

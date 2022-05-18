@@ -6,7 +6,7 @@ import java.util.List;
 import com.ssafy.happyhouse.model.dto.UserDto;
 
 public interface UserService {
-	UserDto login(String id, String password) throws Exception;
+	UserDto login(UserDto userDto) throws Exception;
 	public int addUser(UserDto dto);
 
 	int idCheck(String checkId) throws Exception;
