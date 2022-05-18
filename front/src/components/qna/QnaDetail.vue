@@ -26,14 +26,10 @@
       </b-col>
     </b-row>
     <b-col class="text-left">
-      <b-button
-        variant="outline-info"
-        size="sm"
-        @click="moveModifyQna"
-        class="mr-2"
+      <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
         >수정</b-button
       >
-      <b-button variant="outline-danger" size="sm" @click="deleteQna"
+      <b-button variant="outline-danger" class="mb-1" @click="deleteQna"
         >삭제</b-button
       >
     </b-col>

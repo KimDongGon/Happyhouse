@@ -1,6 +1,5 @@
 <template>
   <b-tr>
-    <b-td>{{ no }}</b-td>
     <b-th class="text-left">
       <router-link :to="{ name: 'qnaDetail', params: { no: no } }">{{
         title
