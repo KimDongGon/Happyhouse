@@ -1,7 +1,14 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-  </div>
+  <div><home-article></home-article></div>
 </template>
 
-<script></script>
+<script>
+import HomeArticle from "@/components/home/HomeArticle.vue";
+
+export default {
+  name: "HomeView",
+  components: {
+    HomeArticle,
+  },
+};
+</script>
