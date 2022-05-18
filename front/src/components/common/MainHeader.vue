@@ -41,7 +41,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <div>
+    <div class="container">
       <router-link to="/"><img src="@/assets/logo.jpg" /></router-link>
       <router-link to="/notice" class="text-dark">공지사항</router-link>
       <router-link to="/" class="text-dark">오늘의 뉴스</router-link>
