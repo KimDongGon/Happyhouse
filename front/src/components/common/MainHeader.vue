@@ -8,7 +8,7 @@
           ></b-navbar-brand
         >
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
+          <b-navbar-nav class="nav" v-if="isLoggedIn">
             <b-nav-item href="#"
               ><router-link to="/signup" class="text-light"
                 >signup</router-link
@@ -21,22 +21,22 @@
             >
           </b-navbar-nav>
 
-          <b-navbar-nav>
+          <b-navbar-nav class="nav" v-else>
             <b-nav-item href="#"
               ><router-link to="/profile" class="text-light"
                 >Profile</router-link
               ></b-nav-item
             >
-            <b-nav-item href="#"
+            <b-nav-item href="#" v-if="isAdmin"
               ><router-link to="/admin" class="text-light"
                 >UserList</router-link
               ></b-nav-item
             >
             <b-nav-item href="#"
-              ><router-link to="/" class="text-light"
-                >Logout</router-link
-              ></b-nav-item
+              ><a class="text-light" @click="logout">Logout</a></b-nav-item
             >
+          </b-navbar-nav>
+          <b-navbar-nav>
             <b-nav-item href="#"
               ><router-link to="/" class="text-light"
                 >Notice</router-link
@@ -60,7 +60,17 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters(["isLoggedIn", "isAdmin"]),
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -68,7 +78,7 @@ img {
   width: 200px;
   height: "100%";
 }
-.navbar-nav {
+.nav {
   margin-left: auto;
 }
 a {
