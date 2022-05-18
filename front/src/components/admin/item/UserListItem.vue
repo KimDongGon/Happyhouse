@@ -9,6 +9,11 @@
     <b-td>{{ name }}</b-td>
     <b-td>{{ address }}</b-td>
     <b-td>{{ number }}</b-td>
+    <b-th class="text-left">
+      <router-link :to="{ name: 'userDelete', params: { id: id } }">
+        삭제
+      </router-link>
+    </b-th>
   </b-tr>
 </template>
 

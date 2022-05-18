@@ -25,7 +25,9 @@ import com.ssafy.happyhouse.model.service.UserService;
 @CrossOrigin("*")
 public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
-
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+	
 	@Autowired
 	private UserService userService;
 	

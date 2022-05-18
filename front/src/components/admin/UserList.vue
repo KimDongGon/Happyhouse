@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <h3 class="underline-hotpink">
-          <b-icon icon="journals"></b-icon> 회원목록
+          <b-icon icon="list"></b-icon> 회원목록
         </h3>
       </b-col>
     </b-row>
@@ -24,7 +24,7 @@
               <b-th>이름</b-th>
               <b-th>주소</b-th>
               <b-th>전화번호</b-th>
-              <b-th>수정/삭제</b-th>
+              <b-th>회원관리</b-th>
             </b-tr>
           </b-thead>
           <tbody>
@@ -77,13 +77,5 @@ export default {
 .tdSubject {
   width: 300px;
   text-align: left;
-}
-.underline-hotpink {
-  display: inline-block;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 70%,
-    rgba(231, 27, 139, 0.3) 30%
-  );
 }
 </style>
