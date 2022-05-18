@@ -30,6 +30,7 @@ public class AdminController {
 	private UserService userService;
 	
 	// 회원목록
+	////////
 	@GetMapping(value="/user")
 	public ResponseEntity<?> userList() {
 		try {
