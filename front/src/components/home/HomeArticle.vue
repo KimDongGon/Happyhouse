@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col sm="3"><img src="@/assets/sideAD.jpg" /></b-col>
+      <b-col sm="3"><img src="@/assets/side.jpg" /></b-col>
       <b-col sm="5">
         <div><h3>주택 관련 기사</h3></div>
         <hr />

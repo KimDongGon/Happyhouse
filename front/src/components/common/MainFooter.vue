@@ -13,7 +13,7 @@
         <li>email. admin@ssafy.com</li>
       </ul>
     </div>
-    <div class="container-fluid bg-secondary text-center">
+    <div class="container-fluid bg-secondary text-center text-light">
       Copyright by SSAFY All rights reserved
     </div>
   </div>

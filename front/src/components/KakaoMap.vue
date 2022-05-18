@@ -10,41 +10,39 @@ export default {
   data() {
     return {
       markers: [],
-      positions: [
+      markerInfos: [
         {
-          title: "돈암삼부아파트",
-          latlng: new kakao.maps.LatLng(37.602874980485815, 127.024074908179),
+          position: [37.602874980485815, 127.024074908179],
+          text: "돈암삼부아파트",
         },
         {
-          title: "돈암동부센트레빌아파트",
-          latlng: new kakao.maps.LatLng(37.60277610066754, 127.0259693355823),
+          position: [37.60277610066754, 127.0259693355823],
+          text: "돈암동부센트레빌아파트",
         },
         {
-          title: "돈암현대아파트",
-          latlng: new kakao.maps.LatLng(37.60374078756766, 127.0271420873093),
+          position: [37.60374078756766, 127.0271420873093],
+          text: "돈암현대아파트",
         },
         {
-          title: "돈암범양아파트",
-          latlng: new kakao.maps.LatLng(37.603392290108424, 127.02795747887419),
+          position: [37.603392290108424, 127.02795747887419],
+          text: "돈암범양아파트",
         },
         {
-          title: "길음뉴타운9단지아파트",
-          latlng: new kakao.maps.LatLng(37.60295247998547, 127.02021965472383),
+          position: [37.60295247998547, 127.02021965472383],
+          text: "길음뉴타운9단지아파트",
         },
       ],
-      infowindow: null,
     };
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
-      this.initMarker();
     } else {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e2b44d4461fe733e0c8e660ed7d2663b";
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
   },
@@ -59,17 +57,28 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+
+      this.initMarker();
     },
     initMarker() {
+      if (this.markers.length > 0) {
+        this.markers.forEach((marker) => marker.setMap(null));
+      }
+
       const imageSrc =
         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
-      if (this.positions.length > 0) {
-        this.markers = this.positions.map((position) => {
+      const infos = this.markerInfos.map((info) => ({
+        position: new kakao.maps.LatLng(...info.position),
+        text: info.text,
+      }));
+
+      if (infos.length > 0) {
+        this.markers = infos.map((info) => {
           new kakao.maps.Marker({
             map: this.map,
-            position: position.latlng,
-            title: position.title,
+            position: info.position,
+            text: info.text,
             image: new kakao.maps.MarkerImage(
               imageSrc,
               // eslint-disable-next-line prettier/prettier
@@ -77,10 +86,6 @@ export default {
             ),
           });
         });
-
-        if (this.markers.length > 0) {
-          this.markers.forEach((marker) => marker.setMap(null));
-        }
       }
     },
   },
