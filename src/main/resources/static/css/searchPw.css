@@ -1,0 +1,24 @@
+.content {
+  height: 500px;
+  background: gray;
+  text-align: center;
+}
+
+.searchPw {
+  display: inline-block;
+  margin-top: 50px;
+  background: white;
+  width: 500px;
+  height: 300px;
+  border-radius: 30px;
+}
+
+table,
+th,
+td {
+  height: 40px;
+}
+
+.signup-table {
+  margin-top: 30px;
+}

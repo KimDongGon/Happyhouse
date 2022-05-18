@@ -1,0 +1,63 @@
+.content {
+  height: 500px;
+  background: gray;
+  text-align: center;
+}
+
+.login {
+  display: inline-block;
+  margin-top: 100px;
+  background: white;
+  width: 500px;
+  height: 250px;
+  border-radius: 30px;
+}
+
+table,
+th,
+td {
+  height: 40px;
+}
+
+.signup-table {
+  margin-top: 30px;
+}
+
+#_btnLogin {
+  margin-right: 60px;
+  margin-top: 30px;
+  height: 40px;
+  width: 70px;
+  background-color: bisque;
+  border-radius: 3px;
+}
+
+#_btnpw {
+  margin-right: 60px;
+  margin-top: 30px;
+  height: 40px;
+  width: 100px;
+  background-color: bisque;
+  border-radius: 3px;
+}
+
+/* 하단 Footer Content */
+.footer-top {
+  position: relative;
+  bottom: 10px;
+  margin: 60px;
+}
+
+.footer-bottom {
+  position: relative;
+  bottom: 0;
+  background-color: rgba(195, 194, 194, 0.308);
+  width: 100%;
+  height: 40px;
+}
+
+.footer-bottom-text {
+  text-align: center;
+  color: rgba(42, 42, 42, 0.746);
+  margin-top: 5px;
+}

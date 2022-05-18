@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseMapper">
+
+	<sql id="apt">
+		<if test="aptName != null">
+			and aptName like concat('%', #{aptName}, '%')
+		</if>
+	</sql>
+	
+	<resultMap type="HouseDto" id="aptList">
+		<result column="aptName" property="aptName"/>
+		<result column="dealAmount" property="dealAmount"/>
+		<result column="area" property="area"/>
+		<result column="dealYear" property="dealYear"/>
+		<result column="dealMonth" property="dealMonth"/>
+		<result column="dealDay" property="dealDay"/>
+	</resultMap>
+
+	<select id="search" parameterType="map" resultMap="aptList">
+		select i.aptName, dealAmount, area, dealYear, dealMonth, dealDay
+		from houseinfo i join housedeal d
+		on i.aptCode = d.aptCode
+		where sidoCode = #{sido}
+		and gugunCode = #{gugun}
+		and dongCode = #{dong}
+		<if test="aptName != null">
+			and i.aptName like concat('%', #{aptName}, '%')
+		</if>
+		order by aptName asc
+	</select>
+</mapper>
