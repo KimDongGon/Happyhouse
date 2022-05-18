@@ -34,7 +34,17 @@
             >
             <b-nav-item href="#"
               ><router-link to="/" class="text-light"
-                >logout</router-link
+                >Logout</router-link
+              ></b-nav-item
+            >
+            <b-nav-item href="#"
+              ><router-link to="/" class="text-light"
+                >Notice</router-link
+              ></b-nav-item
+            >
+            <b-nav-item href="#"
+              ><router-link to="/" class="text-light"
+                >QnA</router-link
               ></b-nav-item
             >
           </b-navbar-nav>
