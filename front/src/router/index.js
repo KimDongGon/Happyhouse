@@ -33,6 +33,29 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: () => import("@/views/AdminView.vue"),
+    redirect: "/admin/list",
+    children: [
+      {
+        path: "list",
+        name: "userList",
+        component: () => import("@/components/admin/UserList.vue"),
+      },
+      {
+        path: "regist",
+        name: "userRegister",
+        component: () => import("@/components/admin/UserRegister.vue"),
+      },
+      {
+        path: "detail/:id",
+        name: "userDetail",
+        component: () => import("@/components/admin/UserDetail.vue"),
+      },
+      {
+        path: "delete/:id",
+        name: "userDelete",
+        component: () => import("@/components/admin/UserDelete.vue"),
+      },
+    ],
   },
 ];
 

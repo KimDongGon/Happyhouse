@@ -2,7 +2,9 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h3>회원 목록</h3></b-alert>
+        <h3 class="underline-hotpink">
+          <b-icon icon="journals"></b-icon> 회원목록
+        </h3>
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -27,7 +29,7 @@
           </b-thead>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
-            <board-list-item
+            <user-list-item
               v-for="(user, index) in users"
               :key="index"
               v-bind="user"
@@ -75,5 +77,13 @@ export default {
 .tdSubject {
   width: 300px;
   text-align: left;
+}
+.underline-hotpink {
+  display: inline-block;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(231, 27, 139, 0.3) 30%
+  );
 }
 </style>
