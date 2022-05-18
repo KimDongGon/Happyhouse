@@ -30,6 +30,24 @@ const routes = [
     component: () => import("@/views/ProfileView.vue"),
   },
   {
+    path: "/qna",
+    name: "qna",
+    component: () => import("@/views/QnaView.vue"),
+    redirect: "/qna/list",
+    children: [
+      {
+        path: "list",
+        name: "qnaList",
+        component: () => import("@/components/qna/QnaList.vue"),
+      },
+      {
+        path: "wtite",
+        name: "qnaRegister",
+        component: () => import("@/components/qna/QnaRegister.vue"),
+      },
+    ],
+  },
+  {
     path: "/admin",
     name: "admin",
     component: () => import("@/views/AdminView.vue"),

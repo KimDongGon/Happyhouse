@@ -43,7 +43,7 @@
               ></b-nav-item
             >
             <b-nav-item href="#"
-              ><router-link to="/" class="text-light"
+              ><router-link to="/qna" class="text-light"
                 >QnA</router-link
               ></b-nav-item
             >
