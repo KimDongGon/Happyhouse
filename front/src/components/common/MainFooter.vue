@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <footer>
     <div class="bg-light">
       <h3>Find Us</h3>
       <hr />
@@ -16,7 +16,7 @@
     <div class="container-fluid bg-secondary text-center text-light">
       Copyright by SSAFY All rights reserved
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -29,5 +29,10 @@ h3 {
 }
 ul {
   margin: 0;
+}
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
 }
 </style>

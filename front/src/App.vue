@@ -20,13 +20,13 @@ export default {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+#app {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 170px;
 }
-
-a {
-  text-decoration: none;
+html,
+body {
+  height: 100%;
 }
 </style>
