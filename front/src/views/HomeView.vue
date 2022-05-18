@@ -1,6 +1,5 @@
 <template>
   <div>
-    <home-background />
     <apt-search />
     <kakao-map />
     <home-article />
@@ -10,7 +9,6 @@
 <script>
 import HomeArticle from "@/components/home/HomeArticle.vue";
 import KakaoMap from "@/components/KakaoMap.vue";
-import HomeBackground from "@/components/home/HomeBackground.vue";
 import AptSearch from "@/components/AptSearch.vue";
 
 export default {
@@ -18,7 +16,6 @@ export default {
   components: {
     HomeArticle,
     KakaoMap,
-    HomeBackground,
     AptSearch,
   },
 };
