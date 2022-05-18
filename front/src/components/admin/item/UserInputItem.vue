@@ -2,7 +2,12 @@
   <b-row class="mb-1">
     <b-col style="text-align: left">
       <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="id-group" label="아이디:" label-for="id">
+        <b-form-group
+          id="id-group"
+          label="아이디:"
+          label-for="id"
+          v-if="this.type === 'register'"
+        >
           <b-form-input
             id="id"
             ref="id"
@@ -12,7 +17,16 @@
             placeholder="ID.."
           ></b-form-input>
         </b-form-group>
-
+        <b-form-group id="id-group" label="아이디:" label-for="id" v-else>
+          <b-form-input
+            id="id"
+            ref="id"
+            v-model="user.id"
+            type="text"
+            required
+            readonly="readonly"
+          ></b-form-input>
+        </b-form-group>
         <b-form-group
           id="password-group"
           label="비밀번호:"
@@ -28,13 +42,27 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="name-group" label="이름:" label-for="name">
+        <b-form-group
+          id="name-group"
+          label="이름:"
+          label-for="name"
+          v-if="this.type === 'register'"
+        >
           <b-form-input
             id="name"
             ref="name"
             type="text"
             v-model="user.name"
             placeholder="NAME..."
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group id="name-group" label="이름:" label-for="name" v-else>
+          <b-form-input
+            id="name"
+            ref="name"
+            type="text"
+            v-model="user.name"
+            readonly="readonly"
           ></b-form-input>
         </b-form-group>
 
@@ -69,7 +97,16 @@
         <b-button type="submit" variant="primary" class="m-1" v-else
           >회원수정</b-button
         >
-        <b-button type="reset" variant="danger" class="m-1">초기화</b-button>
+        <b-button
+          type="reset"
+          variant="danger"
+          class="m-1"
+          v-if="this.type === 'register'"
+          >초기화</b-button
+        >
+        <b-button variant="outline-primary" @click="moveList" class="m-1" v-else
+          >목록</b-button
+        >
       </b-form>
     </b-col>
   </b-row>
@@ -160,7 +197,7 @@ export default {
     },
     modifyUser() {
       http
-        .put(`/admin/user/${this.user.id}`, {
+        .put(`/admin/user`, {
           id: this.user.id,
           password: this.user.password,
           name: this.user.name,
@@ -168,7 +205,7 @@ export default {
           number: this.user.number,
         })
         .then(({ data }) => {
-          let msg = "수정 처리시 문제가 발생했습니다.";
+          let msg = "수정이 완료되었습니다.";
           if (data === "success") {
             msg = "수정이 완료되었습니다.";
           }

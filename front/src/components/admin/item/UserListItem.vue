@@ -3,7 +3,7 @@
     <b-td>{{ id }}</b-td>
     <b-th class="text-left">
       <router-link :to="{ name: 'userDetail', params: { id: id } }">{{
-        password
+        password | passwordHide
       }}</router-link>
     </b-th>
     <b-td>{{ name }}</b-td>
@@ -27,7 +27,18 @@ export default {
     address: String,
     number: String,
   },
+  filters: {
+    passwordHide(password) {
+      let newPass = password.replace(password, "*******");
+      return newPass;
+    },
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+router-link {
+  text-decoration: none;
+  color: red;
+}
+</style>

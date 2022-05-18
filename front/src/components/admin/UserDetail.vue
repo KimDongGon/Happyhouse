@@ -7,48 +7,47 @@
         </h3>
       </b-col>
     </b-row>
-    <b-col class="text-align: left">
-      <b-button variant="outline-primary" @click="listUser">목록</b-button>
-    </b-col>
     <b-row class="mb-1">
-      <b-col style="text-align: left">
-        <b-form @submit="onSubmit" @reset="onReset">
-          <b-form-group id="id-group" label="아이디:" label-for="id">
-            <b-form-input id="id" type="text" readonly="readonly">{{
-              user.id
-            }}</b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="password-group"
-            label="비밀번호:"
-            label-for="password"
-          >
-            <b-form-input id="password" type="text" readonly="readonly">{{
-              user.password
-            }}</b-form-input>
-          </b-form-group>
-
-          <b-form-group id="name-group" label="이름:" label-for="name">
-            <b-form-input id="name" type="text" readonly="readonly">{{
-              user.name
-            }}</b-form-input>
-          </b-form-group>
-
-          <b-form-group id="address-group" label="주소:" label-for="address">
-            <b-form-input id="address" type="text" readonly="readonly">{{
-              user.address
-            }}</b-form-input>
-          </b-form-group>
-
-          <b-form-group id="number-group" label="전화번호:" label-for="number">
-            <b-form-input id="number" type="text" readonly="readonly">{{
-              user.number
-            }}</b-form-input>
-          </b-form-group>
-          <b-button type="submit" variant="primary" class="m-1">수정</b-button>
-          <b-button type="reset" variant="danger" class="m-1">삭제</b-button>
-        </b-form>
+      <b-col class="text-left">
+        <b-button variant="outline-primary" @click="listUser">목록</b-button>
+      </b-col>
+      <b-col class="text-right">
+        <b-button
+          variant="outline-info"
+          size="sm"
+          @click="moveModifyUser"
+          class="mr-2"
+          >수정</b-button
+        >
+        <b-button variant="outline-danger" size="sm" @click="deleteUser"
+          >삭제</b-button
+        >
+      </b-col>
+    </b-row>
+    <b-row class="mb-1">
+      <b-col>
+        <b-tale-simple>
+          <b-tr>
+            <b-th>아이디</b-th>
+            <b-td>{{ user.id }}</b-td>
+          </b-tr>
+          <b-tr>
+            <b-th>비밀번호</b-th>
+            <b-td>{{ user.password }}</b-td>
+          </b-tr>
+          <b-tr>
+            <b-th>이름</b-th>
+            <b-td>{{ user.name }}</b-td>
+          </b-tr>
+          <b-tr>
+            <b-th>주소</b-th>
+            <b-td>{{ user.address }}</b-td>
+          </b-tr>
+          <b-tr>
+            <b-th>전화번호</b-th>
+            <b-td>{{ user.number }}</b-td>
+          </b-tr>
+        </b-tale-simple>
       </b-col>
     </b-row>
   </b-container>

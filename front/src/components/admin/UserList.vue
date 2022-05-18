@@ -8,7 +8,7 @@
       </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col class="text-right">
+      <b-col class="text-align : right">
         <b-button variant="outline-primary" @click="moveRegist()"
           >회원등록</b-button
         >

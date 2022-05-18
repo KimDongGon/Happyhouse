@@ -55,6 +55,11 @@ const routes = [
         name: "userDelete",
         component: () => import("@/components/admin/UserDelete.vue"),
       },
+      {
+        path: "modify",
+        name: "userModify",
+        component: () => import("@/components/admin/UserModify.vue"),
+      },
     ],
   },
 ];

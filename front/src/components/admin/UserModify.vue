@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import UserInputItem from "@/components/board/item/UserInputItem.vue";
+import UserInputItem from "@/components/admin/item/UserInputItem.vue";
 
 export default {
   name: "UserModify",
