@@ -6,10 +6,9 @@ import com.ssafy.happyhouse.model.dto.NoticeDto;
 
 public interface NoticeMapper {
 
-	List<NoticeDto> listNotice();
-
-	NoticeDto getNotice(int no);
-
-	void addNotice(NoticeDto noticeDto);
-
+	List<NoticeDto> selectNotice();
+	NoticeDto selectNoticeByNo(int no);
+	int insertNotice(NoticeDto noticeDto);
+	int updateNotice(NoticeDto noticeDto);
+	int deleteNotice(int no);
 }

@@ -12,23 +12,31 @@ import com.ssafy.happyhouse.model.mapper.NoticeMapper;
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private NoticeMapper noticeMapper;
+
+	@Override
+	public List<NoticeDto> retrieveNotice() {
+		return noticeMapper.selectNotice();
+	}
+
+	@Override
+	public NoticeDto detailNotice(int no) {
+		return noticeMapper.selectNoticeByNo(no);
+	}
+
+	@Override
+	public boolean writeNotice(NoticeDto noticeDto) {
+		return noticeMapper.insertNotice(noticeDto) == 1;
+	}
+
+	@Override
+	public boolean updateNotice(NoticeDto noticeDto) {
+		return noticeMapper.updateNotice(noticeDto) == 1;
+	}
+
+	@Override
+	public boolean deleteNotice(int no) {
+		return noticeMapper.deleteNotice(no) == 1;
+	}
 	
-	
-	@Override
-	public List<NoticeDto> listNotice() {
-		return noticeMapper.listNotice();
-	}
-
-
-	@Override
-	public NoticeDto getNotice(int no) {
-		return noticeMapper.getNotice(no);
-	}
-
-
-	@Override
-	public void addNotice(NoticeDto noticeDto) {
-		noticeMapper.addNotice(noticeDto);
-	}
 
 }
