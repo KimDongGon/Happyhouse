@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <h3 class="underline-hotpink">
-          <b-icon icon="journals"></b-icon> 회원등록
+          <b-icon icon="pencil-fill"></b-icon> 회원등록
         </h3>
       </b-col>
     </b-row>

@@ -26,7 +26,7 @@
     </b-row>
     <b-row class="mb-1">
       <b-col>
-        <b-tale-simple>
+        <b-tale-simple hover responsive>
           <b-tr>
             <b-th>아이디</b-th>
             <b-td>{{ user.id }}</b-td>
@@ -96,4 +96,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.tdClass {
+  width: 50px;
+  text-align: center;
+}
+.tdSubject {
+  width: 300px;
+  text-align: left;
+}
+</style>
