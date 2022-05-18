@@ -6,7 +6,7 @@ import com.ssafy.happyhouse.model.dto.UserDto;
 
 public interface UserMapper {
 
-	UserDto login(String id, String password);
+	UserDto login(UserDto userDto);
 	int insert(UserDto dto);
 	int idCheck(String checkId) throws Exception;
 	

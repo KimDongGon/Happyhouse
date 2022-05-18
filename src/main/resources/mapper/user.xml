@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ssafy.happyhouse.model.mapper.UserMapper">
 
-	<select id="login" parameterType="map" resultType="UserDto">
+	<select id="login" parameterType="UserDto" resultType="UserDto">
 		select *
 		from user
 		where id = #{id} and password = #{password}

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     username: "",
     sido: [{ value: null, text: "시/도 선택" }],
     gugun: [{ value: null, text: "구/군 선택" }],
+    dong: [{ value: null, text: "동 선택" }],
   },
   getters: {
     isLoggedIn(state) {
@@ -51,6 +52,17 @@ export default new Vuex.Store({
         })
       );
     },
+    SET_DONG(state, dongs) {
+      state.dong = [{ value: null, text: "동 선택" }].concat(
+        dongs.map((dong) => {
+          return {
+            value: dong.dongCode,
+            text: dong.dongName,
+          };
+          // eslint-disable-next-line prettier/prettier
+        })
+      );
+    },
   },
   actions: {
     getSido({ commit }) {
@@ -73,7 +85,16 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err));
     },
-    getDong() {},
+    getDong({ commit }, { sidoCode, gugunCode }) {
+      http
+        .get("/code/dong", { params: { sidoCode, gugunCode } })
+        .then((response) => {
+          if (response.status == 200) {
+            commit("SET_DONG", response.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    },
     getHouseList() {},
     loginUser({ commit }, user) {
       http
