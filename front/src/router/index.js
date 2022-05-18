@@ -45,6 +45,21 @@ const routes = [
         name: "qnaRegister",
         component: () => import("@/components/qna/QnaRegister.vue"),
       },
+      {
+        path: "detail",
+        name: "qnaDetail",
+        component: () => import("@/components/qna/QnaDetail.vue"),
+      },
+      {
+        path: "modify",
+        name: "qnaModify",
+        component: () => import("@/components/qna/QnaModify.vue"),
+      },
+      {
+        path: "delete",
+        name: "qnaDelete",
+        component: () => import("@/components/qna/QnaDelete.vue"),
+      },
     ],
   },
   {
