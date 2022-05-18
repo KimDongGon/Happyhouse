@@ -12,7 +12,7 @@
         >
       </b-col>
     </b-row>
-   <b-row>
+    <b-row>
       <b-col v-if="users.length">
         <b-table-simple hover responsive>
           <b-thead head-variant="dark">
@@ -28,7 +28,7 @@
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
             <board-list-item
-              v-for="(user,index) in users"
+              v-for="(user, index) in users"
               :key="index"
               v-bind="user"
             />
@@ -55,7 +55,7 @@ export default {
     };
   },
   created() {
-    http.get(`/user`).then(({ data }) => {
+    http.get(`/admin/user`).then(({ data }) => {
       this.users = data;
     });
   },
