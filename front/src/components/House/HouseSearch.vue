@@ -8,6 +8,7 @@
             :options="sido"
             @change="sidoChanged"
             class="bg-dark text-light"
+            :disabled="disabled"
           ></b-form-select>
         </b-col>
         <b-col>
@@ -16,6 +17,7 @@
             :options="gugun"
             @change="gugunChanged"
             class="bg-dark text-light"
+            :disabled="disabled"
           ></b-form-select>
         </b-col>
         <b-col>
@@ -24,11 +26,14 @@
             :options="dong"
             @change="dongChanged"
             class="bg-dark text-light"
+            :disabled="disabled"
           ></b-form-select>
         </b-col>
 
         <b-col class="text-center" cols="1">
-          <b-button variant="primary" @click="search">검색</b-button>
+          <b-button variant="primary" @click="search" v-if="!disabled"
+            >검색</b-button
+          >
         </b-col>
       </b-row>
     </div>
@@ -38,6 +43,9 @@
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 export default {
+  props: {
+    disabled: Boolean,
+  },
   data() {
     return {
       sidoCode: null,

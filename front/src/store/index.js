@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
 import http from "@/api/http";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -16,12 +17,13 @@ export default new Vuex.Store({
     gugunCode: null,
     dongCode: null,
     houseList: [],
-    houseFelds: [
-      { key: "아파트명", sortable: true },
-      { key: "거래금액", sortable: true },
-      { key: "전용면적", sortable: true },
-      { key: "거래일자", sortable: true },
+    houseFields: [
+      { key: "aptName", label: "아파트명", sortable: true },
+      { key: "dealAmount", label: "거래금액", sortable: true },
+      { key: "area", label: "전용면적", sortable: true },
+      { key: "dealDate", label: "거래일자", sortable: true },
     ],
+    searchKeyword: "",
   },
   getters: {
     isLoggedIn(state) {
@@ -29,6 +31,12 @@ export default new Vuex.Store({
     },
     isAdmin(state) {
       return state.userid === "admin";
+    },
+    searchHouse(state) {
+      return state.houseList.filter((house) =>
+        // eslint-disable-next-line prettier/prettier
+        house.aptName.includes(state.searchKeyword)
+      );
     },
   },
   mutations: {
@@ -83,16 +91,17 @@ export default new Vuex.Store({
       state.dongCode = dongCode;
     },
     SET_HOUSE_LIST(state, houseList) {
-      console.log(houseList);
       state.houseList = houseList.map((house) => {
         return {
-          아파트명: house.aptName,
-          거래금액: house.dealAmount,
-          전용면적: house.area,
-          거래일자: `${house.dealYear}년 ${house.dealMonth}월 ${house.dealDay}일`,
+          aptName: house.aptName,
+          dealAmount: house.dealAmount,
+          area: house.area,
+          dealDate: `${house.dealYear}년 ${house.dealMonth}월 ${house.dealDay}일`,
         };
       });
-      console.log(state.houseList);
+    },
+    SET_SEARCH_KEYWORD(state, aptName) {
+      state.searchKeyword = aptName;
     },
   },
   actions: {
@@ -160,6 +169,15 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err));
     },
+    searchApt({ commit }, aptName) {
+      commit("SET_SEARCH_KEYWORD", aptName);
+    },
   },
   modules: {},
+  plugins: [
+    createPersistedState({
+      // 브라우저 종료시 제거하기 위해 localStorage가 아닌 sessionStorage로 변경. (default: localStorage)
+      storage: sessionStorage,
+    }),
+  ],
 });

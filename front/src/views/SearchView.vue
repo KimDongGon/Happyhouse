@@ -1,6 +1,6 @@
 <template>
   <div>
-    <house-search />
+    <house-search :disabled="true" />
     <b-row class="container-fluid">
       <b-col>
         <house-search-list />
