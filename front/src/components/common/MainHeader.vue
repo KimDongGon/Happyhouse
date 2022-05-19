@@ -38,7 +38,7 @@
           </b-navbar-nav>
           <b-navbar-nav>
             <b-nav-item href="#"
-              ><router-link to="/" class="text-light"
+              ><router-link to="/notice" class="text-light"
                 >Notice</router-link
               ></b-nav-item
             >
