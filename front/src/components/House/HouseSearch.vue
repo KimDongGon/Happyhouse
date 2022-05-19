@@ -52,7 +52,9 @@ export default {
     this.sidoCode = this.$store.state.sidoCode;
     this.gugunCode = this.$store.state.gugunCode;
     this.dongCode = this.$store.state.dongCode;
-    this.getSido();
+    if (this.sidoCode === null) {
+      this.getSido();
+    }
   },
   methods: {
     ...mapActions(["getSido", "getGugun", "getDong"]),

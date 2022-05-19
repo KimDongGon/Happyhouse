@@ -12,6 +12,16 @@ export default new Vuex.Store({
     sido: [{ value: null, text: "시/도 선택" }],
     gugun: [{ value: null, text: "구/군 선택" }],
     dong: [{ value: null, text: "동 선택" }],
+    sidoCode: null,
+    gugunCode: null,
+    dongCode: null,
+    houseList: [],
+    houseFelds: [
+      { key: "아파트명", sortable: true },
+      { key: "거래금액", sortable: true },
+      { key: "전용면적", sortable: true },
+      { key: "거래일자", sortable: true },
+    ],
   },
   getters: {
     isLoggedIn(state) {
@@ -63,6 +73,27 @@ export default new Vuex.Store({
         })
       );
     },
+    SET_SIDO_CODE(state, sidoCode) {
+      state.sidoCode = sidoCode;
+    },
+    SET_GUGUN_CODE(state, gugunCode) {
+      state.gugunCode = gugunCode;
+    },
+    SET_DONG_CODE(state, dongCode) {
+      state.dongCode = dongCode;
+    },
+    SET_HOUSE_LIST(state, houseList) {
+      console.log(houseList);
+      state.houseList = houseList.map((house) => {
+        return {
+          아파트명: house.aptName,
+          거래금액: house.dealAmount,
+          전용면적: house.area,
+          거래일자: `${house.dealYear}년 ${house.dealMonth}월 ${house.dealDay}일`,
+        };
+      });
+      console.log(state.houseList);
+    },
   },
   actions: {
     getSido({ commit }) {
@@ -112,6 +143,22 @@ export default new Vuex.Store({
     logout({ commit }) {
       console.log("hello");
       commit("LOGOUT");
+    },
+    searchHouseList({ commit, state }) {
+      http
+        .get("/house/search", {
+          params: {
+            sido: state.sidoCode,
+            gugun: state.gugunCode,
+            dong: state.dongCode,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            commit("SET_HOUSE_LIST", response.data);
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
   modules: {},

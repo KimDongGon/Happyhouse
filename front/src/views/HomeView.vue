@@ -1,6 +1,6 @@
 <template>
   <div>
-    <apt-search />
+    <house-search />
     <kakao-map />
     <home-article />
   </div>
@@ -9,14 +9,14 @@
 <script>
 import HomeArticle from "@/components/home/HomeArticle.vue";
 import KakaoMap from "@/components/KakaoMap.vue";
-import AptSearch from "@/components/AptSearch.vue";
+import HouseSearch from "@/components/House/HouseSearch.vue";
 
 export default {
   name: "HomeView",
   components: {
     HomeArticle,
     KakaoMap,
-    AptSearch,
+    HouseSearch,
   },
 };
 </script>
