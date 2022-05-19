@@ -35,7 +35,7 @@ public class NoticeController {
 
 	// 공지사항 목록
 	@GetMapping(value="/list")
-	public ResponseEntity<List<NoticeDto>> retrieveQna() throws Exception {
+	public ResponseEntity<List<NoticeDto>> retrieveNotice() throws Exception {
 		logger.debug("retriveNotice - 호출");
 		return new ResponseEntity<List<NoticeDto>>(noticeService.retrieveNotice(), HttpStatus.OK);
 	}
@@ -70,7 +70,7 @@ public class NoticeController {
 
 	// 공지사항 삭제
 	@DeleteMapping(value="/list/{no}")
-	public ResponseEntity<String> deleteQna(@PathVariable int no) {
+	public ResponseEntity<String> deleteNotice(@PathVariable int no) {
 
 		logger.debug("deleteNotice호출");
 		if (noticeService.deleteNotice(no)) {

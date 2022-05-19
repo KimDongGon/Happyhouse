@@ -25,7 +25,7 @@
         </b-card>
       </b-col>
     </b-row>
-    <b-col class="text-left">
+    <b-col class="text-left" v-if="isAdmin">
       <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
         >수정</b-button
       >
@@ -39,7 +39,7 @@
 <script>
 // import moment from "moment";
 import http from "@/api/http";
-
+import { mapGetters } from "vuex";
 export default {
   name: "QnaDetail",
   data() {
@@ -52,6 +52,7 @@ export default {
       if (this.qna.content) return this.qna.content.split("\n").join("<br>");
       return "";
     },
+    ...mapGetters(["isAdmin"]),
   },
   created() {
     http.get(`/qna/${this.$route.params.no}`).then(({ data }) => {

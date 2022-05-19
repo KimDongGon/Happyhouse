@@ -19,6 +19,9 @@ public class QnaDto {
 		this.regtime = regtime;
 	}
 
+	public QnaDto() {
+	}
+
 	public int getNo() {
 		return no;
 	}

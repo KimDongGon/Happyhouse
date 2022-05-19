@@ -3,11 +3,16 @@
     <b-td>{{ subject }}</b-td>
     <b-td>admin</b-td>
     <b-td>{{ regtime | dateFormat }}</b-td>
-    <b-td
+    <!-- <b-td
       ><b-button variant="outline-primary" @click="moveDetail()"
         >보기</b-button
       ></b-td
-    >
+    > -->
+    <b-th class="text-left">
+      <router-link :to="{ name: 'noticeDetail', params: { no: no } }"
+        >클릭</router-link
+      >
+    </b-th>
   </b-tr>
 </template>
 
@@ -27,9 +32,12 @@ export default {
     },
   },
   methods: {
-    moveDetail() {
-      this.$router.push({ name: "noticeDetail" });
-    },
+    // moveDetail() {
+    //   this.$router.replace({
+    //     name: "noticeDetail",
+    //     params: { no: this.notice.no },
+    //   });
+    // },
   },
 };
 </script>

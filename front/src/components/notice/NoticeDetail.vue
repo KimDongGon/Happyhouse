@@ -25,7 +25,7 @@
         </b-card>
       </b-col>
     </b-row>
-    <b-col class="text-left">
+    <b-col class="text-left" v-if="isAdmin">
       <b-button variant="outline-info" @click="moveModifyNotice" class="mb-1"
         >수정</b-button
       >
@@ -39,6 +39,7 @@
 <script>
 // import moment from "moment";
 import http from "@/api/http";
+import { mapGetters } from "vuex";
 
 export default {
   name: "NoticeDetail",
@@ -53,6 +54,7 @@ export default {
         return this.notice.content.split("\n").join("<br>");
       return "";
     },
+    ...mapGetters(["isAdmin"]),
   },
   created() {
     http.get(`/notice/list/${this.$route.params.no}`).then(({ data }) => {

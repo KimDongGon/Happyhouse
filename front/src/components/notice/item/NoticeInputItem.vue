@@ -2,7 +2,7 @@
   <b-row class="mb-1">
     <b-col style="text-align: left">
       <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="subject-group" label="제목:" label-for="title">
+        <b-form-group id="subject-group" label="제목:" label-for="subject">
           <b-form-input
             id="subject"
             v-model="notice.subject"
@@ -71,12 +71,12 @@ export default {
       let err = true;
       let msg = "";
 
-      !this.qna.title &&
+      !this.notice.subject &&
         ((msg = "제목 입력해주세요"),
         (err = false),
         this.$refs.subject.focus());
       err &&
-        !this.qna.content &&
+        !this.notice.content &&
         ((msg = "내용 입력해주세요"),
         (err = false),
         this.$refs.content.focus());

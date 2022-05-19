@@ -4,15 +4,15 @@ public class NoticeDto {
 	private int no;
 	private String subject;
 	private String content;
-	private String regTime;
+	private String regtime;
 	
 	public NoticeDto() {}
 	
-	public NoticeDto(int no, String subject, String content, String regTime) {
+	public NoticeDto(int no, String subject, String content, String regtime) {
 		this.no = no;
 		this.subject = subject;
 		this.content = content;
-		this.regTime = regTime;
+		this.regtime = regtime;
 	}
 
 	public int getNo() {
@@ -39,12 +39,12 @@ public class NoticeDto {
 		this.content = content;
 	}
 
-	public String getRegTime() {
-		return regTime;
+	public String getRegtime() {
+		return regtime;
 	}
 
-	public void setRegTime(String regTime) {
-		this.regTime = regTime;
+	public void setRegtime(String regtime) {
+		this.regtime = regtime;
 	}
 	
 	

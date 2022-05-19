@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
+import com.ssafy.happyhouse.model.dto.ReplyDto;
 import com.ssafy.happyhouse.model.mapper.QnaMapper;
 
 @Service
@@ -40,6 +41,31 @@ public class QnaServiceImpl implements QnaService {
 	@Transactional
 	public boolean deleteQna(int no) {
 		return qnaMapper.deleteQna(no) == 1;
+	}
+
+	@Override
+	public void increaseHitCount(QnaDto qnaDto) {
+		qnaMapper.increaseHitCount(qnaDto);
+	}
+
+	@Override
+	public List<ReplyDto> retrieveReply() {
+		return qnaMapper.selectReply();
+	}
+
+	@Override
+	public int writeReply(ReplyDto replyDto) {
+		return qnaMapper.insertReply(replyDto);
+	}
+
+	@Override
+	public int updateReply(ReplyDto replyDto) {
+		return qnaMapper.updateReply(replyDto);
+	}
+
+	@Override
+	public int deleteReply(ReplyDto replyDto) {
+		return qnaMapper.deleteReply(replyDto);
 	}
 
 }

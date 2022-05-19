@@ -7,7 +7,9 @@
     </b-row>
     <b-row class="mb-1">
       <b-col class="text-aligh : end">
-        <b-button variant="outline-primary" @click="moveWrite()">등록</b-button>
+        <b-button variant="outline-primary" @click="moveWrite()" v-if="isAdmin"
+          >등록</b-button
+        >
       </b-col>
     </b-row>
     <b-row>
@@ -38,12 +40,16 @@
 
 <script>
 import http from "@/api/http";
+import { mapGetters } from "vuex";
 import NoticeListItem from "@/components/notice/item/NoticeListItem";
 
 export default {
   name: "NoticeList",
   components: {
     NoticeListItem,
+  },
+  computed: {
+    ...mapGetters(["isAdmin"]),
   },
   data() {
     return {

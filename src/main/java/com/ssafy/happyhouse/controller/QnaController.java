@@ -40,10 +40,17 @@ public class QnaController {
 		return new ResponseEntity<List<QnaDto>>(qnaService.retrieveQna(), HttpStatus.OK);
 	}
 	
-	// 글번호에 해당하는 QnA 정보 반환
+	// 글번호에 해당하는 QnA 정보 반환 - 상세조회
 	@GetMapping("{no}")
 	public ResponseEntity<QnaDto> detailQna(@PathVariable int no) {
 		logger.debug("detailQna");
+		
+		QnaDto qnaDto = new QnaDto();
+		
+		qnaDto.setNo(no);
+		// 조회수 증가
+		qnaService.increaseHitCount(qnaDto);
+		
 		return new ResponseEntity<QnaDto>(qnaService.detailQna(no), HttpStatus.OK);
 	}
 	
