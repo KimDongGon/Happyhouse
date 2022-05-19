@@ -27,4 +27,4 @@
 ![image](/uploads/7d73c18fa1b9b484849f35c10885de35/image.png)
 
 2-5 회원 삭제 처리
-![image](/uploads/7d73c18fa1b9b484849f35c10885de35/image.png)
+![image](/uploads/1d5ee9bc4281baa2ed59edaf9944d9bc/image.png)
