@@ -28,3 +28,14 @@
 
 2-5 회원 삭제 처리
 ![image](/uploads/1d5ee9bc4281baa2ed59edaf9944d9bc/image.png)
+
+**3.QnA게시판**
+
+3.1 게시판 목록 조회
+![image](/uploads/a64c2767129257f931d2679c8fd23128/image.png)
+
+3-2. QnA 등록
+![image](/uploads/a64c2767129257f931d2679c8fd23128/image.png)
+
+3-3. QnA 조회
+![image](/uploads/9f88a6a69efce47c86f9397dcb380bdb/image.png)
