@@ -150,7 +150,6 @@ export default new Vuex.Store({
         .catch((err) => console.log(err));
     },
     logout({ commit }) {
-      console.log("hello");
       commit("LOGOUT");
     },
     searchHouseList({ commit, state }) {
@@ -171,6 +170,23 @@ export default new Vuex.Store({
     },
     searchApt({ commit }, aptName) {
       commit("SET_SEARCH_KEYWORD", aptName);
+    },
+    signUp(_, userInfo) {
+      http
+        .post("/user/register", {
+          id: userInfo.userId,
+          password: userInfo.userPassword,
+          name: userInfo.userName,
+          address: userInfo.userAddress,
+          number: userInfo.userMobile,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            alert("회원가입이 완료되었습니다.");
+            router.push("/login");
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
   modules: {},
