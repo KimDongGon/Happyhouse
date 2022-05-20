@@ -1,5 +1,7 @@
 use happyhouse;
 
+DROP TABLE IF EXISTS `happyhouse`.`qna`;
+
 CREATE TABLE IF NOT EXISTS `happyhouse`.`qna` (
   `no` INT NOT NULL AUTO_INCREMENT,
   `id` VARCHAR(16) NULL DEFAULT NULL,
@@ -24,4 +26,4 @@ values('ssafy', '아파트 매매정보 관련', '아파트 관련 정보는 언
       
 commit;
 
--- select * from qna;
+select * from qna;
