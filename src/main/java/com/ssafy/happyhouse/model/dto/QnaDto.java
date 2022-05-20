@@ -7,9 +7,10 @@ public class QnaDto {
 	private String title;
 	private String content;
 	private int hit;
+	private int replycount;
 	private String regtime;
 	
-	public QnaDto(int no, String id, String title, String content, int hit, String regtime) {
+	public QnaDto(int no, String id, String title, String content, int hit, int replycount, String regtime) {
 		super();
 		this.no = no;
 		this.id = id;
@@ -60,6 +61,14 @@ public class QnaDto {
 
 	public void setHit(int hit) {
 		this.hit = hit;
+	}
+	
+	public int getReplycount() {
+		return replycount;
+	}
+
+	public void setReplycount(int replycount) {
+		this.replycount = replycount;
 	}
 
 	public String getRegtime() {

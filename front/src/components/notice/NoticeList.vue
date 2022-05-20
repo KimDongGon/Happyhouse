@@ -6,7 +6,7 @@
       </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col class="text-aligh : end">
+      <b-col style="text-align: end">
         <b-button variant="outline-primary" @click="moveWrite()" v-if="isAdmin"
           >등록</b-button
         >

@@ -9,6 +9,7 @@
     <b-td>{{ id }}</b-td>
     <b-td>{{ hit }}</b-td>
     <b-td>{{ regtime | dateFormat }}</b-td>
+    <b-td>{{ replycount }}</b-td>
   </b-tr>
 </template>
 
@@ -22,6 +23,7 @@ export default {
     id: String,
     title: String,
     hit: Number,
+    replycount: Number,
     regtime: String,
   },
   filters: {

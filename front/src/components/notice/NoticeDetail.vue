@@ -19,13 +19,13 @@
           border-variant="dark"
           no-body
         >
-          <b-card-body class="text-left">
+          <b-card-body class="text-left" style="height: 200px">
             <div v-html="message"></div>
           </b-card-body>
         </b-card>
       </b-col>
     </b-row>
-    <b-col class="text-left" v-if="isAdmin">
+    <b-col style="text-align: end" v-if="isAdmin">
       <b-button variant="outline-info" @click="moveModifyNotice" class="mb-1"
         >수정</b-button
       >

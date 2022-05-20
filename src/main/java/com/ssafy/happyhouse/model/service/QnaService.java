@@ -16,4 +16,5 @@ public interface QnaService {
 	public int writeReply(ReplyDto replyDto);
 	public int updateReply(ReplyDto replyDto);
 	public int deleteReply(ReplyDto replyDto);
+	public int replyCount(int no);
 }

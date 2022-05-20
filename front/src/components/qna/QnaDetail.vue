@@ -14,18 +14,64 @@
       <b-col>
         <b-card
           :header-html="`<h3>${qna.no}.
-          ${qna.title} [${qna.hit}]</h3><div><h6> 작성자 ID : ${qna.id}</div><div> 등록 날짜 : ${qna.regtime}</h6></div>`"
+          ${qna.title} [${qna.hit}]</h3><div><h6> 작성자 ID : ${qna.id}</div><div> 등록 날짜 : ${qna.regtime}</h6></div> <br/><div><h6> 내 용 : </h6></div>`"
           class="mb-2"
           border-variant="dark"
           no-body
         >
-          <b-card-body class="text-left">
+          <b-card-body style="height: 200px" class="text-left">
             <div v-html="message"></div>
           </b-card-body>
         </b-card>
       </b-col>
     </b-row>
-    <b-col class="text-left">
+    <b-row v-if="isAdmin">
+      <label for="comment">답 변:</label>
+      <b-col cols="12" md="11" style="padding: 0px 12px">
+        <b-textarea
+          id="content"
+          v-model="content"
+          clearable
+          clear-icon="mdi-close-circle"
+          rows="2"
+          full-width
+          placeholder="답변을 입력하세요."
+        ></b-textarea>
+      </b-col>
+      <b-col md="1" align-self="center" style="padding: 0px 10px">
+        <b-button variant="outline-primary" @click="saveReply">등록</b-button>
+        <!-- <b-icon icon="pencil-square" font-scale="3" @click="saveReply"></b-icon> -->
+      </b-col>
+    </b-row>
+    <hr />
+    <h5><b>댓글</b>({{ qna.replycount }})</h5>
+    <hr />
+    <b-row class="mb-1">
+      <b-simple-table>
+        <b-tbody>
+          <b-tr v-for="(reply, index) in replies" :key="index">
+            <b-td style="width: 110px; padding: 10px">
+              <b-icon icon="person-fill" font-scale="1"></b-icon>
+              <b>관리자</b>
+            </b-td>
+            <b-td style="width: 800px; padding: 10px">{{ reply.content }}</b-td>
+            <b-td style="width: 300px; padding: 10px">{{ reply.regtime }}</b-td>
+            <b-td style="padding: 10px" v-if="isAdmin">
+              <b-icon
+                icon="pencil-fill"
+                font-scale="1"
+                @click="modifyReply"
+              ></b-icon
+            ></b-td>
+            <b-td style="padding: 10px" v-if="isAdmin" @click="deleteReply">
+              <b-icon icon="x-lg" font-scale="1"></b-icon>
+            </b-td>
+          </b-tr>
+        </b-tbody>
+      </b-simple-table>
+    </b-row>
+    <br />
+    <b-col style="text-align: end">
       <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
         >수정</b-button
       >
@@ -33,36 +79,6 @@
         >삭제</b-button
       > </b-col
     ><br />
-    답 변 :
-    <b-row v-if="isAdmin">
-      <b-col cols="12" md="11" style="padding: 0px 12px">
-        <b-textarea
-          clearable
-          clear-icon="mdi-close-circle"
-          rows="2"
-          full-width
-          v-model="comment"
-        ></b-textarea>
-      </b-col>
-      <b-col md="1" align-self="center" style="padding: 0px 10px">
-        <b-button variant="outline-primary" @click="saveReply">등록</b-button>
-      </b-col>
-    </b-row>
-    <hr />
-    <h5><b>댓글</b>({{ replyCount }})</h5>
-    <hr />
-    <b-simple-table>
-      <b-tbody>
-        <b-tr v-for="(reply, index) in replies" :key="index">
-          <b-td style="width: 110px; padding: 0">
-            <b-icon icon="person-fill" font-scale="1"></b-icon>
-            <b>관리자</b>
-          </b-td>
-          <b-td style="padding: 0">{{ reply.content }}</b-td>
-          <b-td style="width: 140px; padding: 0">{{ reply.regtime }}</b-td>
-        </b-tr>
-      </b-tbody>
-    </b-simple-table>
   </b-container>
 </template>
 
@@ -76,7 +92,7 @@ export default {
     return {
       qna: {},
       replies: {},
-      replyCount: 0,
+      content: "",
     };
   },
   computed: {
@@ -113,6 +129,23 @@ export default {
         });
       }
     },
+    saveReply() {
+      http
+        .post(`/qna/reply/${this.$route.params.no}`, {
+          no: this.qna.no,
+          content: this.content,
+        })
+        .then(({ data }) => {
+          let msg = "등록 처리시 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "댓글이 등록되었습니다.";
+          }
+          alert(msg);
+          this.$router.go();
+        });
+    },
+    modifyReply() {},
+    deleteReply() {},
   },
   // filters: {
   //   dateFormat(regtime) {

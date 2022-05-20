@@ -51,6 +51,8 @@ public class QnaController {
 		qnaDto.setNo(no);
 		// 조회수 증가
 		qnaService.increaseHitCount(qnaDto);
+		// 전체 댓글 수 확인
+		qnaDto.setReplycount(qnaService.replyCount(no));
 
 		return new ResponseEntity<QnaDto>(qnaService.detailQna(no), HttpStatus.OK);
 	}

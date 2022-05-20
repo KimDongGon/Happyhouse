@@ -45,6 +45,12 @@ public interface QnaMapper {
 	 */
 	public void increaseHitCount(QnaDto qnaDto);
 	/**
+	 * QnA 게시글 총 댓글 수 조회
+	 * @param no
+	 * @return
+	 */
+	public int replyCount(int no);
+	/**
 	 * QnA 게시글 댓글 조회
 	 * @param replyDto
 	 * @return
