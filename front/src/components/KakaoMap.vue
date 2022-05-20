@@ -65,8 +65,7 @@ export default {
         this.markers.forEach((marker) => marker.setMap(null));
       }
 
-      const imageSrc =
-        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      const imageSrc = require(`@/assets/marker.png`);
 
       const infos = this.markerInfos.map((info) => ({
         position: new kakao.maps.LatLng(...info.position),
@@ -75,16 +74,32 @@ export default {
 
       if (infos.length > 0) {
         this.markers = infos.map((info) => {
-          new kakao.maps.Marker({
+          const marker = new kakao.maps.Marker({
             map: this.map,
             position: info.position,
-            text: info.text,
             image: new kakao.maps.MarkerImage(
               imageSrc,
               // eslint-disable-next-line prettier/prettier
-              new kakao.maps.Size(24, 35)
+              new kakao.maps.Size(40, 40)
             ),
           });
+
+          console.log(marker.getImage());
+          var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+          // 인포윈도우를 생성합니다
+          var infowindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: iwRemoveable,
+          });
+
+          kakao.maps.event.addListener(marker, "click", () => {
+            //마커 position을 출력합니다.
+            infowindow.open(this.map, marker);
+          });
+
+          return marker;
         });
       }
     },
