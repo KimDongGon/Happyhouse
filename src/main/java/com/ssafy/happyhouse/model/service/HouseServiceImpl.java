@@ -1,34 +1,22 @@
 package com.ssafy.happyhouse.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.happyhouse.model.dto.DongCodeDto;
-import com.ssafy.happyhouse.model.dto.GugunCodeDto;
-import com.ssafy.happyhouse.model.dto.SidoCodeDto;
-import com.ssafy.happyhouse.model.mapper.CodeMapper;
+import com.ssafy.happyhouse.model.dto.HouseDto;
+import com.ssafy.happyhouse.model.mapper.HouseMapper;
 
 @Service
 public class HouseServiceImpl implements HouseService {
 	
 	@Autowired
-	private CodeMapper codeMapper;
+	private HouseMapper houseMapper;
 
 	@Override
-	public List<SidoCodeDto> getSido() {
-		return codeMapper.getSido();
+	public List<HouseDto> search(Map<String, String> map) {
+		return houseMapper.search(map);
 	}
-
-//	@Override
-//	public List<GugunCodeDto> getGugun() {
-//		return codeMapper.getGugun();
-//	}
-//
-//	@Override
-//	public List<DongCodeDto> getDong() {
-//		return codeMapper.getDong();
-//	}
-
 }

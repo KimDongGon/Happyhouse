@@ -1,16 +1,10 @@
 package com.ssafy.happyhouse.model.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.ssafy.happyhouse.model.dto.DongCodeDto;
-import com.ssafy.happyhouse.model.dto.GugunCodeDto;
-import com.ssafy.happyhouse.model.dto.SidoCodeDto;
+import com.ssafy.happyhouse.model.dto.HouseDto;
 
 public interface HouseService {
-
-	public List<SidoCodeDto> getSido();
-	
-//	public List<GugunCodeDto> getGugun(); 
-//
-//	public List<DongCodeDto> getDong();
+	public List<HouseDto> search(Map<String, String> map);
 }
