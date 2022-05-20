@@ -15,6 +15,7 @@
 
 <script>
 import moment from "moment";
+import { mapState } from "vuex";
 
 export default {
   name: "QnaListItem",
@@ -25,6 +26,9 @@ export default {
     hit: Number,
     replycount: Number,
     regtime: String,
+  },
+  computed: {
+    ...mapState(["replyCount"]),
   },
   filters: {
     dateFormat(regtime) {

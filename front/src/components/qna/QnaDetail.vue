@@ -14,7 +14,7 @@
       <b-col>
         <b-card
           :header-html="`<h3>${qna.no}.
-          ${qna.title} [${qna.hit}]</h3><div><h6> 작성자 ID : ${qna.id}</div><div> 등록 날짜 : ${qna.regtime}</h6></div> <br/><div><h6> 내 용 : </h6></div>`"
+          ${qna.title}</h3><div><h6> 작성자 ID : ${qna.id}</div><div> 조회수 : ${qna.hit}회</div><div> 등록 날짜 : ${qna.regtime}</h6></div> <br/><div><h6> 내 용 : </h6></div>`"
           class="mb-2"
           border-variant="dark"
           no-body
@@ -105,7 +105,7 @@ export default {
       return "";
     },
     ...mapGetters(["isAdmin"]),
-    ...mapState(["boardNo"]),
+    ...mapState(["boardNo", "userid"]),
   },
   created() {
     let no = this.$route.params.no;
@@ -119,7 +119,6 @@ export default {
     http.get(`/qna/reply/${no}`).then(({ data }) => {
       this.replies = data;
     });
-    console.log(this.qna.replycount);
   },
   methods: {
     ...mapActions(["setBoardNo"]),

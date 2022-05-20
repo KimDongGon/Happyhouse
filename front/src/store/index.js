@@ -48,6 +48,7 @@ export default new Vuex.Store({
     LOGOUT(state) {
       state.userid = "";
       state.username = "";
+      router.push("/");
     },
     SET_SIDO(state, sidos) {
       state.sido = [{ value: null, text: "시/도 선택" }].concat(
