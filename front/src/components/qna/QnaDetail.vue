@@ -47,7 +47,7 @@
     <h5><b>댓글</b>({{ qna.replycount }})</h5>
     <hr />
     <b-row class="mb-1">
-      <b-simple-table>
+      <b-table-simple>
         <b-tbody>
           <b-tr v-for="(reply, index) in replies" :key="index">
             <b-td style="width: 110px; padding: 10px">
@@ -68,7 +68,7 @@
             </b-td>
           </b-tr>
         </b-tbody>
-      </b-simple-table>
+      </b-table-simple>
     </b-row>
     <br />
     <b-col style="text-align: end">
@@ -85,7 +85,7 @@
 <script>
 // import moment from "moment";
 import http from "@/api/http";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "QnaDetail",
   data() {
@@ -101,16 +101,23 @@ export default {
       return "";
     },
     ...mapGetters(["isAdmin"]),
+    ...mapState(["boardNo"]),
   },
   created() {
-    http.get(`/qna/${this.$route.params.no}`).then(({ data }) => {
+    let no = this.$route.params.no;
+    if (!this.$route.params.no) {
+      no = this.boardNo;
+    }
+
+    http.get(`/qna/${no}`).then(({ data }) => {
       this.qna = data;
     });
-    http.get(`/qna/reply/${this.$route.params.no}`).then(({ data }) => {
+    http.get(`/qna/reply/${no}`).then(({ data }) => {
       this.replies = data;
     });
   },
   methods: {
+    ...mapActions(["setBoardNo"]),
     listQna() {
       this.$router.push({ name: "qnaList" });
     },
@@ -141,7 +148,8 @@ export default {
             msg = "댓글이 등록되었습니다.";
           }
           alert(msg);
-          this.$router.go();
+          this.setBoardNo(this.qna.no);
+          // this.$router.go();
         });
     },
     modifyReply() {},

@@ -24,6 +24,7 @@ export default new Vuex.Store({
       { key: "dealDate", label: "거래일자", sortable: true },
     ],
     searchKeyword: "",
+    boardNo: null,
   },
   getters: {
     isLoggedIn(state) {
@@ -102,6 +103,9 @@ export default new Vuex.Store({
     },
     SET_SEARCH_KEYWORD(state, aptName) {
       state.searchKeyword = aptName;
+    },
+    SET_BOARD_NO(state, boardNo) {
+      state.boardNo = boardNo;
     },
   },
   actions: {
@@ -187,6 +191,10 @@ export default new Vuex.Store({
           }
         })
         .catch((err) => console.log(err));
+    },
+    setBoardNo({ commit }, boardNo) {
+      commit("SET_BOARD_NO", boardNo);
+      router.go();
     },
   },
   modules: {},
