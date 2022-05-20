@@ -115,7 +115,12 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  sameAs,
+} from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import http from "@/api/http.js";
 
@@ -142,11 +147,11 @@ export default {
         maxLength: maxLength(20),
         isUnique(value) {
           if (value === "") return true;
+          if (value && value.length < 5) return true;
           return http
             .get("/user/idcheck", { params: { ckid: value } })
             .then((res) => {
               if (res.status === 200) {
-                // this.isOverlap = true;
                 return true;
               }
             })
@@ -162,6 +167,7 @@ export default {
         required,
         minLength: minLength(5),
         maxLength: maxLength(20),
+        sameAsPassword: sameAs("userPassword"),
       },
       userName: {
         required,
