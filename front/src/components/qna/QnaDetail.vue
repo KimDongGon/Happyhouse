@@ -14,7 +14,7 @@
       <b-col>
         <b-card
           :header-html="`<h3>${qna.no}.
-          ${qna.title} [${qna.hit}]</h3><div><h6> 작성자 ID : ${qna.id}</div><div> 등록 날짜 : ${qna.regtime}</h6></div> <br/><div><h6> 내 용 : </h6></div>`"
+          ${qna.title}</h3><div><h6> 작성자 ID : ${qna.id}</div><div> 조회수 : ${qna.hit}회</div><div> 등록 날짜 : ${qna.regtime}</h6></div> <br/><div><h6> 내 용 : </h6></div>`"
           class="mb-2"
           border-variant="dark"
           no-body
@@ -60,10 +60,14 @@
               <b-icon
                 icon="pencil-fill"
                 font-scale="1"
-                @click="modifyReply"
+                @click="modifyReply(reply.replyno)"
               ></b-icon
             ></b-td>
-            <b-td style="padding: 10px" v-if="isAdmin" @click="deleteReply">
+            <b-td
+              style="padding: 10px"
+              v-if="isAdmin"
+              @click="deleteReply(reply.replyno)"
+            >
               <b-icon icon="x-lg" font-scale="1"></b-icon>
             </b-td>
           </b-tr>
@@ -101,7 +105,7 @@ export default {
       return "";
     },
     ...mapGetters(["isAdmin"]),
-    ...mapState(["boardNo"]),
+    ...mapState(["boardNo", "userid"]),
   },
   created() {
     let no = this.$route.params.no;
@@ -138,7 +142,7 @@ export default {
     },
     saveReply() {
       http
-        .post(`/qna/reply/${this.$route.params.no}`, {
+        .post(`/qna/reply/${this.qna.no}`, {
           no: this.qna.no,
           content: this.content,
         })
@@ -152,8 +156,33 @@ export default {
           // this.$router.go();
         });
     },
-    modifyReply() {},
-    deleteReply() {},
+    //    modifyReply(replyno) {
+    //      let no = this.$route.params.no;
+    //      let replyno = replyno;
+    //      console.log(no);
+    //      console.log(replyno);
+    //    },
+    deleteReply(replyno) {
+      if (confirm("댓글을 삭제하시겠습니까?")) {
+        http
+          .delete(`qna/reply`, {
+            params: {
+              replyno: replyno,
+              no: this.qna.no,
+            },
+          })
+          .then(({ data }) => {
+            let msg = "삭제 처리 중 문제가 발생하였습니다.";
+            if (data === "success") {
+              msg = "삭제가 완료되었습니다.";
+            }
+            alert(msg);
+
+            this.setBoardNo(this.qna.no);
+            console.log(this.qna.no);
+          });
+      }
+    },
   },
   // filters: {
   //   dateFormat(regtime) {

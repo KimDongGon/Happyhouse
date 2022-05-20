@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -49,7 +50,7 @@ public interface QnaMapper {
 	 * @param no
 	 * @return
 	 */
-	public int replyCount(int no);
+	public void replyCount(int no);
 	/**
 	 * QnA 게시글 댓글 조회
 	 * @param replyDto
@@ -73,6 +74,6 @@ public interface QnaMapper {
 	 * @param replyDto
 	 * @return
 	 */
-	public int deleteReply(ReplyDto replyDto);
+	public int deleteReply(Map<String, String> map);
 }
 

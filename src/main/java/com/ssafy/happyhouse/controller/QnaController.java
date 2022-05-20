@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
@@ -52,8 +54,9 @@ public class QnaController {
 		// 조회수 증가
 		qnaService.increaseHitCount(qnaDto);
 		// 전체 댓글 수 확인
-		qnaDto.setReplycount(qnaService.replyCount(no));
-
+		//qnaDto.setReplycount(qnaService.replyCount(no));
+		qnaService.replyCount(no);
+		//logger.debug("replyCnt >>> "+ replyCnt );
 		return new ResponseEntity<QnaDto>(qnaService.detailQna(no), HttpStatus.OK);
 	}
 
@@ -81,7 +84,7 @@ public class QnaController {
 
 	// 게시물 삭제
 	@DeleteMapping("{no}")
-	public ResponseEntity<String> deleteQna(@PathVariable int no) {
+	public ResponseEntity<String> deleteQna(@RequestParam Map<String, String> map, @PathVariable int no) {
 
 		logger.debug("deleteQna호출");
 
@@ -92,7 +95,7 @@ public class QnaController {
 		List<ReplyDto> result = qnaService.retrieveReply(no);
 		// 게시글에 댓글이 있다면
 		if (result.size() > 0) {
-			qnaService.deleteReply(replyDto);
+			qnaService.deleteReply(map);
 		}
 
 		if (qnaService.deleteQna(no)) {
@@ -130,12 +133,12 @@ public class QnaController {
 	}
 
 	// 댓글 삭제
-	@DeleteMapping(value="/reply/{no}")
-	public ResponseEntity<String> deleteReply(@RequestBody ReplyDto replyDto, @PathVariable int no) {
+	@DeleteMapping(value="/reply")
+	public ResponseEntity<String> deleteReply(@RequestParam Map<String, String> map) {
 
 		logger.debug("deleteReply호출");
 
-		if (qnaService.deleteReply(replyDto)==1) {
+		if (qnaService.deleteReply(map)==1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

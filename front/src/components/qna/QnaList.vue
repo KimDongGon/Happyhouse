@@ -53,6 +53,7 @@ export default {
   created() {
     http.get(`/qna`).then(({ data }) => {
       this.qnas = data;
+      console.log(data);
     });
   },
   methods: {
