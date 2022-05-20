@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
 import com.ssafy.happyhouse.model.dto.ReplyDto;
@@ -15,6 +16,6 @@ public interface QnaService {
 	public List<ReplyDto> retrieveReply(int no);
 	public int writeReply(ReplyDto replyDto);
 	public int updateReply(ReplyDto replyDto);
-	public int deleteReply(ReplyDto replyDto);
-	public int replyCount(int no);
+	public int deleteReply(Map<String, String> map);
+	public void replyCount(int no);
 }

@@ -18,6 +18,7 @@ public class QnaDto {
 		this.content = content;
 		this.hit = hit;
 		this.regtime = regtime;
+		this.replycount = replycount;
 	}
 
 	public QnaDto() {
@@ -62,7 +63,7 @@ public class QnaDto {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	
+
 	public int getReplycount() {
 		return replycount;
 	}

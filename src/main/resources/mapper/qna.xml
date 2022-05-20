@@ -70,15 +70,15 @@ where no=#{no} and replyno=#{replyno}
 </update>
 
 <!-- 댓글 삭제 -->
-<delete id="deleteReply" parameterType="replyDto">
+<delete id="deleteReply" parameterType="map">
 delete from reply
 where no=#{no} and replyno=#{replyno}
 </delete>
 
 <!-- 댓글 수 조회 -->
-<select id="replyCount" resultType="int">
-	select count(*)
-	from reply
-	where no=#{no}
+<select id="replyCount" parameterType="int">
+update qna
+set replycount = (select count(*) from reply where no=#{no})
+where no=#{no}
 </select>
 </mapper>

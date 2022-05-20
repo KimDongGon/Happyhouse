@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,13 +65,13 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int deleteReply(ReplyDto replyDto) {
-		return qnaMapper.deleteReply(replyDto);
+	public int deleteReply(Map<String, String> map) {
+		return qnaMapper.deleteReply(map);
 	}
 
 	@Override
-	public int replyCount(int no) {
-		return qnaMapper.replyCount(no);
+	public void replyCount(int no) {
+		qnaMapper.replyCount(no);
 	}
 
 }

@@ -60,10 +60,14 @@
               <b-icon
                 icon="pencil-fill"
                 font-scale="1"
-                @click="modifyReply"
+                @click="modifyReply(reply.replyno)"
               ></b-icon
             ></b-td>
-            <b-td style="padding: 10px" v-if="isAdmin" @click="deleteReply">
+            <b-td
+              style="padding: 10px"
+              v-if="isAdmin"
+              @click="deleteReply(reply.replyno)"
+            >
               <b-icon icon="x-lg" font-scale="1"></b-icon>
             </b-td>
           </b-tr>
@@ -115,6 +119,7 @@ export default {
     http.get(`/qna/reply/${no}`).then(({ data }) => {
       this.replies = data;
     });
+    console.log(this.qna.replycount);
   },
   methods: {
     ...mapActions(["setBoardNo"]),
@@ -138,7 +143,7 @@ export default {
     },
     saveReply() {
       http
-        .post(`/qna/reply/${this.$route.params.no}`, {
+        .post(`/qna/reply/${this.qna.no}`, {
           no: this.qna.no,
           content: this.content,
         })
@@ -152,8 +157,33 @@ export default {
           // this.$router.go();
         });
     },
-    modifyReply() {},
-    deleteReply() {},
+    //    modifyReply(replyno) {
+    //      let no = this.$route.params.no;
+    //      let replyno = replyno;
+    //      console.log(no);
+    //      console.log(replyno);
+    //    },
+    deleteReply(replyno) {
+      if (confirm("댓글을 삭제하시겠습니까?")) {
+        http
+          .delete(`qna/reply`, {
+            params: {
+              replyno: replyno,
+              no: this.qna.no,
+            },
+          })
+          .then(({ data }) => {
+            let msg = "삭제 처리 중 문제가 발생하였습니다.";
+            if (data === "success") {
+              msg = "삭제가 완료되었습니다.";
+            }
+            alert(msg);
+
+            this.setBoardNo(this.qna.no);
+            console.log(this.qna.no);
+          });
+      }
+    },
   },
   // filters: {
   //   dateFormat(regtime) {
