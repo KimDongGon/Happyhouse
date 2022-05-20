@@ -108,9 +108,9 @@ export default new Vuex.Store({
     getSido({ commit }) {
       http
         .get("/code/sido")
-        .then((response) => {
-          if (response.status == 200) {
-            commit("SET_SIDO", response.data);
+        .then((res) => {
+          if (res.status == 200) {
+            commit("SET_SIDO", res.data);
           }
         })
         .catch((err) => console.log(err));
@@ -118,9 +118,9 @@ export default new Vuex.Store({
     getGugun({ commit }, sidoCode) {
       http
         .get("/code/gugun", { params: { sidoCode } })
-        .then((response) => {
-          if (response.status == 200) {
-            commit("SET_GUGUN", response.data);
+        .then((res) => {
+          if (res.status == 200) {
+            commit("SET_GUGUN", res.data);
           }
         })
         .catch((err) => console.log(err));
@@ -128,9 +128,9 @@ export default new Vuex.Store({
     getDong({ commit }, { sidoCode, gugunCode }) {
       http
         .get("/code/dong", { params: { sidoCode, gugunCode } })
-        .then((response) => {
-          if (response.status == 200) {
-            commit("SET_DONG", response.data);
+        .then((res) => {
+          if (res.status == 200) {
+            commit("SET_DONG", res.data);
           }
         })
         .catch((err) => console.log(err));
@@ -138,10 +138,10 @@ export default new Vuex.Store({
     getHouseList() {},
     loginUser({ commit }, user) {
       http
-        .post("/login", user)
-        .then((response) => {
-          if (response.status === 200) {
-            commit("SET_LOGIN_USER", response.data);
+        .post("/user/login", user)
+        .then((res) => {
+          if (res.status === 200) {
+            commit("SET_LOGIN_USER", res.data);
             router.push("/");
           } else {
             alert("회원 정보가 존재하지 않습니다.");
@@ -161,9 +161,9 @@ export default new Vuex.Store({
             dong: state.dongCode,
           },
         })
-        .then((response) => {
-          if (response.status === 200) {
-            commit("SET_HOUSE_LIST", response.data);
+        .then((res) => {
+          if (res.status === 200) {
+            commit("SET_HOUSE_LIST", res.data);
           }
         })
         .catch((err) => console.log(err));
@@ -180,8 +180,8 @@ export default new Vuex.Store({
           address: userInfo.userAddress,
           number: userInfo.userMobile,
         })
-        .then((response) => {
-          if (response.status === 200) {
+        .then((res) => {
+          if (res.status === 200) {
             alert("회원가입이 완료되었습니다.");
             router.push("/login");
           }

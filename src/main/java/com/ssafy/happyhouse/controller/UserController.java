@@ -23,14 +23,32 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+		try {
+			UserDto user = userService.login(userDto);
+			if (user != null) {				
+				return new ResponseEntity<UserDto>(user, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	@GetMapping("/idcheck")
-	public String idCheck(@RequestParam("ckid") String checkId) throws Exception {
-		int cnt = userService.idCheck(checkId);
-		
-		JSONObject json = new JSONObject();
-		json.put("idcount", cnt);
-		
-		return json.toString();
+	public ResponseEntity<?> idCheck(@RequestParam("ckid") String checkId) throws Exception {
+		try {
+			int cnt = userService.idCheck(checkId);
+			if (cnt == 0) {				
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
 	}
 	
 	@PostMapping("/register")
