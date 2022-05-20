@@ -120,7 +120,7 @@ public class QnaController {
 
 	// 댓글 수정
 	@PutMapping(value = "/reply/{no}")
-	public ResponseEntity<String> updateReply(@RequestBody ReplyDto replyDto) {
+	public ResponseEntity<String> updateReply(@RequestBody ReplyDto replyDto, @PathVariable int no) {
 		logger.debug("updateReply호출");
 		logger.debug("" + replyDto);
 		if (qnaService.updateReply(replyDto) == 1) {

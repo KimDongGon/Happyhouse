@@ -64,19 +64,15 @@
 
 <!-- 댓글 수정 -->
 <update id="updateReply" parameterType="replyDto">
-	update reply
-	set content=#{content}
-	where replyno=#{replyno}
-		and no=#{no}
+delete
+from reply
+where no=#{no} and replyno=#{replyno}
 </update>
 
 <!-- 댓글 삭제 -->
 <delete id="deleteReply" parameterType="replyDto">
-	delete from reply
-	where no=#{no}
-	<if test="replyno > 0">
-		and replyno=#{replyno}
-	</if>
+delete from reply
+where no=#{no} and replyno=#{replyno}
 </delete>
 
 <!-- 댓글 수 조회 -->
