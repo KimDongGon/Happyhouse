@@ -49,7 +49,7 @@ public interface QnaMapper {
 	 * @param replyDto
 	 * @return
 	 */
-	public List<ReplyDto> selectReply();
+	public List<ReplyDto> selectReply(int no);
 	/**
 	 * QnA 게시글 댓글 작성
 	 * @param replyDto

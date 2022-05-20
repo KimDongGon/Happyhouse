@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
+import com.ssafy.happyhouse.model.dto.ReplyDto;
 import com.ssafy.happyhouse.model.service.QnaService;
 
 import io.swagger.models.Response;
@@ -29,59 +30,110 @@ public class QnaController {
 	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
-	
+
 	@Autowired
 	private QnaService qnaService;
-	
+
 	// 모든 QnA 게시글 정보 반환
 	@GetMapping
 	public ResponseEntity<List<QnaDto>> retrieveQna() throws Exception {
 		logger.debug("retriveQna - 호출");
 		return new ResponseEntity<List<QnaDto>>(qnaService.retrieveQna(), HttpStatus.OK);
 	}
-	
+
 	// 글번호에 해당하는 QnA 정보 반환 - 상세조회
 	@GetMapping("{no}")
 	public ResponseEntity<QnaDto> detailQna(@PathVariable int no) {
 		logger.debug("detailQna");
-		
+
 		QnaDto qnaDto = new QnaDto();
-		
+
 		qnaDto.setNo(no);
 		// 조회수 증가
 		qnaService.increaseHitCount(qnaDto);
-		
+
 		return new ResponseEntity<QnaDto>(qnaService.detailQna(no), HttpStatus.OK);
 	}
-	
+
 	// Qna 게시물 작성
 	// DB 입력 성공 여부에 따라 'success' 또는 'fail'반환
 	@PostMapping
-	public ResponseEntity<String> WrtieQna(@RequestBody QnaDto qnaDto){
+	public ResponseEntity<String> wrtieQna(@RequestBody QnaDto qnaDto) {
 		logger.debug("writeQna호출");
-		if(qnaService.writeQna(qnaDto)) {
+		if (qnaService.writeQna(qnaDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-	
+
 	// 글번호에 해당하는 게시물 수정
 	@PutMapping("{no}")
-	public ResponseEntity<String> updateQna(@RequestBody QnaDto qnaDto){
+	public ResponseEntity<String> updateQna(@RequestBody QnaDto qnaDto) {
 		logger.debug("updateQna호출");
-		logger.debug(""+qnaDto);
-		if(qnaService.updateQna(qnaDto)) {
+		logger.debug("" + qnaDto);
+		if (qnaService.updateQna(qnaDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-	
+
 	// 게시물 삭제
 	@DeleteMapping("{no}")
-	public ResponseEntity<String> deleteQna(@PathVariable int no){
-		
+	public ResponseEntity<String> deleteQna(@PathVariable int no) {
+
 		logger.debug("deleteQna호출");
-		if(qnaService.deleteQna(no)) {
+
+		// 댓글 유무 확인 후 같이 삭제
+		ReplyDto replyDto = new ReplyDto();
+		replyDto.setNo(no);
+
+		List<ReplyDto> result = qnaService.retrieveReply(no);
+		// 게시글에 댓글이 있다면
+		if (result.size() > 0) {
+			qnaService.deleteReply(replyDto);
+		}
+
+		if (qnaService.deleteQna(no)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	// 해당 게시물에 대한 댓글 조회
+	@GetMapping(value = "/reply/{no}")
+	public ResponseEntity<List<ReplyDto>> retrieveReply(@PathVariable int no) throws Exception {
+		logger.debug("retriveReply - 호출");
+		return new ResponseEntity<List<ReplyDto>>(qnaService.retrieveReply(no), HttpStatus.OK);
+	}
+
+	// 댓글 작성
+	@PostMapping(value = "/reply/{no}")
+	public ResponseEntity<String> writeReply(@RequestBody ReplyDto replyDto, @PathVariable int no) {
+		logger.debug("writeReply호출");
+		if (qnaService.writeReply(replyDto) == 1) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	// 댓글 수정
+	@PutMapping(value = "/reply/{no}")
+	public ResponseEntity<String> updateReply(@RequestBody ReplyDto replyDto) {
+		logger.debug("updateReply호출");
+		logger.debug("" + replyDto);
+		if (qnaService.updateReply(replyDto) == 1) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	// 댓글 삭제
+	@DeleteMapping(value="/reply/{no}")
+	public ResponseEntity<String> deleteReply(@RequestBody ReplyDto replyDto, @PathVariable int no) {
+
+		logger.debug("deleteReply호출");
+
+		if (qnaService.deleteReply(replyDto)==1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

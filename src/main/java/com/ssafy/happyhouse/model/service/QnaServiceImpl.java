@@ -49,8 +49,8 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public List<ReplyDto> retrieveReply() {
-		return qnaMapper.selectReply();
+	public List<ReplyDto> retrieveReply(int no) {
+		return qnaMapper.selectReply(no);
 	}
 
 	@Override

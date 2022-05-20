@@ -47,7 +47,7 @@
 
 
 <!-- 댓글 조회 -->
-<select id="selectReplyList" resultType="replyDto">
+<select id="selectReply" parameterType="int" resultType="replyDto">
 	select replyno, no, content, regtime
 	from reply
 	where no = #{no}
@@ -55,7 +55,10 @@
 
 <!-- 댓글 작성 -->
 <insert id="insertReply" parameterType="replyDto">
-	insert into reply(no,content)
+	<selectKey resultType="int" keyProperty="replyno" order="BEFORE">
+		select ifnull(MAX(replyno),0)+1 as replyno from reply where no=#{no}
+	</selectKey>
+	insert into reply(replyno,no,content)
 	values(#{no}, #{content})
 </insert>
 
@@ -63,12 +66,23 @@
 <update id="updateReply" parameterType="replyDto">
 	update reply
 	set content=#{content}
-	where no=#{no}
+	where replyno=#{replyno}
+		and no=#{no}
 </update>
 
 <!-- 댓글 삭제 -->
 <delete id="deleteReply" parameterType="replyDto">
 	delete from reply
 	where no=#{no}
+	<if test="replyno > 0">
+		and replyno=#{replyno}
+	</if>
 </delete>
+
+<!-- 댓글 수 조회 -->
+<select id="replyCount" resultType="int">
+	select count(*)
+	from reply
+	where no=#{no}
+</select>
 </mapper>

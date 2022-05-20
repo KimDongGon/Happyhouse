@@ -1,5 +1,6 @@
 <template>
   <b-tr>
+    <b-td>{{ no }}</b-td>
     <b-td>{{ subject }}</b-td>
     <b-td>admin</b-td>
     <b-td>{{ regtime | dateFormat }}</b-td>

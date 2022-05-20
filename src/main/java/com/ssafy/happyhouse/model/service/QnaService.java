@@ -12,7 +12,7 @@ public interface QnaService {
 	public boolean updateQna(QnaDto qnaDto);
 	public boolean deleteQna(int no);
 	public void increaseHitCount(QnaDto qnaDto);
-	public List<ReplyDto> retrieveReply();
+	public List<ReplyDto> retrieveReply(int no);
 	public int writeReply(ReplyDto replyDto);
 	public int updateReply(ReplyDto replyDto);
 	public int deleteReply(ReplyDto replyDto);
