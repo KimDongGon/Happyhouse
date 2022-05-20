@@ -17,7 +17,6 @@ AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
 insert into qna(id, title, content) 
 values('ssafy', '아파트 매매정보 관련', '아파트 관련 정보는 언제 업데이트 되나요?'), 
       ('user01', '개인 정보 변경 관련 질문', '개인정보를 변경하려는데 비밀번호 오류가 뜹니다.'),

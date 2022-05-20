@@ -25,7 +25,7 @@
         </b-card>
       </b-col>
     </b-row>
-    <b-col class="text-left" v-if="isAdmin">
+    <b-col class="text-left">
       <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
         >수정</b-button
       >
