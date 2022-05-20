@@ -124,11 +124,11 @@
             placeholder="휴대폰 번호"
             v-model="$v.form.userMobile.$model"
             :state="validateState('userMobile')"
+            @keyup="formatMobile($v.form.userMobile.$model)"
             aria-describedby="mobileFeedback"
           />
           <b-form-invalid-feedback id="mobileFeedback"
-            >휴대폰 번호는 10자이상 14자이하여야
-            합니다.</b-form-invalid-feedback
+            >유효한 휴대폰 번호를 입력해주세요.</b-form-invalid-feedback
           >
         </b-form-group>
 
@@ -209,8 +209,8 @@ export default {
       },
       userMobile: {
         required,
-        minLength: minLength(10),
-        maxLength: maxLength(14),
+        minLength: minLength(13),
+        maxLength: maxLength(13),
       },
     },
   },
@@ -229,17 +229,12 @@ export default {
 
       this.signUp(this.form);
     },
-    idCheck() {
-      if (this.idLengthValidation) {
-        http
-          .get("/user/idcheck", { params: { ckid: this.form.userId } })
-          .then((res) => {
-            if (res.status === 200) {
-              this.isOverlap = true;
-            }
-          })
-          .catch((err) => console.log(err));
-      }
+    formatMobile(mobile) {
+      this.form.userMobile = mobile.replace(
+        /^(\d{3})(\d{4})(\d{4})/g,
+        // eslint-disable-next-line prettier/prettier
+        "$1-$2-$3"
+      );
     },
   },
 };
