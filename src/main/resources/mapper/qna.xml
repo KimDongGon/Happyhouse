@@ -59,7 +59,7 @@
 		select ifnull(MAX(replyno),0)+1 as replyno from reply where no=#{no}
 	</selectKey>
 	insert into reply(replyno,no,content)
-	values(#{no}, #{content})
+	values(#{replyno}, #{no}, #{content})
 </insert>
 
 <!-- 댓글 수정 -->

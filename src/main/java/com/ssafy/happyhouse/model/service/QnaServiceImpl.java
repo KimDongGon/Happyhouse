@@ -68,4 +68,9 @@ public class QnaServiceImpl implements QnaService {
 		return qnaMapper.deleteReply(replyDto);
 	}
 
+	@Override
+	public int replyCount(int no) {
+		return qnaMapper.replyCount(no);
+	}
+
 }
