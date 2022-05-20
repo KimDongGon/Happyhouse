@@ -11,35 +11,35 @@
           <b-navbar-nav class="nav" v-if="isLoggedIn">
             <b-nav-item href="#"
               ><router-link to="/signup" class="text-light"
-                >signup</router-link
+                >회원가입</router-link
               ></b-nav-item
             >
             <b-nav-item href="#"
               ><router-link to="/login" class="text-light"
-                >login</router-link
+                >로그인</router-link
               ></b-nav-item
             >
           </b-navbar-nav>
 
           <b-navbar-nav class="nav" v-else>
             <b-nav-item href="#"
-              ><router-link to="/profile" class="text-light"
-                >Profile</router-link
+              ><router-link to="/mypage" class="text-light"
+                >마이페이지</router-link
               ></b-nav-item
             >
             <b-nav-item href="#" v-if="isAdmin"
               ><router-link to="/admin" class="text-light"
-                >UserList</router-link
+                >회원목록</router-link
               ></b-nav-item
             >
             <b-nav-item href="#"
-              ><a class="text-light" @click="logout">Logout</a></b-nav-item
+              ><a class="text-light" @click="logout">로그아웃</a></b-nav-item
             >
           </b-navbar-nav>
           <b-navbar-nav>
             <b-nav-item href="#"
               ><router-link to="/notice" class="text-light"
-                >Notice</router-link
+                >공지사항</router-link
               ></b-nav-item
             >
             <b-nav-item href="#"
