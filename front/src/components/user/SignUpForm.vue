@@ -12,16 +12,22 @@
           <b-form-input
             class="form-control-lg rounded-0"
             id="userId"
-            placeholder="아이디"
+            placeholder="아이디 (5 ~ 20자)"
             v-model="$v.form.userId.$model"
             :state="validateState('userId')"
-            aria-describedby="id_feedback test"
+            aria-describedby="idFedback idLengthFeedback"
           />
 
           <b-form-invalid-feedback
-            id="!id_feedback"
+            id="!idFeedback"
             v-show="!$v.form.userId.isUnique"
             >중복되는 아이디가 존재합니다.</b-form-invalid-feedback
+          >
+
+          <b-form-invalid-feedback
+            id="idLengthFeedback"
+            v-show="$v.form.userId.isUnique"
+            >아이디는 5자이상 20자이하여야 합니다.</b-form-invalid-feedback
           >
         </b-form-group>
 
@@ -35,10 +41,14 @@
             type="password"
             class="form-control-lg rounded-0"
             id="userPassword"
-            placeholder="비밀번호"
+            placeholder="비밀번호 (5 ~ 20자)"
             v-model="$v.form.userPassword.$model"
             :state="validateState('userPassword')"
+            aria-describedby="passwordFeedback"
           />
+          <b-form-invalid-feedback id="passwordFeedback"
+            >비밀번호는 5자이상 20자이하여야 합니다.</b-form-invalid-feedback
+          >
         </b-form-group>
 
         <b-form-group
@@ -54,7 +64,11 @@
             placeholder="비밀번호를 한 번 더 입력해주세요."
             v-model="$v.form.userPasswordCheck.$model"
             :state="validateState('userPasswordCheck')"
+            aria-describedby="passwordCheckFeedback"
           />
+          <b-form-invalid-feedback id="passwordCheckFeedback"
+            >비밀번호와 일치해야 합니다.</b-form-invalid-feedback
+          >
         </b-form-group>
 
         <b-form-group
@@ -70,7 +84,11 @@
             placeholder="이름"
             v-model="$v.form.userName.$model"
             :state="validateState('userName')"
+            aria-describedby="nameFeedback"
           />
+          <b-form-invalid-feedback id="nameFeedback"
+            >이름은 20자이하여야 합니다.</b-form-invalid-feedback
+          >
         </b-form-group>
 
         <b-form-group
@@ -86,7 +104,11 @@
             placeholder="주소"
             v-model="$v.form.userAddress.$model"
             :state="validateState('userAddress')"
+            aria-describedby="addressFeedback"
           />
+          <b-form-invalid-feedback id="addressFeedback"
+            >주소는 5자이상 45자이하여야 합니다.</b-form-invalid-feedback
+          >
         </b-form-group>
 
         <b-form-group
@@ -102,7 +124,12 @@
             placeholder="휴대폰 번호"
             v-model="$v.form.userMobile.$model"
             :state="validateState('userMobile')"
+            aria-describedby="mobileFeedback"
           />
+          <b-form-invalid-feedback id="mobileFeedback"
+            >휴대폰 번호는 10자이상 14자이하여야
+            합니다.</b-form-invalid-feedback
+          >
         </b-form-group>
 
         <b-button type="submit" variant="primary" class="mt-3 mb-3"
@@ -115,7 +142,13 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  sameAs,
+  alphaNum,
+} from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import http from "@/api/http.js";
 
@@ -123,7 +156,6 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      isOverlap: false,
       form: {
         userId: null,
         userPassword: null,
@@ -140,13 +172,14 @@ export default {
         required,
         minLength: minLength(5),
         maxLength: maxLength(20),
+        alphaNum,
         isUnique(value) {
           if (value === "") return true;
+          if (value && value.length < 5) return true;
           return http
             .get("/user/idcheck", { params: { ckid: value } })
             .then((res) => {
               if (res.status === 200) {
-                // this.isOverlap = true;
                 return true;
               }
             })
@@ -162,6 +195,7 @@ export default {
         required,
         minLength: minLength(5),
         maxLength: maxLength(20),
+        sameAsPassword: sameAs("userPassword"),
       },
       userName: {
         required,
