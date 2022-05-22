@@ -64,8 +64,8 @@
 
 <!-- 댓글 수정 -->
 <update id="updateReply" parameterType="replyDto">
-delete
-from reply
+update reply
+set content = #{content}
 where no=#{no} and replyno=#{replyno}
 </update>
 

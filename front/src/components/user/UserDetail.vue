@@ -1,19 +1,19 @@
 <template>
-  <b-container class="bv-example-row mt-3">
+  <b-container class="bv-example-row mt-3 text-center">
     <b-row>
       <b-col>
         <h3 class="underline-hotpink">
-          <b-icon icon="journals"></b-icon> 회원상세조회
+          <b-icon icon="list"></b-icon> 내정보조회
         </h3>
       </b-col>
     </b-row>
+
     <hr class="my-4" />
-    <b-row class="mb-1">
-      <b-col class="text-left">
-        <b-button variant="outline-primary" @click="listUser">목록</b-button>
+    <b-row style="text-align: center">
+      <b-col>
+        <b-button variant="primary" @click="moveHome()">메인화면</b-button>
       </b-col>
     </b-row>
-
     <b-jumbotron>
       <b-container class="mt-4">
         <b-row>
@@ -58,66 +58,68 @@
         </b-row>
       </b-container>
       <hr class="my-4" />
-      <b-button variant="primary" href="#" class="mr-1" @click="moveModifyUser"
-        >정보수정</b-button
-      >
-      <b-button variant="danger" href="#" @click="deleteUser"
-        >회원탈퇴</b-button
-      >
     </b-jumbotron>
+    <b-row style="text-align: center">
+      <b-col>
+        <b-button variant="light" @click="moveModify">정보수정</b-button>
+        <b-button variant="danger" @click="deleteUser">회원탈퇴</b-button>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import http from "@/api/http";
 
 export default {
-  name: "UserDetail",
+  name: "profileView",
   data() {
     return {
       user: {},
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(["userid"]),
+  },
   created() {
-    http.get(`/admin/user/${this.$route.params.id}`).then(({ data }) => {
+    http.get(`admin/user/${this.userid}`).then(({ data }) => {
       this.user = data;
     });
   },
   methods: {
-    listUser() {
-      this.$router.push({ name: "admin" });
+    moveHome() {
+      this.$router.push("/");
     },
-    moveModifyUser() {
+    moveModify() {
       this.$router.replace({
-        name: "userModify",
-        params: { id: this.user.id },
+        name: "mypageModify",
+        params: { id: this.userid },
       });
     },
     deleteUser() {
-      if (confirm("정말로 회원을 탈퇴시키겠습니까?")) {
-        this.$router.replace({
-          name: "userDelete",
-          params: { id: this.user.id },
+      if (confirm("정말로 탈퇴하시겠습니까?")) {
+        http.delete(`admin/user/${this.userid}`).then(({ data }) => {
+          let msg = "탈퇴가 정상적으로 처리되었습니다.";
+          if (data === "success") {
+            msg = "탈퇴가 정상적으로 처리되었습니다.";
+          }
+          alert(msg);
+          this.$store.dispatch("logout");
         });
       }
     },
   },
-  // filters: {
-  //   dateFormat(regtime) {
-  //     return moment(new Date(regtime)).format("YY.MM.DD hh:mm:ss");
-  //   },
-  // },
 };
 </script>
 
-<style scoped>
-.tdClass {
-  width: 50px;
-  text-align: center;
-}
-.tdSubject {
-  width: 300px;
-  text-align: left;
+<style>
+.underline-hotpink {
+  display: inline-block;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(199, 96, 152, 0.3) 30%
+  );
 }
 </style>

@@ -10,11 +10,11 @@
         >
           <b-form-input
             id="id"
-            v-model="qna.id"
+            v-model="userid"
             ref="id"
             type="text"
             required
-            placeholder="작성자 ID입력..."
+            readonly="readonly"
           ></b-form-input>
         </b-form-group>
         <b-form-group id="id-group" label="작성자ID:" label-for="id" v-else>
@@ -69,6 +69,7 @@
 
 <script>
 import http from "@/api/http";
+import { mapState } from "vuex";
 
 export default {
   name: "QnaInputItem",
@@ -85,6 +86,9 @@ export default {
   props: {
     type: { type: String },
   },
+  computed: {
+    ...mapState(["userid"]),
+  },
   created() {
     if (this.type === "modify") {
       http.get(`/qna/${this.$route.params.no}`).then(({ data }) => {
@@ -98,10 +102,7 @@ export default {
 
       let err = true;
       let msg = "";
-      !this.qna.id &&
-        ((msg = "작성자 입력해주세요"), (err = false), this.$refs.id.focus());
-      err &&
-        !this.qna.title &&
+      !this.qna.title &&
         ((msg = "제목 입력해주세요"), (err = false), this.$refs.title.focus());
       err &&
         !this.qna.content &&
@@ -122,7 +123,7 @@ export default {
     registQna() {
       http
         .post(`/qna`, {
-          id: this.qna.id,
+          id: this.userid,
           title: this.qna.title,
           content: this.qna.content,
         })
