@@ -38,9 +38,10 @@ public class QnaController {
 
 	// 모든 QnA 게시글 정보 반환
 	@GetMapping
-	public ResponseEntity<List<QnaDto>> retrieveQna() throws Exception {
+	public ResponseEntity<List<QnaDto>> retrieveQna(@RequestParam
+			Map<String, String> map) throws Exception {
 		logger.debug("retriveQna - 호출");
-		return new ResponseEntity<List<QnaDto>>(qnaService.retrieveQna(), HttpStatus.OK);
+		return new ResponseEntity<List<QnaDto>>(qnaService.retrieveQna(map), HttpStatus.OK);
 	}
 
 	// 글번호에 해당하는 QnA 정보 반환 - 상세조회
@@ -54,9 +55,9 @@ public class QnaController {
 		// 조회수 증가
 		qnaService.increaseHitCount(qnaDto);
 		// 전체 댓글 수 확인
-		//qnaDto.setReplycount(qnaService.replyCount(no));
+		// qnaDto.setReplycount(qnaService.replyCount(no));
 		qnaService.replyCount(no);
-		//logger.debug("replyCnt >>> "+ replyCnt );
+		// logger.debug("replyCnt >>> "+ replyCnt );
 		return new ResponseEntity<QnaDto>(qnaService.detailQna(no), HttpStatus.OK);
 	}
 
@@ -133,12 +134,12 @@ public class QnaController {
 	}
 
 	// 댓글 삭제
-	@DeleteMapping(value="/reply")
+	@DeleteMapping(value = "/reply")
 	public ResponseEntity<String> deleteReply(@RequestParam Map<String, String> map) {
 
 		logger.debug("deleteReply호출");
 
-		if (qnaService.deleteReply(map)==1) {
+		if (qnaService.deleteReply(map) == 1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

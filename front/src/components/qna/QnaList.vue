@@ -6,12 +6,26 @@
       </b-col>
     </b-row>
     <b-row class="mb-1">
-      <b-col class="text-aligh : end">
+      <b-col style="text-align: end">
         <b-button variant="outline-primary" @click="moveWrite()"
           >글작성</b-button
         >
       </b-col>
     </b-row>
+    <b-row class="text-center">
+      <b-col cols="12" md="8">
+        <b-input-group>
+          <b-form-select v-model="key" :options="options"> </b-form-select>
+          <b-form-input
+            placeholder="검색어"
+            v-model="word"
+            @keyup.enter.prevent="getQnaList"
+          ></b-form-input>
+          <b-button variant="primary" @click="getQnaList">검색</b-button>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <br />
     <b-row>
       <b-col v-if="qnas.length">
         <b-table-simple hover responsive>
@@ -31,7 +45,7 @@
           </tbody>
         </b-table-simple>
       </b-col>
-      <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
+      <b-col v-else class="text-center">검색 결과가 없습니다.</b-col>
     </b-row>
   </b-container>
 </template>
@@ -48,17 +62,39 @@ export default {
   data() {
     return {
       qnas: [],
+      options: [
+        { value: "null", text: "전체" },
+        { value: "no", text: "글 번호" },
+        { value: "title", text: "제목" },
+        { value: "id", text: "작성자ID" },
+      ],
+      key: "null",
+      word: "",
     };
   },
   created() {
     http.get(`/qna`).then(({ data }) => {
       this.qnas = data;
-      console.log(data);
+      //console.log(data);
     });
   },
   methods: {
     moveWrite() {
       this.$router.push({ name: "qnaRegister" });
+    },
+    getQnaList() {
+      console.log(this.key);
+      //      console.log(this.word);
+      http
+        .get(`/qna`, {
+          params: {
+            key: this.key,
+            word: this.word,
+          },
+        })
+        .then(({ data }) => {
+          this.qnas = data;
+        });
     },
   },
 };

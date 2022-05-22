@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +19,22 @@ public class QnaServiceImpl implements QnaService {
 	private QnaMapper qnaMapper;
 	
 	@Override
-	public List<QnaDto> retrieveQna() {
-		return qnaMapper.selectQna();
+	public List<QnaDto> retrieveQna(Map<String, String> map) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		String key = map.get("key");
+		if("id".equals(key)) {
+			key = "id";
+		}
+		param.put("key", key == null ? "" : key);
+		param.put("word", map.get("word") == null ? "" : map.get("word"));
+		return qnaMapper.selectQna(param);
 	}
 
+	@Override
+	public List<QnaDto> detailQnaById(String id) {
+		return qnaMapper.selectQnaById(id);
+	}
+	
 	@Override
 	public QnaDto detailQna(int no) {
 		return qnaMapper.selectQnaByNo(no);

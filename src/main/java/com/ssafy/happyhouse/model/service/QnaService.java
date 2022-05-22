@@ -7,7 +7,8 @@ import com.ssafy.happyhouse.model.dto.QnaDto;
 import com.ssafy.happyhouse.model.dto.ReplyDto;
 
 public interface QnaService {
-	public List<QnaDto> retrieveQna();
+	public List<QnaDto> retrieveQna(Map<String, String> map);
+	public List<QnaDto> detailQnaById(String id);
 	public QnaDto detailQna(int no);
 	public boolean writeQna(QnaDto qnaDto);
 	public boolean updateQna(QnaDto qnaDto);

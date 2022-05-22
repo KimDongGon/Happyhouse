@@ -15,12 +15,19 @@ public interface QnaMapper {
 	 * @param
 	 * @return List
 	 * */
-	public List<QnaDto> selectQna();
+	public List<QnaDto> selectQna(Map<String, Object> map);
+	
+	/**
+	 * QnA 게시글 아이디로 조회
+	 * @param id
+	 * @return
+	 */
+	public List<QnaDto> selectQnaById(String id);
 	/**
 	 * QnA 게시글 상세 조회
 	 * @param no
 	 * @return QnaDto
-	 * */
+	 * */	
 	public QnaDto selectQnaByNo(int no);
 	/**
 	 * QnA 게시글 등록
