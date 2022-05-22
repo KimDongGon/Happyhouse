@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import router from "@/router";
 import http from "@/api/http";
 import createPersistedState from "vuex-persistedstate";
+import jwtDecoder from "jwt-decode";
 
 Vue.use(Vuex);
 
@@ -10,6 +11,8 @@ export default new Vuex.Store({
   state: {
     userid: "",
     username: "",
+    useraddress: "",
+    usermobile: "",
     sido: [{ value: null, text: "시/도 선택" }],
     gugun: [{ value: null, text: "구/군 선택" }],
     dong: [{ value: null, text: "동 선택" }],
@@ -25,11 +28,10 @@ export default new Vuex.Store({
     ],
     searchKeyword: "",
     boardNo: null,
+    accessToken: null,
+    isAuthenticated: false,
   },
   getters: {
-    isLoggedIn(state) {
-      return state.userid === "";
-    },
     isAdmin(state) {
       return state.userid === "admin";
     },
@@ -41,13 +43,25 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SET_LOGIN_USER(state, user) {
-      state.userid = user.id;
-      state.username = user.name;
+    LOGIN(state, accessToken) {
+      state.accessToken = accessToken;
+      state.isAuthenticated = true;
+
+      const decoded = jwtDecoder(accessToken);
+      state.userid = decoded.id;
+      state.username = decoded.name;
+      state.useraddress = decoded.address;
+      state.usermobile = decoded.mobile;
     },
     LOGOUT(state) {
+      state.accessToken = "";
+      state.isAuthenticated = false;
+
       state.userid = "";
       state.username = "";
+      state.useraddress = "";
+      state.usermobile = "";
+
       router.push("/");
     },
     SET_SIDO(state, sidos) {
@@ -146,7 +160,7 @@ export default new Vuex.Store({
         .post("/user/login", user)
         .then((res) => {
           if (res.status === 200) {
-            commit("SET_LOGIN_USER", res.data);
+            commit("LOGIN", res.data);
             router.push("/");
           } else {
             alert("회원 정보가 존재하지 않습니다.");
