@@ -90,10 +90,23 @@ const routes = [
     ],
   },
   {
-    path: "/profile",
-    name: "profile",
+    path: "/mypage",
+    name: "mypage",
+    redirect: "/mypage/detail",
     component: () => import("@/views/ProfileView.vue"),
     beforeEnter: beforeEnterLogin,
+    children: [
+      {
+        path: "detail",
+        name: "mypageDetail",
+        component: () => import("@/components/user/UserDetail.vue"),
+      },
+      {
+        path: "modify",
+        name: "mypageModify",
+        component: () => import("@/components/user/UserModify.vue"),
+      },
+    ],
   },
   {
     path: "/search",

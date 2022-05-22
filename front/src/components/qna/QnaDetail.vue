@@ -58,31 +58,65 @@
             <b-td style="width: 300px; padding: 10px">{{ reply.regtime }}</b-td>
             <b-td style="padding: 10px" v-if="isAdmin">
               <b-icon
+                id="editBtn"
                 icon="pencil-fill"
                 font-scale="1"
-                @click="modifyReply(reply.replyno)"
-              ></b-icon
-            ></b-td>
-            <b-td
-              style="padding: 10px"
-              v-if="isAdmin"
-              @click="deleteReply(reply.replyno)"
-            >
-              <b-icon icon="x-lg" font-scale="1"></b-icon>
+                v-b-modal.editModal
+              ></b-icon>
+            </b-td>
+            <b-modal id="editModal" hide-footer title="댓글 수정">
+              <b-form>
+                <b-form-group
+                  id="content-group"
+                  label="댓글:"
+                  label-for="content"
+                >
+                  <b-form-textarea
+                    id="content"
+                    v-model="reply.content"
+                  ></b-form-textarea>
+                </b-form-group>
+                <b-button
+                  variant="primary"
+                  class="mt-3"
+                  @click="modifyReply(reply.replyno, reply.content)"
+                  >수정</b-button
+                >
+                <b-button class="mt-3" block @click="$bvModal.hide('editModal')"
+                  >취소</b-button
+                >
+              </b-form>
+            </b-modal>
+            <b-td style="padding: 10px" v-if="isAdmin">
+              <b-icon
+                icon="x-lg"
+                font-scale="1"
+                @click="deleteReply(reply.replyno)"
+              ></b-icon>
             </b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>
     </b-row>
     <br />
-    <b-col style="text-align: end">
-      <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
-        >수정</b-button
-      >
-      <b-button variant="outline-danger" class="mb-1" @click="deleteQna"
-        >삭제</b-button
-      > </b-col
-    ><br />
+    <b-row style="text-align: end" v-if="checkId(qna.id)">
+      <b-col>
+        <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
+          >수정</b-button
+        >
+        <b-button variant="outline-danger" class="mb-1" @click="deleteQna"
+          >삭제</b-button
+        >
+      </b-col>
+    </b-row>
+    <b-row style="text-align: end" v-if="isAdmin">
+      <b-col>
+        <b-button variant="outline-danger" class="mb-1" @click="deleteQna"
+          >삭제</b-button
+        >
+      </b-col>
+    </b-row>
+    <br />
   </b-container>
 </template>
 
@@ -122,6 +156,9 @@ export default {
   },
   methods: {
     ...mapActions(["setBoardNo"]),
+    checkId(id) {
+      return this.userid === id;
+    },
     listQna() {
       this.$router.push({ name: "qnaList" });
     },
@@ -156,12 +193,26 @@ export default {
           // this.$router.go();
         });
     },
-    //    modifyReply(replyno) {
-    //      let no = this.$route.params.no;
-    //      let replyno = replyno;
-    //      console.log(no);
-    //      console.log(replyno);
-    //    },
+    modifyReply(replyno, content) {
+      //console.log(content);
+      //console.log(replyno);
+      //console.log(this.qna.no);
+      http
+        .put(`/qna/reply/${replyno}`, {
+          content: content,
+          replyno: replyno,
+          no: this.qna.no,
+        })
+        .then(({ data }) => {
+          let msg = "댓글 수정 중 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "댓글이 수정되었습니다.";
+          }
+          alert(msg);
+
+          this.setBoardNo(this.qna.no);
+        });
+    },
     deleteReply(replyno) {
       if (confirm("댓글을 삭제하시겠습니까?")) {
         http
@@ -179,7 +230,7 @@ export default {
             alert(msg);
 
             this.setBoardNo(this.qna.no);
-            console.log(this.qna.no);
+            //console.log(this.qna.no);
           });
       }
     },
