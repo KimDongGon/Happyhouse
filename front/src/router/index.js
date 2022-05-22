@@ -1,7 +1,42 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 
 Vue.use(VueRouter);
+
+// eslint-disable-next-line no-unused-vars
+const beforeEnterNotLogin = (from, to, next) => {
+  const isAuthenticated = store.state.isAuthenticated;
+  if (!isAuthenticated) {
+    return next();
+  } else {
+    alert("잘못된 접근입니다.");
+    next("/");
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const beforeEnterLogin = (from, to, next) => {
+  const isAuthenticated = store.state.isAuthenticated;
+  if (isAuthenticated) {
+    return next();
+  } else {
+    alert("로그인 후 이용해주세요.");
+    next("/");
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const beforeAdmin = (from, to, next) => {
+  const isAuthenticated = store.state.isAuthenticated;
+  const isAdmin = store.getters.isAdmin;
+  if (isAuthenticated && isAdmin) {
+    return next();
+  } else {
+    alert("잘못된 접근입니다.");
+    next("/");
+  }
+};
 
 const routes = [
   {
@@ -13,11 +48,13 @@ const routes = [
     path: "/signup",
     name: "signup",
     component: () => import("@/views/SignUpView.vue"),
+    beforeEnter: beforeEnterNotLogin,
   },
   {
     path: "/login",
     name: "login",
     component: () => import("@/views/LoginView.vue"),
+    beforeEnter: beforeEnterNotLogin,
   },
   {
     path: "/notice",
@@ -56,11 +93,13 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: () => import("@/views/ProfileView.vue"),
+    beforeEnter: beforeEnterLogin,
   },
   {
     path: "/search",
     name: "search",
     component: () => import("@/views/SearchView.vue"),
+    beforeEnter: beforeEnterLogin,
   },
   {
     path: "/qna",
@@ -100,6 +139,7 @@ const routes = [
     name: "admin",
     component: () => import("@/views/AdminView.vue"),
     redirect: "/admin/list",
+    beforeEnter: beforeAdmin,
     children: [
       {
         path: "list",

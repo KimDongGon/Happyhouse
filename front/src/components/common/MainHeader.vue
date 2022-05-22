@@ -8,7 +8,7 @@
           ></b-navbar-brand
         >
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="nav" v-if="isLoggedIn">
+          <b-navbar-nav class="nav" v-if="!isAuthenticated">
             <b-nav-item to="/signup" link-classes="text-light"
               >회원가입</b-nav-item
             >
@@ -48,8 +48,8 @@ import MainBanner from "./MainBanner.vue";
 export default {
   components: { MainBanner },
   computed: {
-    ...mapGetters(["isLoggedIn", "isAdmin"]),
-    ...mapState(["username"]),
+    ...mapGetters(["isAdmin"]),
+    ...mapState(["username", "isAuthenticated"]),
   },
   methods: {
     logout() {

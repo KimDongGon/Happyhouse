@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.UserDto;
+import com.ssafy.happyhouse.model.service.SecurityService;
 import com.ssafy.happyhouse.model.service.UserService;
 
 @RestController
@@ -23,12 +24,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private SecurityService securityService;
+	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
 		try {
 			UserDto user = userService.login(userDto);
 			if (user != null) {				
-				return new ResponseEntity<UserDto>(user, HttpStatus.OK);
+				String accessToken = securityService.generateToken(user);
+				return new ResponseEntity<String>(accessToken, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
