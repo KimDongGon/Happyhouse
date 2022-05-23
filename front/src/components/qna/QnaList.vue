@@ -47,17 +47,20 @@
       </b-col>
       <b-col v-else class="text-center">검색 결과가 없습니다.</b-col>
     </b-row>
+    <page-link></page-link>
   </b-container>
 </template>
 
 <script>
 import http from "@/api/http";
 import QnaListItem from "@/components/qna/item/QnaListItem";
+import PageLink from "@/components/pageLink";
 
 export default {
   name: "QnaList",
   components: {
     QnaListItem,
+    PageLink,
   },
   data() {
     return {
@@ -70,21 +73,35 @@ export default {
       ],
       key: "null",
       word: "",
+      pageLimit: 5,
+      pageOffset: 0,
     };
   },
   created() {
-    http.get(`/qna`).then(({ data }) => {
-      this.qnas = data;
-      //console.log(data);
-    });
+    this.initComponent();
+  },
+  watch: {
+    "$route.query": function () {
+      this.initComponent();
+    },
   },
   methods: {
+    initComponent() {
+      http
+        .get("/qna/pagelink", {
+          params: {
+            limit: this.pageLimit,
+            offset: `${this.$route.query.no - this.pageLimit}`,
+          },
+        })
+        .then(({ data }) => {
+          this.qnas = data;
+        });
+    },
     moveWrite() {
       this.$router.push({ name: "qnaRegister" });
     },
     getQnaList() {
-      console.log(this.key);
-      //      console.log(this.word);
       http
         .get(`/qna`, {
           params: {
