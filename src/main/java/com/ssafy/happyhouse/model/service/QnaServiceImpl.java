@@ -31,6 +31,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
+	public Integer selectQnaTotalCount() {
+		return qnaMapper.selectQnaTotalCount();
+	}
+	
+	@Override
 	public List<QnaDto> detailQnaById(String id) {
 		return qnaMapper.selectQnaById(id);
 	}
@@ -85,6 +90,11 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public void replyCount(int no) {
 		qnaMapper.replyCount(no);
+	}
+
+	@Override
+	public List<QnaDto> selectQnaLimitOffset(int limit, int offset) {
+		return qnaMapper.selectQnaLimitOffset(limit, offset);
 	}
 
 }

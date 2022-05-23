@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
 import com.ssafy.happyhouse.model.dto.ReplyDto;
@@ -82,5 +83,13 @@ public interface QnaMapper {
 	 * @return
 	 */
 	public int deleteReply(Map<String, Object> map);
+
+	/**
+	 * QnA 게시글 전체 수 조회
+	 * @return
+	 */
+	public int selectQnaTotalCount();
+	
+	public List<QnaDto> selectQnaLimitOffset(@Param("limit") int limit, @Param("offset") int offset);
 }
 

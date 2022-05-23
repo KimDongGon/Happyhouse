@@ -62,6 +62,21 @@ public class QnaController {
 		return new ResponseEntity<QnaDto>(qnaService.detailQna(no), HttpStatus.OK);
 	}
 
+	// limit offset에 해당하는 게시글 정보 반환
+	@GetMapping(value = "/pagelink")
+	public ResponseEntity<List<QnaDto>> selectQnaLimitOffset(int limit, int offset) throws Exception {
+		logger.debug("selectQnaLimitOffset호출");
+		System.out.println("limit >> " + limit + " / offset >> " + offset);
+		return new ResponseEntity<List<QnaDto>>(qnaService.selectQnaLimitOffset(limit, offset), HttpStatus.OK);
+	}
+	
+	// Qna 게시글의 전체 건수 반환
+	@GetMapping(value = "/pagelink/count")
+	public ResponseEntity<Integer> selectQnaTotalCount() throws Exception {
+		logger.debug("selectQnaTotalCount호출");
+		return new ResponseEntity<Integer>(qnaService.selectQnaTotalCount(), HttpStatus.OK);
+	}
+	
 	// Qna 게시물 작성
 	// DB 입력 성공 여부에 따라 'success' 또는 'fail'반환
 	@PostMapping

@@ -19,4 +19,7 @@ public interface QnaService {
 	public int updateReply(ReplyDto replyDto);
 	public int deleteReply(Map<String, Object> param);
 	public void replyCount(int no);
+	public Integer selectQnaTotalCount();
+	// pagination(page-link)
+	public List<QnaDto> selectQnaLimitOffset(int limit, int offset);
 }
