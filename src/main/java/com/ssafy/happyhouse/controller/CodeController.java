@@ -16,6 +16,7 @@ import com.ssafy.happyhouse.model.dto.DongCodeDto;
 import com.ssafy.happyhouse.model.dto.GugunCodeDto;
 import com.ssafy.happyhouse.model.dto.SidoCodeDto;
 import com.ssafy.happyhouse.model.mapper.CodeMapper;
+import com.ssafy.happyhouse.model.service.CodeService;
 
 @RestController
 @CrossOrigin("*")
@@ -23,11 +24,11 @@ import com.ssafy.happyhouse.model.mapper.CodeMapper;
 public class CodeController {
 	
 	@Autowired
-	CodeMapper codeMapper;
+	CodeService codeService;
 	
 	@GetMapping("/sido")
 	public ResponseEntity<?> sidoCode() {
-		List<SidoCodeDto> list = codeMapper.getSido();
+		List<SidoCodeDto> list = codeService.getSido();
 		
 		if (list != null && !list.isEmpty()) {
 			return new ResponseEntity<List<SidoCodeDto>>(list, HttpStatus.OK);
@@ -37,7 +38,7 @@ public class CodeController {
 	
 	@GetMapping("/gugun")
 	public ResponseEntity<?> gugunCode(@RequestParam String sidoCode) {
-		List<GugunCodeDto> list = codeMapper.getGugun(sidoCode);
+		List<GugunCodeDto> list = codeService.getGugun(sidoCode);
 		
 		if (list != null && !list.isEmpty()) {
 			return new ResponseEntity<List<GugunCodeDto>>(list, HttpStatus.OK);
@@ -47,7 +48,7 @@ public class CodeController {
 	
 	@GetMapping("/dong")
 	public ResponseEntity<?> dongCode(@RequestParam Map<String, String> map) {
-		List<DongCodeDto> list = codeMapper.getDong(map);
+		List<DongCodeDto> list = codeService.getDong(map);
 		
 		if (list != null && !list.isEmpty()) {
 			return new ResponseEntity<List<DongCodeDto>>(list, HttpStatus.OK);
