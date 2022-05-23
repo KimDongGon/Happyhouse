@@ -1,6 +1,8 @@
 package com.ssafy.happyhouse.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.happyhouse.model.dto.QnaDto;
+import com.ssafy.happyhouse.model.dto.ReplyDto;
 import com.ssafy.happyhouse.model.dto.UserDto;
+import com.ssafy.happyhouse.model.service.QnaService;
 import com.ssafy.happyhouse.model.service.UserService;
 
 @RestController
@@ -30,6 +36,8 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private QnaService qnaService;
 	
 	// 회원목록
 	////////
@@ -88,8 +96,27 @@ public class AdminController {
 	
 	// 회원 삭제
 	@DeleteMapping(value = "/user/{id}")
-	public ResponseEntity<?> userDelete(@PathVariable("id") String id) {
+	public ResponseEntity<?> userDelete(@RequestParam Map<String, String> map, @PathVariable("id") String id) {
 		try {
+			Map<String, Object> param = new HashMap<String, Object>();
+			Map<String, String> param2 = new HashMap<String,String>();
+			
+			param.put("id",id);
+			
+			// 1. 회원 게시글이 존재하는지
+			QnaDto qnaDto = new QnaDto();
+			List<QnaDto> result = qnaService.retrieveQna(param);
+
+			// 2. 존재하면 게시글 안에 댓글이 존재하는지  - 댓글 존재 확인
+			if(result.size() > 0) {
+				logger.debug("id >>> " + param.get("id"));
+				qnaService.deleteReply(param);
+				qnaService.deleteQna(param);
+			}
+			// 2. 회원 게시글이 존재하면 게시글 삭제
+			
+			
+			// 3. 회원 삭제
 			userService.deleteUser(id);
 			List<UserDto> list = userService.listUser();
 			return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);

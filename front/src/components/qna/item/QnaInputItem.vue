@@ -54,14 +54,14 @@
         <b-button
           type="submit"
           variant="primary"
-          class="mb-1"
+          class="mt-3"
           v-if="this.type === 'register'"
           >등록</b-button
         >
-        <b-button type="submit" variant="primary" class="mb-1" v-else
+        <b-button type="submit" variant="primary" class="mt-3" v-else
           >수정</b-button
         >
-        <b-button type="reset" variant="danger" class="mb-1">초기화</b-button>
+        <b-button type="reset" variant="danger" class="mt-3">초기화</b-button>
       </b-form>
     </b-col>
   </b-row>

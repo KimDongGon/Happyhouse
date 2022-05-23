@@ -19,9 +19,9 @@ public class QnaServiceImpl implements QnaService {
 	private QnaMapper qnaMapper;
 	
 	@Override
-	public List<QnaDto> retrieveQna(Map<String, String> map) {
+	public List<QnaDto> retrieveQna(Map<String, Object> map) {
 		Map<String, Object> param = new HashMap<String, Object>();
-		String key = map.get("key");
+		Object key = map.get("key");
 		if("id".equals(key)) {
 			key = "id";
 		}
@@ -53,8 +53,8 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	@Transactional
-	public boolean deleteQna(int no) {
-		return qnaMapper.deleteQna(no) == 1;
+	public boolean deleteQna(Map<String, Object> map) {
+		return qnaMapper.deleteQna(map) == 1;
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int deleteReply(Map<String, String> map) {
+	public int deleteReply(Map<String, Object> map) {
 		return qnaMapper.deleteReply(map);
 	}
 

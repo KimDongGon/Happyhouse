@@ -101,17 +101,17 @@
     <br />
     <b-row style="text-align: end" v-if="checkId(qna.id)">
       <b-col>
-        <b-button variant="outline-info" @click="moveModifyQna" class="mb-1"
+        <b-button variant="outline-info" @click="moveModifyQna" class="mt-3"
           >수정</b-button
         >
-        <b-button variant="outline-danger" class="mb-1" @click="deleteQna"
+        <b-button variant="outline-danger" class="mt-3" @click="deleteQna"
           >삭제</b-button
         >
       </b-col>
     </b-row>
     <b-row style="text-align: end" v-if="isAdmin">
       <b-col>
-        <b-button variant="outline-danger" class="mb-1" @click="deleteQna"
+        <b-button variant="outline-danger" class="mt-3" @click="deleteQna"
           >삭제</b-button
         >
       </b-col>
@@ -173,7 +173,7 @@ export default {
       if (confirm("정말로 삭제하시겠습니까?")) {
         this.$router.replace({
           name: "qnaDelete",
-          params: { no: this.qna.no },
+          params: { no: this.qna.no, replyno: 0 },
         });
       }
     },

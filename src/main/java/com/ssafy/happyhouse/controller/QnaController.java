@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class QnaController {
 	// 모든 QnA 게시글 정보 반환
 	@GetMapping
 	public ResponseEntity<List<QnaDto>> retrieveQna(@RequestParam
-			Map<String, String> map) throws Exception {
+			Map<String, Object> map) throws Exception {
 		logger.debug("retriveQna - 호출");
 		return new ResponseEntity<List<QnaDto>>(qnaService.retrieveQna(map), HttpStatus.OK);
 	}
@@ -86,7 +87,7 @@ public class QnaController {
 	// 게시물 삭제
 	@DeleteMapping("{no}")
 	public ResponseEntity<String> deleteQna(@RequestParam Map<String, String> map, @PathVariable int no) {
-
+		Map<String,Object> param = new HashMap<String, Object>();
 		logger.debug("deleteQna호출");
 
 		// 댓글 유무 확인 후 같이 삭제
@@ -94,12 +95,19 @@ public class QnaController {
 		replyDto.setNo(no);
 
 		List<ReplyDto> result = qnaService.retrieveReply(no);
+		//logger.debug("result Size >>> " + result.size());
 		// 게시글에 댓글이 있다면
 		if (result.size() > 0) {
-			qnaService.deleteReply(map);
+			//logger.debug("deleteReply호출");
+			//logger.debug("no >>> " + no);
+			//logger.debug("reply >>> " + reply);
+			param.put("no", String.valueOf(no));
+			param.put("reply", map.get("reply") == null ? "0" : map.get("reply"));
+			
+			qnaService.deleteReply(param);
 		}
 
-		if (qnaService.deleteQna(no)) {
+		if (qnaService.deleteQna(param)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -135,7 +143,7 @@ public class QnaController {
 
 	// 댓글 삭제
 	@DeleteMapping(value = "/reply")
-	public ResponseEntity<String> deleteReply(@RequestParam Map<String, String> map) {
+	public ResponseEntity<String> deleteReply(@RequestParam Map<String, Object> map) {
 
 		logger.debug("deleteReply호출");
 

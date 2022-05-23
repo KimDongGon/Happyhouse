@@ -46,7 +46,7 @@ public interface QnaMapper {
 	 * @param no
 	 * @return
 	 */
-	public int deleteQna(int no);
+	public int deleteQna(Map<String,Object> map);
 	/**
 	 * QnA 게시글 조회수 증가
 	 * @param qnaDto
@@ -81,6 +81,6 @@ public interface QnaMapper {
 	 * @param replyDto
 	 * @return
 	 */
-	public int deleteReply(Map<String, String> map);
+	public int deleteReply(Map<String, Object> map);
 }
 

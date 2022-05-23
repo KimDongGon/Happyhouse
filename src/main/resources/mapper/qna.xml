@@ -46,10 +46,17 @@
 </update>
 
 <!-- QnA 삭제 -->
-<delete id="deleteQna" parameterType="int">
+<delete id="deleteQna" parameterType="map">
 	delete
 	from qna
-	where no = #{no}
+	<if test="id == null">
+		where no=#{no}
+	</if>
+	<if test="id != null">
+		where no in (
+			select no from
+    		(select no from qna where id=#{id}) tmp);
+	</if>
 </delete>
 
 <!-- 조회수 증가 -->
@@ -86,7 +93,17 @@ where no=#{no} and replyno=#{replyno}
 <!-- 댓글 삭제 -->
 <delete id="deleteReply" parameterType="map">
 delete from reply
-where no=#{no} and replyno=#{replyno}
+<if test="id == null">
+	where no=#{no}
+		<if test="replyno > 0">
+		and replyno=#{replyno}
+		</if>
+</if>
+<if test="id != null">
+where no in (
+	select no from qna where id=#{id}
+)
+</if>
 </delete>
 
 <!-- 댓글 수 조회 -->
