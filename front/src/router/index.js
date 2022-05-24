@@ -3,10 +3,11 @@ import VueRouter from "vue-router";
 import store from "@/store";
 
 Vue.use(VueRouter);
+//521D18E9-FFC5-34D1-9272-BF30415BBC95
 
 // eslint-disable-next-line no-unused-vars
 const beforeEnterNotLogin = (from, to, next) => {
-  const isAuthenticated = store.state.isAuthenticated;
+  const isAuthenticated = store.state.access.isAuthenticated;
   if (!isAuthenticated) {
     return next();
   } else {
@@ -17,7 +18,7 @@ const beforeEnterNotLogin = (from, to, next) => {
 
 // eslint-disable-next-line no-unused-vars
 const beforeEnterLogin = (from, to, next) => {
-  const isAuthenticated = store.state.isAuthenticated;
+  const isAuthenticated = store.state.access.isAuthenticated;
   if (isAuthenticated) {
     return next();
   } else {
@@ -28,7 +29,7 @@ const beforeEnterLogin = (from, to, next) => {
 
 // eslint-disable-next-line no-unused-vars
 const beforeAdmin = (from, to, next) => {
-  const isAuthenticated = store.state.isAuthenticated;
+  const isAuthenticated = store.state.access.isAuthenticated;
   const isAdmin = store.getters.isAdmin;
   if (isAuthenticated && isAdmin) {
     return next();

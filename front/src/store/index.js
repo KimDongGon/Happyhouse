@@ -4,6 +4,10 @@ import router from "@/router";
 import http from "@/api/http";
 import createPersistedState from "vuex-persistedstate";
 import jwtDecoder from "jwt-decode";
+import VueCookies from "vue-cookies";
+import AccessToken from "@/store/accessToken.js";
+import RefreshToken from "@/store/refreshToken.js";
+import Code from "@/store/code.js";
 
 Vue.use(Vuex);
 
@@ -13,12 +17,6 @@ export default new Vuex.Store({
     username: "",
     useraddress: "",
     usermobile: "",
-    sido: [{ value: null, text: "시/도 선택" }],
-    gugun: [{ value: null, text: "구/군 선택" }],
-    dong: [{ value: null, text: "동 선택" }],
-    sidoCode: null,
-    gugunCode: null,
-    dongCode: null,
     houseList: [],
     houseFields: [
       { key: "aptName", label: "아파트명", sortable: true },
@@ -28,8 +26,6 @@ export default new Vuex.Store({
     ],
     searchKeyword: "",
     boardNo: null,
-    accessToken: null,
-    isAuthenticated: false,
   },
   getters: {
     isAdmin(state) {
@@ -43,68 +39,31 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    LOGIN(state, accessToken) {
-      state.accessToken = accessToken;
-      state.isAuthenticated = true;
+    LOGIN(state, tokens) {
+      // vuex는 session storeage이므로 localstorage 사용
+      state.access.accessToken = tokens.accessToken;
+      state.access.isAuthenticated = true;
 
-      const decoded = jwtDecoder(accessToken);
+      // refresh token은 xss 공격에 좀 더 안전한 cookie에 저장
+      state.refresh.refreshToken = tokens.refreshToken;
+
+      const decoded = jwtDecoder(tokens.accessToken);
       state.userid = decoded.id;
       state.username = decoded.name;
       state.useraddress = decoded.address;
       state.usermobile = decoded.mobile;
     },
     LOGOUT(state) {
-      state.accessToken = "";
-      state.isAuthenticated = false;
+      state.access.accessToken = null;
+      state.access.isAuthenticated = false;
+
+      state.refresh.refreshToken = null;
 
       state.userid = "";
       state.username = "";
       state.useraddress = "";
       state.usermobile = "";
-
-      router.push("/");
-    },
-    SET_SIDO(state, sidos) {
-      state.sido = [{ value: null, text: "시/도 선택" }].concat(
-        sidos.map((sido) => {
-          return {
-            value: sido.sidoCode,
-            text: sido.sidoName,
-          };
-          // eslint-disable-next-line prettier/prettier
-        })
-      );
-    },
-    SET_GUGUN(state, guguns) {
-      state.gugun = [{ value: null, text: "구/군 선택" }].concat(
-        guguns.map((gugun) => {
-          return {
-            value: gugun.gugunCode,
-            text: gugun.gugunName,
-          };
-          // eslint-disable-next-line prettier/prettier
-        })
-      );
-    },
-    SET_DONG(state, dongs) {
-      state.dong = [{ value: null, text: "동 선택" }].concat(
-        dongs.map((dong) => {
-          return {
-            value: dong.dongCode,
-            text: dong.dongName,
-          };
-          // eslint-disable-next-line prettier/prettier
-        })
-      );
-    },
-    SET_SIDO_CODE(state, sidoCode) {
-      state.sidoCode = sidoCode;
-    },
-    SET_GUGUN_CODE(state, gugunCode) {
-      state.gugunCode = gugunCode;
-    },
-    SET_DONG_CODE(state, dongCode) {
-      state.dongCode = dongCode;
+      router.push("/").catch(() => {});
     },
     SET_HOUSE_LIST(state, houseList) {
       state.houseList = houseList.map((house) => {
@@ -124,37 +83,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getSido({ commit }) {
-      http
-        .get("/code/sido")
-        .then((res) => {
-          if (res.status == 200) {
-            commit("SET_SIDO", res.data);
-          }
-        })
-        .catch((err) => console.log(err));
-    },
-    getGugun({ commit }, sidoCode) {
-      http
-        .get("/code/gugun", { params: { sidoCode } })
-        .then((res) => {
-          if (res.status == 200) {
-            commit("SET_GUGUN", res.data);
-          }
-        })
-        .catch((err) => console.log(err));
-    },
-    getDong({ commit }, { sidoCode, gugunCode }) {
-      http
-        .get("/code/dong", { params: { sidoCode, gugunCode } })
-        .then((res) => {
-          if (res.status == 200) {
-            commit("SET_DONG", res.data);
-          }
-        })
-        .catch((err) => console.log(err));
-    },
-    getHouseList() {},
     loginUser({ commit }, user) {
       http
         .post("/user/login", user)
@@ -175,9 +103,9 @@ export default new Vuex.Store({
       http
         .get("/house/search", {
           params: {
-            sido: state.sidoCode,
-            gugun: state.gugunCode,
-            dong: state.dongCode,
+            sido: state.code.sidoCode,
+            gugun: state.code.gugunCode,
+            dong: state.code.dongCode,
           },
         })
         .then((res) => {
@@ -212,11 +140,29 @@ export default new Vuex.Store({
       router.go();
     },
   },
-  modules: {},
+  strict: true,
+  modules: {
+    access: AccessToken,
+    refresh: RefreshToken,
+    code: Code,
+  },
   plugins: [
     createPersistedState({
       // 브라우저 종료시 제거하기 위해 localStorage가 아닌 sessionStorage로 변경. (default: localStorage)
-      storage: sessionStorage,
+      storage: window.sessionStorage,
+      paths: ["code"],
+    }),
+    createPersistedState({
+      storage: localStorage,
+      paths: ["access"],
+    }),
+    createPersistedState({
+      storage: {
+        getItem: (key) => VueCookies.get(key),
+        setItem: (key, value) => VueCookies.set(key, value),
+        removeItem: (key) => VueCookies.remove(key),
+      },
+      paths: ["refresh"],
     }),
   ],
 });
