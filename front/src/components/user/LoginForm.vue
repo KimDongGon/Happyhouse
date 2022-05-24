@@ -60,6 +60,7 @@ import {
   maxLength,
   alphaNum,
 } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 
 export default {
   mixins: [validationMixin],
@@ -87,6 +88,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("user", ["login"]),
     validateState(name) {
       const { $dirty, $error } = this.$v.form[name];
       return $dirty ? !$error : null;
@@ -103,7 +105,7 @@ export default {
         password: this.form.userPassword,
       };
 
-      this.$store.dispatch("loginUser", user);
+      this.login(user);
     },
   },
 };

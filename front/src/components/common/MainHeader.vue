@@ -43,18 +43,23 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import MainBanner from "./MainBanner.vue";
 export default {
   components: { MainBanner },
   computed: {
-    ...mapGetters(["isAdmin"]),
+    ...mapGetters("user", ["isAdmin"]),
     ...mapState("access", ["isAuthenticated"]),
-    ...mapState(["username"]),
+    ...mapState("user", ["username"]),
   },
   methods: {
+    ...mapActions("user", ["deleteUserInfo"]),
+    ...mapActions("access", ["deleteAccessToken"]),
+    ...mapActions("refresh", ["deleteRefreshToken"]),
     logout() {
-      this.$store.dispatch("logout");
+      this.deleteAccessToken();
+      this.deleteRefreshToken();
+      this.deleteUserInfo();
     },
   },
 };

@@ -58,7 +58,7 @@ export default {
         return this.notice.content.split("\n").join("<br>");
       return "";
     },
-    ...mapGetters(["isAdmin"]),
+    ...mapGetters("user", ["isAdmin"]),
   },
   created() {
     http.get(`/notice/list/${this.$route.params.no}`).then(({ data }) => {

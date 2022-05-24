@@ -140,8 +140,9 @@ export default {
       if (this.qna.content) return this.qna.content.split("\n").join("<br>");
       return "";
     },
-    ...mapGetters(["isAdmin"]),
-    ...mapState(["boardNo", "userid"]),
+    ...mapGetters("user", ["isAdmin"]),
+    ...mapState(["boardNo"]),
+    ...mapState("user", ["userid"]),
   },
   created() {
     let no = this.$route.params.no;

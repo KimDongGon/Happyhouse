@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import http from "@/api/http";
 
 export default {
@@ -80,7 +80,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userid"]),
+    ...mapState("user", ["userid"]),
   },
   created() {
     http.get(`admin/user/${this.userid}`).then(({ data }) => {
@@ -88,6 +88,7 @@ export default {
     });
   },
   methods: {
+    ...mapActions("user", ["deleteUserInfo"]),
     moveHome() {
       this.$router.push("/");
     },
@@ -105,7 +106,7 @@ export default {
             msg = "탈퇴가 정상적으로 처리되었습니다.";
           }
           alert(msg);
-          this.$store.dispatch("logout");
+          this.deleteUserInfo();
         });
       }
     },

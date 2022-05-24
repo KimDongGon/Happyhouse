@@ -176,6 +176,7 @@ export default {
         isUnique(value) {
           if (value === "") return true;
           if (value && value.length < 5) return true;
+          console.log(value);
           return http
             .get("/user/idcheck", { params: { ckid: value } })
             .then((res) => {
@@ -215,7 +216,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["signUp"]),
+    ...mapActions("user", ["signUp"]),
 
     validateState(name) {
       const { $dirty, $error } = this.$v.form[name];

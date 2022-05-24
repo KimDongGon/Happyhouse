@@ -52,7 +52,7 @@ export default {
     NoticeListItem,
   },
   computed: {
-    ...mapGetters(["isAdmin"]),
+    ...mapGetters("user", ["isAdmin"]),
   },
   data() {
     return {
