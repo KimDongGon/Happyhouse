@@ -151,6 +151,7 @@ import {
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import http from "@/api/http.js";
+import { sha256 } from "js-sha256";
 
 export default {
   mixins: [validationMixin],
@@ -176,7 +177,6 @@ export default {
         isUnique(value) {
           if (value === "") return true;
           if (value && value.length < 5) return true;
-          console.log(value);
           return http
             .get("/user/idcheck", { params: { ckid: value } })
             .then((res) => {
@@ -228,7 +228,20 @@ export default {
         return;
       }
 
-      this.signUp(this.form);
+      const userInfo = {
+        ...this.form,
+        userPassword: sha256.hmac(
+          process.env.VUE_APP_SECRET_KEY,
+          // eslint-disable-next-line prettier/prettier
+          this.form.userPassword
+        ),
+        userPasswordCheck: sha256.hmac(
+          process.env.VUE_APP_SECRET_KEY,
+          // eslint-disable-next-line prettier/prettier
+          this.form.userPasswordCheck
+        ),
+      };
+      this.signUp(userInfo);
     },
     formatMobile(mobile) {
       this.form.userMobile = mobile.replace(

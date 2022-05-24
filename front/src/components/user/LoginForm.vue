@@ -61,6 +61,7 @@ import {
   alphaNum,
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+import { sha256 } from "js-sha256";
 
 export default {
   mixins: [validationMixin],
@@ -102,9 +103,12 @@ export default {
 
       const user = {
         id: this.form.userId,
-        password: this.form.userPassword,
+        password: sha256.hmac(
+          process.env.VUE_APP_SECRET_KEY,
+          // eslint-disable-next-line prettier/prettier
+          this.form.userPassword
+        ),
       };
-
       this.login(user);
     },
   },
