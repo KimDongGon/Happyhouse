@@ -1,19 +1,31 @@
 package com.ssafy.happyhouse.model.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.happyhouse.jwt.JwtTokenProvider;
+import com.ssafy.happyhouse.model.dto.TokenDto;
 import com.ssafy.happyhouse.model.dto.UserDto;
 import com.ssafy.happyhouse.model.mapper.UserMapper;
 
+import io.jsonwebtoken.Claims;
+
 @Service
 public class UserServiceImpl implements UserService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	public UserDto login(UserDto userDto) {
 		return userMapper.login(userDto);
@@ -48,6 +60,49 @@ public class UserServiceImpl implements UserService {
 		userMapper.deleteUser(id);
 	}
 
+	@Override
+	public void updateTokens(String id, TokenDto tokenDto) {
+		userMapper.updateTokens(id, tokenDto);
+	}
+	
+	@Override
+	public TokenDto generateTokens(UserDto userDto) {
+		String accessToken = jwtTokenProvider.generateToken(userDto);
+		String refreshToken = jwtTokenProvider.generateRefreshToken();
+		return new TokenDto(accessToken, refreshToken);
+	}
 
-
+	@Override
+	public TokenDto issueToken(HttpServletRequest request) {
+		String accessToken = jwtTokenProvider.resolveAccessToken(request);
+		String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+		TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
+		
+		if (!jwtTokenProvider.isValidAccessToken(accessToken)) {
+			logger.debug("Access Token이 변조됨");
+			if (jwtTokenProvider.isExpiredToken(accessToken)) {
+				logger.debug("Access Token이 만료됨");
+				logger.debug("Access Token이 만료됨2");
+				Claims claims = jwtTokenProvider.getClaimsFromToken(accessToken);
+				logger.debug("Access Token이 만료됨3");
+				
+				String id = (String) claims.get("id");
+				
+				if (userMapper.isValidTokenInDB(id, tokenDto) == 1) {
+					accessToken = jwtTokenProvider.generateToken(jwtTokenProvider.getUserInfoFromClaims(claims));
+					tokenDto.setAccessToken(accessToken);
+					return tokenDto;
+				} else {
+					logger.debug("요청 받은 Refresh Token이 변조됨");
+					return null;
+				}
+			} else {
+				logger.debug("Access Token이 만료되지 않음");
+				return null;
+			}
+		} else {
+			logger.debug("Access Token이 변조됨");
+			return null;
+		}
+	}
 }
