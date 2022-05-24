@@ -30,7 +30,7 @@ const beforeEnterLogin = (from, to, next) => {
 // eslint-disable-next-line no-unused-vars
 const beforeAdmin = (from, to, next) => {
   const isAuthenticated = store.state.access.isAuthenticated;
-  const isAdmin = store.getters.isAdmin;
+  const isAdmin = store.getters["user/isAdmin"];
   if (isAuthenticated && isAdmin) {
     return next();
   } else {

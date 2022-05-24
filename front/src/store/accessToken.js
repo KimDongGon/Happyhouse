@@ -8,26 +8,35 @@ export default {
   },
   mutations: {
     REFRESH_TOKEN(state, tokens) {
-      console.log(tokens);
       state.accessToken = tokens.accessToken;
+    },
+    DELETE_ACCESS_TOKEN(state) {
+      state.accessToken = null;
+      state.isAuthenticated = false;
+    },
+    SET_ACCESS_TOKEN(state, accessToken) {
+      // vuex는 session storeage이므로 localstorage 사용
+      state.accessToken = accessToken;
+      state.isAuthenticated = true;
     },
   },
   actions: {
     refreshAccessToken: ({ commit }) => {
-      // accessToken 재요청
-      //accessToken 만료로 재발급 후 재요청시 비동기처리로는 제대로 처리가 안되서 promise로 처리함
       return new Promise((resolve, reject) => {
         http
           .post("/user/issue")
           .then((res) => {
-            commit("refreshToken", res.data);
-            resolve(res.data);
+            commit("REFRESH_TOKEN", res.data);
+            resolve(res.data.accessToken);
           })
           .catch((err) => {
-            console.log(err);
+            console.log("issue 에러! " + err);
             reject(err.config.data);
           });
       });
+    },
+    deleteAccessToken({ commit }) {
+      commit("DELETE_ACCESS_TOKEN");
     },
   },
 };

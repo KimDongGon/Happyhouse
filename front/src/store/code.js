@@ -12,7 +12,6 @@ export default {
   },
   mutations: {
     SET_SIDO(state, sidos) {
-      console.log(state);
       state.sido = [{ value: null, text: "시/도 선택" }].concat(
         sidos.map((sido) => {
           return {

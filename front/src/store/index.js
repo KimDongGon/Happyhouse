@@ -3,20 +3,16 @@ import Vuex from "vuex";
 import router from "@/router";
 import http from "@/api/http";
 import createPersistedState from "vuex-persistedstate";
-import jwtDecoder from "jwt-decode";
 import VueCookies from "vue-cookies";
 import AccessToken from "@/store/accessToken.js";
 import RefreshToken from "@/store/refreshToken.js";
 import Code from "@/store/code.js";
+import User from "@/store/user.js";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userid: "",
-    username: "",
-    useraddress: "",
-    usermobile: "",
     houseList: [],
     houseFields: [
       { key: "aptName", label: "아파트명", sortable: true },
@@ -28,9 +24,6 @@ export default new Vuex.Store({
     boardNo: null,
   },
   getters: {
-    isAdmin(state) {
-      return state.userid === "admin";
-    },
     searchHouse(state) {
       return state.houseList.filter((house) =>
         // eslint-disable-next-line prettier/prettier
@@ -39,32 +32,6 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    LOGIN(state, tokens) {
-      // vuex는 session storeage이므로 localstorage 사용
-      state.access.accessToken = tokens.accessToken;
-      state.access.isAuthenticated = true;
-
-      // refresh token은 xss 공격에 좀 더 안전한 cookie에 저장
-      state.refresh.refreshToken = tokens.refreshToken;
-
-      const decoded = jwtDecoder(tokens.accessToken);
-      state.userid = decoded.id;
-      state.username = decoded.name;
-      state.useraddress = decoded.address;
-      state.usermobile = decoded.mobile;
-    },
-    LOGOUT(state) {
-      state.access.accessToken = null;
-      state.access.isAuthenticated = false;
-
-      state.refresh.refreshToken = null;
-
-      state.userid = "";
-      state.username = "";
-      state.useraddress = "";
-      state.usermobile = "";
-      router.push("/").catch(() => {});
-    },
     SET_HOUSE_LIST(state, houseList) {
       state.houseList = houseList.map((house) => {
         return {
@@ -83,22 +50,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    loginUser({ commit }, user) {
-      http
-        .post("/user/login", user)
-        .then((res) => {
-          if (res.status === 200) {
-            commit("LOGIN", res.data);
-            router.push("/");
-          } else {
-            alert("회원 정보가 존재하지 않습니다.");
-          }
-        })
-        .catch((err) => console.log(err));
-    },
-    logout({ commit }) {
-      commit("LOGOUT");
-    },
     searchHouseList({ commit, state }) {
       http
         .get("/house/search", {
@@ -118,23 +69,6 @@ export default new Vuex.Store({
     searchApt({ commit }, aptName) {
       commit("SET_SEARCH_KEYWORD", aptName);
     },
-    signUp(_, userInfo) {
-      http
-        .post("/user/register", {
-          id: userInfo.userId,
-          password: userInfo.userPassword,
-          name: userInfo.userName,
-          address: userInfo.userAddress,
-          number: userInfo.userMobile,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            alert("회원가입이 완료되었습니다.");
-            router.push("/login");
-          }
-        })
-        .catch((err) => console.log(err));
-    },
     setBoardNo({ commit }, boardNo) {
       commit("SET_BOARD_NO", boardNo);
       router.go();
@@ -145,6 +79,7 @@ export default new Vuex.Store({
     access: AccessToken,
     refresh: RefreshToken,
     code: Code,
+    user: User,
   },
   plugins: [
     createPersistedState({
@@ -154,7 +89,7 @@ export default new Vuex.Store({
     }),
     createPersistedState({
       storage: localStorage,
-      paths: ["access"],
+      paths: ["access", "user"],
     }),
     createPersistedState({
       storage: {
