@@ -58,7 +58,7 @@
 		select count(id)
 		from user
 		where id=#{id}
-		and accessToken=#{accessToken}
-		and refreshToken=#{refreshToken}
+		and accessToken=#{tokens.accessToken}
+		and refreshToken=#{tokens.refreshToken}
 	</select>
 </mapper>
