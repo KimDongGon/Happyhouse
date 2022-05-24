@@ -47,4 +47,18 @@
 		where id=#{id}
 	</delete>
 	
+	<update id="updateTokens" >
+		update user
+		set accessToken = #{tokens.accessToken},
+		refreshToken = #{tokens.refreshToken}
+		where id = #{id}
+	</update>
+	
+	<select id="isValidTokenInDB" resultType="int">
+		select count(id)
+		from user
+		where id=#{id}
+		and accessToken=#{accessToken}
+		and refreshToken=#{refreshToken}
+	</select>
 </mapper>
