@@ -38,7 +38,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 		
 		if (accessToken != null && jwtTokenProvider.isValidAccessToken(accessToken) && !jwtTokenProvider.isExpiredToken(accessToken)) {
 			return true;
-		} else {	
+		} else {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			return false;
 		}		

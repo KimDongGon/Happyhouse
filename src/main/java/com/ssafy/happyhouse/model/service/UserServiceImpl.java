@@ -78,19 +78,19 @@ public class UserServiceImpl implements UserService {
 		String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
 		TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
 		
-		if (!jwtTokenProvider.isValidAccessToken(accessToken)) {
-			logger.debug("Access Token이 변조됨");
+		if (jwtTokenProvider.isValidAccessToken(accessToken)) {
+			logger.debug("Access Token이 유효함");
 			if (jwtTokenProvider.isExpiredToken(accessToken)) {
 				logger.debug("Access Token이 만료됨");
-				logger.debug("Access Token이 만료됨2");
-				Claims claims = jwtTokenProvider.getClaimsFromToken(accessToken);
-				logger.debug("Access Token이 만료됨3");
+				Claims claims = jwtTokenProvider.getClaimsFromExpiredToken(accessToken);
 				
 				String id = (String) claims.get("id");
 				
 				if (userMapper.isValidTokenInDB(id, tokenDto) == 1) {
-					accessToken = jwtTokenProvider.generateToken(jwtTokenProvider.getUserInfoFromClaims(claims));
+					logger.debug("Token들이 유효함");
+					accessToken = jwtTokenProvider.generateToken(jwtTokenProvider.getUserInfoFromClaims(claims));					
 					tokenDto.setAccessToken(accessToken);
+					userMapper.updateTokens(id, tokenDto);
 					return tokenDto;
 				} else {
 					logger.debug("요청 받은 Refresh Token이 변조됨");

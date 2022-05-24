@@ -82,6 +82,17 @@ public class JwtTokenProvider {
 				.getBody();
 	}
 	
+	public Claims getClaimsFromExpiredToken(String token) {
+		try {			
+			return Jwts.parser()
+					.setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+					.parseClaimsJws(token)
+					.getBody();
+		} catch(ExpiredJwtException e) {
+			return e.getClaims();
+		}
+	}
+	
 	public UserDto getUserInfoFromClaims(Claims claims) {
 		UserDto userDto = new UserDto();
 		userDto.setId((String) claims.get("id"));
@@ -98,7 +109,7 @@ public class JwtTokenProvider {
 			return true;
 		} catch(ExpiredJwtException e) {
 			logger.debug("Expired Access Token: " + e.getMessage());
-			return false;
+			return true;
 		} catch(JwtException e) {
 			logger.debug("Access Token is invalid");
 			return false;
@@ -135,14 +146,8 @@ public class JwtTokenProvider {
 			logger.debug("Token Expired? " + claims.getExpiration().before(new Date()));
 			return false;
 		} catch(ExpiredJwtException e) {
-			logger.debug("Expired Refresh Token: " + e.getMessage());
+			logger.debug("Expired Token: " + e.getMessage());
 			return true;
-		} catch(JwtException e) {
-			logger.debug("Refresh Token is invalid");
-			return false;
-		} catch(NullPointerException e) {
-			logger.debug("Refresh Token is null");
-			return false;
 		} catch(Exception e) {
 			return false;
 		}

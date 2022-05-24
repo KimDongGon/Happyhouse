@@ -19,19 +19,19 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry
 		.addInterceptor(jwtTokenInterceptor)
-		.addPathPatterns("/**")
-		.excludePathPatterns("/code/sido")
-		.excludePathPatterns("/code/gugun")
-		.excludePathPatterns("/code/dong")
-		.excludePathPatterns("/user/login")
-		.excludePathPatterns("/user/idcheck")
-		.excludePathPatterns("/user/register")
-		.excludePathPatterns("/user/issue")		
-		.excludePathPatterns("/notice/list/**")
-		.excludePathPatterns("/notice/detail")
-		.excludePathPatterns("/qna/**")
-		.excludePathPatterns("/qna/reply/**")
-//		.excludePathPatterns("/notice/list")
+		.addPathPatterns("/admin/**")
+//		.addPathPatterns("/**")
+//		.excludePathPatterns("/code/sido")
+//		.excludePathPatterns("/code/gugun")
+//		.excludePathPatterns("/code/dong")
+//		.excludePathPatterns("/user/login")
+//		.excludePathPatterns("/user/idcheck")
+//		.excludePathPatterns("/user/register")
+//		.excludePathPatterns("/user/issue")		
+//		.excludePathPatterns("/notice/list/**")
+//		.excludePathPatterns("/notice/detail")
+//		.excludePathPatterns("/qna/**")
+//		.excludePathPatterns("/qna/reply/**")
 		;
 	}
 }
