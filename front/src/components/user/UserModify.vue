@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <h3 class="underline-hotpink">
-          <b-icon icon="list"></b-icon> 내정보수정
+          <b-icon icon="pencil-fill"></b-icon> 내정보수정
         </h3>
       </b-col>
     </b-row>

@@ -2,7 +2,11 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h3>공지사항 목록</h3></b-alert>
+        <b-alert show
+          ><h3>
+            <b-icon icon="exclamation-circle-fill"></b-icon> 공지사항
+          </h3></b-alert
+        >
       </b-col>
     </b-row>
     <b-row>

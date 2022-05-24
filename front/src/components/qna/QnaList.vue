@@ -2,7 +2,9 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h3>QnA</h3></b-alert>
+        <b-alert show
+          ><h3><b-icon icon="question-circle-fill"></b-icon> QnA</h3></b-alert
+        >
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -36,7 +38,6 @@
               <b-th>작성자ID</b-th>
               <b-th>조회수</b-th>
               <b-th>작성일</b-th>
-              <b-th>답글수</b-th>
             </b-tr>
           </b-thead>
           <tbody>

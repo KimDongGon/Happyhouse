@@ -2,14 +2,15 @@
   <b-tr>
     <b-td>{{ no }}</b-td>
     <b-th class="text-left">
-      <router-link :to="{ name: 'qnaDetail', params: { no: no } }">{{
-        title
-      }}</router-link>
+      <router-link
+        :to="{ name: 'qnaDetail', params: { no: no } }"
+        style="text-decoration: none"
+        >{{ title }} [{{ replycount }}]</router-link
+      >
     </b-th>
     <b-td>{{ id }}</b-td>
     <b-td>{{ hit }}</b-td>
     <b-td>{{ regtime | dateFormat }}</b-td>
-    <b-td>{{ replycount }}</b-td>
   </b-tr>
 </template>
 
