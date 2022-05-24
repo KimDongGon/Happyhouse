@@ -49,7 +49,8 @@ export default {
   components: { MainBanner },
   computed: {
     ...mapGetters(["isAdmin"]),
-    ...mapState(["username", "isAuthenticated"]),
+    ...mapState("access", ["isAuthenticated"]),
+    ...mapState(["username"]),
   },
   methods: {
     logout() {

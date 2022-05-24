@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   props: {
     disabled: Boolean,
@@ -54,41 +54,47 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sido", "gugun", "dong"]),
+    ...mapState("code", ["sido", "gugun", "dong"]),
   },
   created() {
-    this.sidoCode = this.$store.state.sidoCode;
-    this.gugunCode = this.$store.state.gugunCode;
-    this.dongCode = this.$store.state.dongCode;
-    if (this.sidoCode === null) {
+    this.sidoCode = this.$store.state.code.sidoCode;
+    this.gugunCode = this.$store.state.code.gugunCode;
+    this.dongCode = this.$store.state.code.dongCode;
+    if (this.sido.length === 1) {
       this.getSido();
     }
   },
   methods: {
-    ...mapActions(["getSido", "getGugun", "getDong"]),
-    ...mapMutations(["SET_SIDO_CODE", "SET_GUGUN_CODE", "SET_DONG_CODE"]),
+    ...mapActions("code", [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "setSidoCode",
+      "setGugunCode",
+      "setDongCode",
+    ]),
     sidoChanged() {
-      this.SET_SIDO_CODE(this.sidoCode);
+      this.setSidoCode(this.sidoCode);
 
       this.gugunCode = null;
       this.dongCode = null;
-      this.SET_GUGUN_CODE(null);
-      this.SET_DONG_CODE(null);
+      this.setGugunCode(null);
+      this.setDongCode(null);
       if (this.sidoCode !== null) {
         this.getGugun(this.sidoCode);
       }
     },
     gugunChanged() {
-      this.SET_GUGUN_CODE(this.gugunCode);
+      this.setGugunCode(this.gugunCode);
 
       this.dongCode = null;
-      this.SET_DONG_CODE(null);
+      this.setDongCode(null);
       if (this.gugunCode !== null) {
         this.getDong({ sidoCode: this.sidoCode, gugunCode: this.gugunCode });
       }
     },
     dongChanged() {
-      this.SET_DONG_CODE(this.dongCode);
+      this.setDongCode(this.dongCode);
     },
     search() {
       if (this.sidoCode === null) {
@@ -100,11 +106,6 @@ export default {
       } else {
         this.$router.push({
           name: "search",
-          params: {
-            sidoCode: this.sidoCode,
-            gugunCode: this.gugunCode,
-            dongCode: this.dongCode,
-          },
         });
       }
     },
