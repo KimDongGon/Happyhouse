@@ -11,8 +11,8 @@ const http = axios.create({
 http.interceptors.request.use((config) => {
   const isAuthenticated = store.state.access.isAuthenticated;
   if (isAuthenticated) {
-    config.headers.common.ACCESS_TOKEN = store.state.access.accessToken;
-    config.headers.common.REFRESH_TOKEN = store.state.refresh.refreshToken;
+    config.headers.ACCESS_TOKEN = store.state.access.accessToken;
+    config.headers.REFRESH_TOKEN = store.state.refresh.refreshToken;
   }
   return config;
 });
@@ -29,6 +29,7 @@ http.interceptors.response.use(
       return await http(errorAPI);
     }
 
+    // alert("로그인 정보가 만료되었습니다. 다시 로그인 해주세요.");
     return Promise.reject(error);
     // eslint-disable-next-line prettier/prettier
   }
