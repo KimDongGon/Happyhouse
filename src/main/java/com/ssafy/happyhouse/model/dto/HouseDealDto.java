@@ -1,108 +1,108 @@
 package com.ssafy.happyhouse.model.dto;
 
 public class HouseDealDto {
-	private int aptCode;
-	private String AptName;
+	private int no;
 	private String dealAmount;
-	private String dealYear;
-	private String dealMonth;
-	private String dealDay;
+	private int dealYear;
+	private int dealMonth;
+	private int dealDay;
 	private String area;
 	private String floor;
-	private String type;
-	public HouseDealDto() {
+	private String cancelDealType;
+	private String aptCode;
+	
+	public HouseDealDto() {	}
+
+	public HouseDealDto(int no, String dealAmount, int dealYear, int dealMonth, int dealDay, String area, String floor,
+			String cancelDealType, String aptCode) {
 		super();
-	}
-	public HouseDealDto(int aptCode, String aptName, String dealAmount, String dealYear, String dealMonth, String dealDay,
-			String area, String floor, String type) {
-		super();
-		this.aptCode = aptCode;
-		AptName = aptName;
+		this.no = no;
 		this.dealAmount = dealAmount;
 		this.dealYear = dealYear;
 		this.dealMonth = dealMonth;
 		this.dealDay = dealDay;
 		this.area = area;
 		this.floor = floor;
-		this.type = type;
-	}
-	public int getAptCode() {
-		return aptCode;
-	}
-	public void setAptCode(int aptCode) {
+		this.cancelDealType = cancelDealType;
 		this.aptCode = aptCode;
 	}
-	public String getAptName() {
-		return AptName;
+
+	public int getNo() {
+		return no;
 	}
-	public void setAptName(String aptName) {
-		AptName = aptName;
+
+	public void setNo(int no) {
+		this.no = no;
 	}
+
 	public String getDealAmount() {
 		return dealAmount;
 	}
+
 	public void setDealAmount(String dealAmount) {
 		this.dealAmount = dealAmount;
 	}
-	public String getDealYear() {
+
+	public int getDealYear() {
 		return dealYear;
 	}
-	public void setDealYear(String dealYear) {
+
+	public void setDealYear(int dealYear) {
 		this.dealYear = dealYear;
 	}
-	public String getDealMonth() {
+
+	public int getDealMonth() {
 		return dealMonth;
 	}
-	public void setDealMonth(String dealMonth) {
+
+	public void setDealMonth(int dealMonth) {
 		this.dealMonth = dealMonth;
 	}
-	public String getDealDay() {
+
+	public int getDealDay() {
 		return dealDay;
 	}
-	public void setDealDay(String dealDay) {
+
+	public void setDealDay(int dealDay) {
 		this.dealDay = dealDay;
 	}
+
 	public String getArea() {
 		return area;
 	}
+
 	public void setArea(String area) {
 		this.area = area;
 	}
+
 	public String getFloor() {
 		return floor;
 	}
+
 	public void setFloor(String floor) {
 		this.floor = floor;
 	}
-	public String getType() {
-		return type;
+
+	public String getCancelDealType() {
+		return cancelDealType;
 	}
-	public void setType(String type) {
-		this.type = type;
+
+	public void setCancelDealType(String cancelDealType) {
+		this.cancelDealType = cancelDealType;
 	}
+
+	public String getAptCode() {
+		return aptCode;
+	}
+
+	public void setAptCode(String aptCode) {
+		this.aptCode = aptCode;
+	}
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("HouseDeal [aptCode=");
-		builder.append(aptCode);
-		builder.append(", AptName=");
-		builder.append(AptName);
-		builder.append(", dealAmount=");
-		builder.append(dealAmount);
-		builder.append(", dealYear=");
-		builder.append(dealYear);
-		builder.append(", dealMonth=");
-		builder.append(dealMonth);
-		builder.append(", dealDay=");
-		builder.append(dealDay);
-		builder.append(", area=");
-		builder.append(area);
-		builder.append(", floor=");
-		builder.append(floor);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append("]");
-		return builder.toString();
+		return "HouseDealDto [no=" + no + ", dealAmount=" + dealAmount + ", dealYear=" + dealYear + ", dealMonth="
+				+ dealMonth + ", dealDay=" + dealDay + ", area=" + area + ", floor=" + floor + ", cancelDealType="
+				+ cancelDealType + ", aptCode=" + aptCode + "]";
 	}
-	
 }

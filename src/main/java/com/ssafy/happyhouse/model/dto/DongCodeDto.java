@@ -3,17 +3,17 @@ package com.ssafy.happyhouse.model.dto;
 public class DongCodeDto {
 	private String dongCode;
 	private String dongName;
-	private String gugunCode;
-	private String sidoCode;
+	private String gugunName;
+	private String sidoName;
 	
 	public DongCodeDto() { }
-	
-	public DongCodeDto(String dongCode, String dongName, String gugunCode, String sidoCode) {
+
+	public DongCodeDto(String dongCode, String dongName, String gugunName, String sidoName) {
 		super();
 		this.dongCode = dongCode;
 		this.dongName = dongName;
-		this.gugunCode = gugunCode;
-		this.sidoCode = sidoCode;
+		this.gugunName = gugunName;
+		this.sidoName = sidoName;
 	}
 
 	public String getDongCode() {
@@ -32,26 +32,25 @@ public class DongCodeDto {
 		this.dongName = dongName;
 	}
 
-	public String getGugunCode() {
-		return gugunCode;
+	public String getGugunName() {
+		return gugunName;
 	}
 
-	public void setGugunCode(String gugunCode) {
-		this.gugunCode = gugunCode;
+	public void setGugunName(String gugunName) {
+		this.gugunName = gugunName;
 	}
 
-	public String getSidoCode() {
-		return sidoCode;
+	public String getSidoName() {
+		return sidoName;
 	}
 
-	public void setSidoCode(String sidoCode) {
-		this.sidoCode = sidoCode;
+	public void setSidoName(String sidoName) {
+		this.sidoName = sidoName;
 	}
 
 	@Override
 	public String toString() {
-		return "DongCodeDto [dongCode=" + dongCode + ", dongName=" + dongName + ", gugunCode=" + gugunCode
-				+ ", sidoCode=" + sidoCode + "]";
+		return "DongCodeDto [dongCode=" + dongCode + ", dongName=" + dongName + ", gugunName=" + gugunName
+				+ ", sidoName=" + sidoName + "]";
 	}
-
 }

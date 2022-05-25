@@ -1,25 +1,15 @@
 package com.ssafy.happyhouse.model.dto;
 
 public class GugunCodeDto {
-	private String sidoCode;
-	private String gugunCode;
+	private String sidoName;
 	private String gugunName;
 	
 	public GugunCodeDto() { }
 
-	public GugunCodeDto(String sidoCode, String gugunCode, String gugunName) {
+	public GugunCodeDto(String sidoName, String gugunName) {
 		super();
-		this.sidoCode = sidoCode;
-		this.gugunCode = gugunCode;
+		this.sidoName = sidoName;
 		this.gugunName = gugunName;
-	}
-
-	public String getGugunCode() {
-		return gugunCode;
-	}
-
-	public void setGugunCode(String gugunCode) {
-		this.gugunCode = gugunCode;
 	}
 
 	public String getGugunName() {
@@ -30,17 +20,17 @@ public class GugunCodeDto {
 		this.gugunName = gugunName;
 	}
 
-	public String getSidoCode() {
-		return sidoCode;
+	public String getSidoName() {
+		return sidoName;
 	}
 
-	public void setSidoCode(String sidoCode) {
-		this.sidoCode = sidoCode;
+	public void setSidoName(String sidoName) {
+		this.sidoName = sidoName;
 	}
 
 	@Override
 	public String toString() {
-		return "GugunCodeDto [sidoCode=" + sidoCode + ", gugunCode=" + gugunCode + ", gugunName=" + gugunName + "]";
+		return "GugunCodeDto [sidoName=" + sidoName + ", gugunName=" + gugunName + "]";
 	}
 	
 }
