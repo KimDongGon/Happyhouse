@@ -9,30 +9,16 @@ export default {
   name: "KakaoMap",
   data() {
     return {
-      markers: [],
-      markerInfos: [
-        {
-          position: [37.602874980485815, 127.024074908179],
-          text: "돈암삼부아파트",
-        },
-        {
-          position: [37.60277610066754, 127.0259693355823],
-          text: "돈암동부센트레빌아파트",
-        },
-        {
-          position: [37.60374078756766, 127.0271420873093],
-          text: "돈암현대아파트",
-        },
-        {
-          position: [37.603392290108424, 127.02795747887419],
-          text: "돈암범양아파트",
-        },
-        {
-          position: [37.60295247998547, 127.02021965472383],
-          text: "길음뉴타운9단지아파트",
-        },
-      ],
+      marker: null,
+      map: null,
+      imageSrc: require(`@/assets/marker.png`),
     };
+  },
+  props: ["latLng"],
+  computed: {
+    houseList() {
+      return this.$store.getters["house/houseList"];
+    },
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -41,8 +27,7 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_KAKAO_MAP_KEY}`;
       document.head.appendChild(script);
     }
   },
@@ -57,49 +42,39 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
-
-      this.initMarker();
     },
-    initMarker() {
-      if (this.markers.length > 0) {
-        this.markers.forEach((marker) => marker.setMap(null));
+    displayMarker(lat, lng) {
+      // 기존에 존재하는 마커 제거
+      if (this.marker !== null) {
+        this.marker.setMap(null);
       }
 
-      const imageSrc = require(`@/assets/marker.png`);
+      this.map.setCenter(new kakao.maps.LatLng(lat, lng));
 
-      const infos = this.markerInfos.map((info) => ({
-        position: new kakao.maps.LatLng(...info.position),
-        text: info.text,
-      }));
+      const marker = new kakao.maps.Marker({
+        map: this.map,
+        position: new kakao.maps.LatLng(lat, lng),
+        image: new kakao.maps.MarkerImage(
+          this.imageSrc,
+          // eslint-disable-next-line prettier/prettier
+          new kakao.maps.Size(40, 40)
+        ),
+      });
+      // var iwContent = `<div style="padding:10px;">${info.aptName}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      //   iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
-      if (infos.length > 0) {
-        this.markers = infos.map((info) => {
-          const marker = new kakao.maps.Marker({
-            map: this.map,
-            position: info.position,
-            image: new kakao.maps.MarkerImage(
-              imageSrc,
-              // eslint-disable-next-line prettier/prettier
-              new kakao.maps.Size(40, 40)
-            ),
-          });
-          var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+      // // 인포윈도우를 생성합니다
+      // var infowindow = new kakao.maps.InfoWindow({
+      //   content: iwContent,
+      //   removable: iwRemoveable,
+      // });
 
-          // 인포윈도우를 생성합니다
-          var infowindow = new kakao.maps.InfoWindow({
-            content: iwContent,
-            removable: iwRemoveable,
-          });
+      // kakao.maps.event.addListener(marker, "click", () => {
+      //   //마커 position을 출력합니다.
+      //   infowindow.open(this.map, marker);
+      // });
 
-          kakao.maps.event.addListener(marker, "click", () => {
-            //마커 position을 출력합니다.
-            infowindow.open(this.map, marker);
-          });
-
-          return marker;
-        });
-      }
+      this.marker = marker;
     },
   },
 };
