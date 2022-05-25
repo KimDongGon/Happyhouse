@@ -20,18 +20,15 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		registry
 		.addInterceptor(jwtTokenInterceptor)
 		.addPathPatterns("/admin/**")
-//		.addPathPatterns("/**")
-//		.excludePathPatterns("/code/sido")
-//		.excludePathPatterns("/code/gugun")
-//		.excludePathPatterns("/code/dong")
-//		.excludePathPatterns("/user/login")
-//		.excludePathPatterns("/user/idcheck")
-//		.excludePathPatterns("/user/register")
-//		.excludePathPatterns("/user/issue")		
-//		.excludePathPatterns("/notice/list/**")
-//		.excludePathPatterns("/notice/detail")
-//		.excludePathPatterns("/qna/**")
-//		.excludePathPatterns("/qna/reply/**")
+//		.addPathPatterns("/notice/register")
+//		.addPathPatterns("/notice/modify/**")
+//		.addPathPatterns("/notice/delete/**")
+//		.addPathPatterns("/qna/")
+//		.addPathPatterns("/qna/")
+//		.addPathPatterns("/qna/")
+//		.addPathPatterns("/qna/")
+//		.addPathPatterns("/qna/")
+//		.addPathPatterns("/qna/")
 		;
 	}
 }
