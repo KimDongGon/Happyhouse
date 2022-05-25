@@ -3,7 +3,10 @@
     <b-row>
       <b-col sm="3"><img src="@/assets/side.jpg" /></b-col>
       <b-col sm="5">
-        <div><h3>주택 관련 기사</h3></div>
+        <div>
+          <h3>주택 관련 기사</h3>
+          <router-link :to="{ name: 'aptnews' }">더보기</router-link>
+        </div>
         <hr />
         <div class="list-group">
           <li
@@ -12,6 +15,7 @@
             :key="index"
           >
             <a
+              v-if="index < 5"
               :href="article.url"
               target="_blank"
               class="list-group-item list-group-item-action"
@@ -24,6 +28,7 @@
       <b-col sm="4">
         <div>
           <h3>오늘의 뉴스</h3>
+          <router-link :to="{ name: 'todaynews' }">더보기</router-link>
         </div>
         <hr />
         <div class="list-group">
@@ -33,6 +38,7 @@
             :key="index"
           >
             <a
+              v-if="index < 5"
               :href="article.url"
               target="_blank"
               class="list-group-item list-group-item-action"
@@ -62,6 +68,8 @@ export default {
       this.news = data;
     });
     http.get(`/news/apt`).then(({ data }) => {
+      //this.aptnews = data;
+      //console.log(data);
       this.aptnews = data;
     });
   },
