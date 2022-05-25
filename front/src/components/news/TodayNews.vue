@@ -3,37 +3,35 @@
     <b-row>
       <b-col>
         <b-alert show
-          ><h3><b-icon icon="list"></b-icon>오늘의 뉴스</h3>
-          <p>경제 부분 최신 뉴스를 빠르게 열람하실 수 있습니다.</p>
+          ><h3><b-icon icon="newspaper"></b-icon> 오늘의 뉴스</h3>
+          <p>경제 관련 최신 뉴스를 빠르게 열람하실 수 있습니다.</p>
         </b-alert>
       </b-col>
     </b-row>
     <br />
-    <b-row>
-      <b-col v-if="news.length">
-        <b-table-simple hover responsive>
-          <b-thead head-variant="dark">
-            <b-tr>
-              <b-th>글 번호</b-th>
-              <b-th>제 목</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody v-for="(article, index) in news" :key="index">
-            <b-tr>
-              <b-td>{{ index + 1 }}</b-td>
-              <b-td
-                ><a
-                  :href="article.url"
-                  target="_blank"
-                  :title="article.title"
-                  >{{ article.title }}</a
-                ></b-td
-              >
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
-      </b-col>
-    </b-row>
+    <b-table
+      id="my-table"
+      :fields="fields"
+      :items="news"
+      :per-page="perPage"
+      :current-page="currentPage"
+      small
+      responsive="sm"
+    >
+      <template #cell(index)="data">
+        {{ data.index + 1 }}
+      </template>
+      <template #cell(titles)="data">
+        <a :href="data.value.url" target="_blank">{{ data.value.title }}</a>
+      </template>
+    </b-table>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+      align="center"
+    ></b-pagination>
   </b-container>
 </template>
 
@@ -44,13 +42,34 @@ export default {
   name: "TodayNews",
   data() {
     return {
-      news: [],
+      fields: [
+        { key: "index", label: "글 번호" },
+        { key: "titles", label: "제 목" },
+      ],
+      perPage: 10,
+      currentPage: 1,
+      news: [{ titles: { title: "", url: "" } }],
     };
   },
   created() {
     http.get(`/news`).then(({ data }) => {
-      this.news = data;
+      // console.log(data);
+      this.news = data.map((news) => {
+        return {
+          titles: {
+            title: news.title,
+            url: news.url,
+          },
+        };
+      });
+      // this.news.title = data.title;
+      // this.news.url = data.url;
     });
+  },
+  computed: {
+    rows() {
+      return this.news.length;
+    },
   },
 };
 </script>

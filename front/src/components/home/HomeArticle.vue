@@ -3,9 +3,11 @@
     <b-row>
       <b-col sm="3"><img src="@/assets/side.jpg" /></b-col>
       <b-col sm="5">
-        <div>
+        <div class="oneLine">
           <h3>주택 관련 기사</h3>
-          <router-link :to="{ name: 'aptnews' }">더보기</router-link>
+          <router-link :to="{ name: 'aptnews' }" align="right"
+            >더보기</router-link
+          >
         </div>
         <hr />
         <div class="list-group">
@@ -26,9 +28,11 @@
         </div>
       </b-col>
       <b-col sm="4">
-        <div>
+        <div class="oneLine">
           <h3>오늘의 뉴스</h3>
-          <router-link :to="{ name: 'todaynews' }">더보기</router-link>
+          <router-link :to="{ name: 'todaynews' }" align="right"
+            >더보기</router-link
+          >
         </div>
         <hr />
         <div class="list-group">
