@@ -28,7 +28,7 @@ USE `happyhouse` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `happyhouse`.`user` (
   `id` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
   `name` VARCHAR(20) NOT NULL,
   `address` VARCHAR(45) NOT NULL,
   `number` VARCHAR(14) NOT NULL,
@@ -36,97 +36,6 @@ CREATE TABLE IF NOT EXISTS `happyhouse`.`user` (
   `refreshToken` VARCHAR(512) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
--- truncate table user;
--- drop table user;
--- set foreign_key_checks = 0;
--- set foreign_key_checks = 1;
--- select *
--- from user;
-
--- -----------------------------------------------------
--- Table `happyhouse`.`sidocode`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `happyhouse`.`sidocode` (
-  `sidoCode` VARCHAR(10) NOT NULL,
-  `sidoName` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`sidoCode`))
-ENGINE = InnoDB;
-
-load data infile 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\sidocode.csv' 
-ignore into table sidocode character set utf8mb4
-fields terminated by ',' 
-lines terminated by '\r\n'
-ignore 1 rows;
-
-select *
-from sidocode;
-
--- -----------------------------------------------------
--- Table `happyhouse`.`houseinfo`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `happyhouse`.`houseinfo` (
-  `aptCode` INT NOT NULL AUTO_INCREMENT,
-  `buildYear` VARCHAR(30) NOT NULL,
-  `dongName` VARCHAR(30) NOT NULL,
-  `jibun` VARCHAR(30) NOT NULL,
-  `aptName` VARCHAR(30) NOT NULL,
-  `sidocode` VARCHAR(10) NOT NULL,
-  `gugunCode` VARCHAR(10) NULL,
-  `dongCode` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`aptCode`),
-  INDEX `fk_houseinfo_sidocode_idx` (`sidocode` ASC) VISIBLE,
-  CONSTRAINT `fk_houseinfo_sidocode`
-    FOREIGN KEY (`sidocode`)
-    REFERENCES `happyhouse`.`sidocode` (`sidoCode`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-set foreign_key_checks = 0;
-load data infile 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\houseinfo.csv' 
-ignore into table houseinfo character set utf8mb4
-fields terminated by ',' 
-lines terminated by '\r\n'
-ignore 1 rows;
-set foreign_key_checks = 1;
-
-select *
-from houseinfo;
-
-
--- -----------------------------------------------------
--- Table `happyhouse`.`housedeal`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `happyhouse`.`housedeal` (
-  `aptCode` INT NOT NULL AUTO_INCREMENT,
-  `AptName` VARCHAR(45) NOT NULL,
-  `dealAmount` VARCHAR(30) NOT NULL,
-  `dealYear` VARCHAR(30) NOT NULL,
-  `dealMonth` VARCHAR(30) NOT NULL,
-  `dealDay` VARCHAR(30) NOT NULL,
-  `area` VARCHAR(30) NULL,
-  `floor` VARCHAR(30) NULL,
-  `type` VARCHAR(30) NULL,
-  PRIMARY KEY (`aptCode`),
-  INDEX `fk_housedeal_houseinfo1_idx` (`aptCode` ASC) VISIBLE,
-  CONSTRAINT `fk_housedeal_houseinfo1`
-    FOREIGN KEY (`aptCode`)
-    REFERENCES `happyhouse`.`houseinfo` (`aptCode`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-set foreign_key_checks = 0;
-load data infile 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\housedeal.csv' 
-ignore into table housedeal character set utf8mb4
-fields terminated by ',' 
-lines terminated by '\r\n'
-ignore 1 rows;
-set foreign_key_checks = 1;
-
-select *
-from housedeal;
 
 -- -----------------------------------------------------
 -- Table `happyhouse`.`bookmark`
@@ -154,33 +63,7 @@ CREATE TABLE IF NOT EXISTS `happyhouse`.`bookmark` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `happyhouse`.`guguncode`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `happyhouse`.`guguncode` (
-  `sidoCode` VARCHAR(10) NOT NULL,
-  `gugunCode` VARCHAR(10) NOT NULL,
-  `gugunName` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`gugunCode`, `gugunName`),
-  INDEX `fk_guguncode_sidocode1_idx` (`sidoCode` ASC) VISIBLE,
-  CONSTRAINT `fk_guguncode_sidocode1`
-    FOREIGN KEY (`sidoCode`)
-    REFERENCES `happyhouse`.`sidocode` (`sidoCode`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-set foreign_key_checks = 0;
-load data infile 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\guguncode.csv' 
-ignore into table guguncode character set utf8mb4
-fields terminated by ',' 
-lines terminated by '\r\n'
-ignore 1 rows;
-set foreign_key_checks = 1;
-
-select * from guguncode;
-desc guguncode;
+drop table bookmark;
 
 -- -----------------------------------------------------
 -- Table `happyhouse`.`dongcode`
@@ -212,10 +95,6 @@ fields terminated by ','
 lines terminated by '\r\n'
 ignore 1 rows;
 set foreign_key_checks = 1;
-
-select * from dongcode;
-desc dongcode;
-
 -- -----------------------------------------------------
 -- Table `happyhouse`.`sector`
 -- -----------------------------------------------------
@@ -245,10 +124,6 @@ fields terminated by ','
 lines terminated by '\r\n'
 ignore 1 rows;
 
-select *
-from sector;
-
-drop table sector;
 
 -- -----------------------------------------------------
 -- Table `happyhouse`.`dust`
@@ -270,9 +145,6 @@ fields terminated by ','
 lines terminated by '\r\n'
 ignore 1 rows;
 
-select *
-from dust;
-
 -- -----------------------------------------------------
 -- Table `happyhouse`.`hospital`
 -- -----------------------------------------------------
@@ -292,10 +164,6 @@ fields terminated by ','
 lines terminated by '\r\n'
 ignore 1 rows;
 
-select *
-from hospital;
-
-truncate table hospital;
 
 -- -----------------------------------------------------
 -- Table `happyhouse`.`clinic`
@@ -323,9 +191,6 @@ ignore into table clinic character set utf8mb4
 fields terminated by ',' 
 lines terminated by '\r\n'
 ignore 1 rows;
-
-select *
-from clinic;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
