@@ -79,7 +79,7 @@ public class QnaController {
 	
 	// Qna 게시물 작성
 	// DB 입력 성공 여부에 따라 'success' 또는 'fail'반환
-	@PostMapping
+	@PostMapping(value="/regist")
 	public ResponseEntity<String> wrtieQna(@RequestBody QnaDto qnaDto) {
 		logger.debug("writeQna호출");
 		if (qnaService.writeQna(qnaDto)) {
@@ -89,7 +89,7 @@ public class QnaController {
 	}
 
 	// 글번호에 해당하는 게시물 수정
-	@PutMapping("{no}")
+	@PutMapping(value="/modify/{no}")
 	public ResponseEntity<String> updateQna(@RequestBody QnaDto qnaDto) {
 		logger.debug("updateQna호출");
 		logger.debug("" + qnaDto);
@@ -100,7 +100,7 @@ public class QnaController {
 	}
 
 	// 게시물 삭제
-	@DeleteMapping("{no}")
+	@DeleteMapping(value="/delete/{no}")
 	public ResponseEntity<String> deleteQna(@RequestParam Map<String, String> map, @PathVariable int no) {
 		Map<String,Object> param = new HashMap<String, Object>();
 		logger.debug("deleteQna호출");
@@ -136,7 +136,7 @@ public class QnaController {
 	}
 
 	// 댓글 작성
-	@PostMapping(value = "/reply/{no}")
+	@PostMapping(value = "/reply/regist/{no}")
 	public ResponseEntity<String> writeReply(@RequestBody ReplyDto replyDto, @PathVariable int no) {
 		logger.debug("writeReply호출");
 		if (qnaService.writeReply(replyDto) == 1) {
@@ -146,7 +146,7 @@ public class QnaController {
 	}
 
 	// 댓글 수정
-	@PutMapping(value = "/reply/{no}")
+	@PutMapping(value = "/reply/modify/{no}")
 	public ResponseEntity<String> updateReply(@RequestBody ReplyDto replyDto, @PathVariable int no) {
 		logger.debug("updateReply호출");
 		logger.debug("" + replyDto);
@@ -157,7 +157,7 @@ public class QnaController {
 	}
 
 	// 댓글 삭제
-	@DeleteMapping(value = "/reply")
+	@DeleteMapping(value = "/reply/delete")
 	public ResponseEntity<String> deleteReply(@RequestParam Map<String, Object> map) {
 
 		logger.debug("deleteReply호출");

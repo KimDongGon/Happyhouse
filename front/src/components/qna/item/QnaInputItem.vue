@@ -87,7 +87,7 @@ export default {
     type: { type: String },
   },
   computed: {
-    ...mapState(["userid"]),
+    ...mapState("user", ["userid"]),
   },
   created() {
     if (this.type === "modify") {
@@ -122,7 +122,7 @@ export default {
     },
     registQna() {
       http
-        .post(`/qna`, {
+        .post(`/qna/regist`, {
           id: this.userid,
           title: this.qna.title,
           content: this.qna.content,
@@ -138,7 +138,7 @@ export default {
     },
     modifyQna() {
       http
-        .put(`/qna/${this.qna.no}`, {
+        .put(`/qna/modify/${this.qna.no}`, {
           no: this.qna.no,
           id: this.qna.id,
           title: this.qna.title,

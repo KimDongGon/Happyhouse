@@ -48,7 +48,7 @@ public class NoticeController {
 	}
 
 	// 공지사항 등록
-	@PostMapping(value="/list")
+	@PostMapping(value="/list/regist")
 	public ResponseEntity<String> writeNotice(@RequestBody NoticeDto noticeDto) {
 		logger.debug("writeNotice호출");
 		if (noticeService.writeNotice(noticeDto)) {
@@ -58,7 +58,7 @@ public class NoticeController {
 	}
 
 	// 공지사항 수정
-	@PutMapping(value="/list/{no}")
+	@PutMapping(value="/list/modify/{no}")
 	public ResponseEntity<String> updateNotice(@RequestBody NoticeDto noticeDto) {
 		logger.debug("updateNotice호출");
 		logger.debug("" + noticeDto);
@@ -69,7 +69,7 @@ public class NoticeController {
 	}
 
 	// 공지사항 삭제
-	@DeleteMapping(value="/list/{no}")
+	@DeleteMapping(value="/list/delete/{no}")
 	public ResponseEntity<String> deleteNotice(@PathVariable int no) {
 
 		logger.debug("deleteNotice호출");

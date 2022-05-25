@@ -182,7 +182,7 @@ export default {
     },
     saveReply() {
       http
-        .post(`/qna/reply/${this.qna.no}`, {
+        .post(`/qna/reply/regist/${this.qna.no}`, {
           no: this.qna.no,
           content: this.content,
         })
@@ -201,7 +201,7 @@ export default {
       //console.log(replyno);
       //console.log(this.qna.no);
       http
-        .put(`/qna/reply/${replyno}`, {
+        .put(`/qna/reply/modify/${replyno}`, {
           content: content,
           replyno: replyno,
           no: this.qna.no,
@@ -219,7 +219,7 @@ export default {
     deleteReply(replyno) {
       if (confirm("댓글을 삭제하시겠습니까?")) {
         http
-          .delete(`qna/reply`, {
+          .delete(`/qna/reply/delete`, {
             params: {
               replyno: replyno,
               no: this.qna.no,

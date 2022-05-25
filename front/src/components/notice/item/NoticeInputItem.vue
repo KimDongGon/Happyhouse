@@ -93,7 +93,7 @@ export default {
     },
     registNotice() {
       http
-        .post(`/notice/list`, {
+        .post(`/notice/list/regist`, {
           subject: this.notice.subject,
           content: this.notice.content,
         })
@@ -108,7 +108,7 @@ export default {
     },
     modifyNotice() {
       http
-        .put(`/notice/list/${this.notice.no}`, {
+        .put(`/notice/list/modify/${this.notice.no}`, {
           no: this.notice.no,
           subject: this.notice.subject,
           content: this.notice.content,

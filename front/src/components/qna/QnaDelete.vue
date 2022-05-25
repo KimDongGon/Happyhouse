@@ -20,7 +20,7 @@ export default {
   name: "QnaDelete",
   created() {
     //console.log(this.$route.params.replyno);
-    http.delete(`/qna/${this.$route.params.no}`).then(({ data }) => {
+    http.delete(`/qna/delete/${this.$route.params.no}`).then(({ data }) => {
       let msg = "삭제 처리시 문제가 발생했습니다.";
       if (data === "success") {
         msg = "삭제가 완료되었습니다.";
