@@ -46,6 +46,23 @@ const routes = [
     component: () => import("@/views/HomeView.vue"),
   },
   {
+    path: "/news",
+    name: "news",
+    component: () => import("@/views/NewsView.vue"),
+    children: [
+      {
+        path: "todaynews",
+        name: "todaynews",
+        component: () => import("@/components/news/TodayNews.vue"),
+      },
+      {
+        path: "aptnews",
+        name: "aptnews",
+        component: () => import("@/components/news/AptNews.vue"),
+      },
+    ],
+  },
+  {
     path: "/signup",
     name: "signup",
     component: () => import("@/views/SignUpView.vue"),
