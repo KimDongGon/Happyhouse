@@ -21,6 +21,10 @@
       label-sort-asc=""
       label-sort-desc=""
       label-sort-clear=""
+      selectable
+      ref="selectableTable"
+      :select-mode="selectMode"
+      @row-selected="onRowSelected"
     ></b-table>
   </div>
 </template>
@@ -32,23 +36,33 @@ export default {
   data() {
     return {
       aptName: "",
+      selectMode: "range",
     };
   },
   computed: {
-    ...mapState(["houseFields"]),
-    ...mapGetters(["searchHouse"]),
+    ...mapState("house", ["houseFields"]),
+    ...mapGetters("house", ["searchHouse"]),
   },
   methods: {
-    ...mapActions(["searchHouseList", "searchApt"]),
+    ...mapActions("house", ["searchHouseList"]),
     search() {
-      this.searchApt(this.aptName);
+      this.$emit("searchApartmentName", {
+        page: 1,
+        apartmentName: this.aptName,
+      });
+    },
+    onRowSelected(data) {
+      if (data.length !== 0) {
+        this.$emit("setLatlng", { lat: data[0].lat, lng: data[0].lng });
+      }
     },
   },
   created() {
-    this.searchHouseList();
-  },
-  destroyed() {
-    this.searchApt("");
+    const pageNavigation = {
+      offset: 1,
+      limit: 10,
+    };
+    this.searchHouseList(pageNavigation);
   },
 };
 </script>
