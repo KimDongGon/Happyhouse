@@ -3,32 +3,52 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.happyhouse.model.mapper.HouseMapper">
-
-	<sql id="apt">
-		<if test="aptName != null">
-			and aptName like concat('%', #{aptName}, '%')
-		</if>
-	</sql>
-	
 	<resultMap type="HouseDto" id="aptList">
-		<result column="aptName" property="aptName"/>
+		<result column="buildYear" property="buildYear"/>
+		<result column="roadName" property="roadName"/>
+		<result column="roadNameBonbun" property="roadNameBonbun"/>
+		<result column="roadNameBubun" property="roadNameBubun"/>
+		<result column="roadNameSeq" property="roadNameSeq"/>
+		<result column="roadNameBasementCode" property="roadNameBasementCode"/>
+		<result column="roadNameCode" property="roadNameCode"/>
+		<result column="dong" property="dong"/>
+		<result column="bonbun" property="bonbun"/>
+		<result column="bubun" property="bubun"/>
+		<result column="sigunguCode" property="sigunguCode"/>
+		<result column="eubmyundongCode" property="eubmyundongCode"/>
+		<result column="dongCode" property="dongCode"/>
+		<result column="landCode" property="landCode"/>
+		<result column="apartmentName" property="apartmentName"/>
+		<result column="jibun" property="jibun"/>
+		<result column="lng" property="lng"/>
+		<result column="lat" property="lat"/>
+		<result column="no" property="no"/>
 		<result column="dealAmount" property="dealAmount"/>
-		<result column="area" property="area"/>
 		<result column="dealYear" property="dealYear"/>
 		<result column="dealMonth" property="dealMonth"/>
 		<result column="dealDay" property="dealDay"/>
+		<result column="area" property="area"/>
+		<result column="floor" property="floor"/>
 	</resultMap>
 
-	<select id="search" parameterType="map" resultMap="aptList">
-		select i.aptName, dealAmount, area, dealYear, dealMonth, dealDay
+	<select id="search" resultMap="aptList">
+		select buildYear, roadName, roadNameBonbun, roadNameBubun, roadNameSeq, roadNameBasementCode,
+		roadNameCode, dong, bonbun, bubun, sigunguCode, eubmyundongCode, dongCode, landCode, apartmentName,
+		jibun, lng, lat, no, dealAmount, dealYear, dealMonth, dealDay, area, floor
 		from houseinfo i join housedeal d
 		on i.aptCode = d.aptCode
-		where sidoCode = #{sido}
-		and gugunCode = #{gugun}
-		and dongCode = #{dong}
-		<if test="aptName != null">
-			and i.aptName like concat('%', #{aptName}, '%')
+		where dongCode = #{dongCode}
+		<if test="apartmentName != null">
+			and i.apartmentName like concat('%', #{apartmentName}, '%')
 		</if>
-		order by aptName asc
+		order by apartmentName asc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(apartmentName)
+		from houseinfo i join housedeal d
+		on i.aptCode = d.aptCode
+		where dongCode = #{dongCode}
 	</select>
 </mapper>

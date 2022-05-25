@@ -21,12 +21,22 @@ public class HouseDto {
 	private String lng;
 	private String lat;
 	
+	private Long no;
+	private String dealAmount;
+	private int dealYear;
+	private int dealMonth;
+	private int dealDay;
+	private String area;
+	private String floor;
+	private String cancelDealType;
+	
 	public HouseDto() { }
 
 	public HouseDto(int aptCode, int buildYear, String roadName, String roadNameBonbun, String roadNameBubun,
 			String roadNameSeq, String roadNameBasementCode, String roadNameCode, String dong, String bonbun,
 			String bubun, String sigunguCode, String eubmyundongCode, String dongCode, String landCode,
-			String apartmentName, String jibun, String lng, String lat) {
+			String apartmentName, String jibun, String lng, String lat, Long no, String dealAmount, int dealYear,
+			int dealMonth, int dealDay, String area, String floor, String cancelDealType) {
 		super();
 		this.aptCode = aptCode;
 		this.buildYear = buildYear;
@@ -47,6 +57,14 @@ public class HouseDto {
 		this.jibun = jibun;
 		this.lng = lng;
 		this.lat = lat;
+		this.no = no;
+		this.dealAmount = dealAmount;
+		this.dealYear = dealYear;
+		this.dealMonth = dealMonth;
+		this.dealDay = dealDay;
+		this.area = area;
+		this.floor = floor;
+		this.cancelDealType = cancelDealType;
 	}
 
 	public int getAptCode() {
@@ -201,6 +219,70 @@ public class HouseDto {
 		this.lat = lat;
 	}
 
+	public Long getNo() {
+		return no;
+	}
+
+	public void setNo(Long no) {
+		this.no = no;
+	}
+
+	public String getDealAmount() {
+		return dealAmount;
+	}
+
+	public void setDealAmount(String dealAmount) {
+		this.dealAmount = dealAmount;
+	}
+
+	public int getDealYear() {
+		return dealYear;
+	}
+
+	public void setDealYear(int dealYear) {
+		this.dealYear = dealYear;
+	}
+
+	public int getDealMonth() {
+		return dealMonth;
+	}
+
+	public void setDealMonth(int dealMonth) {
+		this.dealMonth = dealMonth;
+	}
+
+	public int getDealDay() {
+		return dealDay;
+	}
+
+	public void setDealDay(int dealDay) {
+		this.dealDay = dealDay;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getCancelDealType() {
+		return cancelDealType;
+	}
+
+	public void setCancelDealType(String cancelDealType) {
+		this.cancelDealType = cancelDealType;
+	}
+
 	@Override
 	public String toString() {
 		return "HouseDto [aptCode=" + aptCode + ", buildYear=" + buildYear + ", roadName=" + roadName
@@ -208,6 +290,9 @@ public class HouseDto {
 				+ roadNameSeq + ", roadNameBasementCode=" + roadNameBasementCode + ", roadNameCode=" + roadNameCode
 				+ ", dong=" + dong + ", bonbun=" + bonbun + ", bubun=" + bubun + ", sigunguCode=" + sigunguCode
 				+ ", eubmyundongCode=" + eubmyundongCode + ", dongCode=" + dongCode + ", landCode=" + landCode
-				+ ", apartmentName=" + apartmentName + ", jibun=" + jibun + ", lng=" + lng + ", lat=" + lat + "]";
+				+ ", apartmentName=" + apartmentName + ", jibun=" + jibun + ", lng=" + lng + ", lat=" + lat + ", no="
+				+ no + ", dealAmount=" + dealAmount + ", dealYear=" + dealYear + ", dealMonth=" + dealMonth
+				+ ", dealDay=" + dealDay + ", area=" + area + ", floor=" + floor + ", cancelDealType=" + cancelDealType
+				+ "]";
 	}
 }

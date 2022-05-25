@@ -6,5 +6,7 @@ import java.util.Map;
 import com.ssafy.happyhouse.model.dto.HouseDto;
 
 public interface HouseService {
-	public List<HouseDto> search(Map<String, String> map);
+	public List<HouseDto> search(int offset, int limit, int dongCode, String apartmentName);
+	public int getTotalCount(int dongCode);
+
 }

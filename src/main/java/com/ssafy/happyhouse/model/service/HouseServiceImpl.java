@@ -16,7 +16,12 @@ public class HouseServiceImpl implements HouseService {
 	private HouseMapper houseMapper;
 
 	@Override
-	public List<HouseDto> search(Map<String, String> map) {
-		return houseMapper.search(map);
+	public int getTotalCount(int dongCode) {
+		return houseMapper.getTotalCount(dongCode);
+	}
+
+	@Override
+	public List<HouseDto> search(int offset, int limit, int dongCode, String apartmentName) {
+		return houseMapper.search(offset, limit, dongCode, apartmentName);
 	}
 }
