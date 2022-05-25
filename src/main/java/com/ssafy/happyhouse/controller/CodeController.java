@@ -37,8 +37,8 @@ public class CodeController {
 	}
 	
 	@GetMapping("/gugun")
-	public ResponseEntity<?> gugunCode(@RequestParam String sidoCode) {
-		List<GugunCodeDto> list = codeService.getGugun(sidoCode);
+	public ResponseEntity<?> gugunCode(@RequestParam String sidoName) {
+		List<GugunCodeDto> list = codeService.getGugun(sidoName);
 		
 		if (list != null && !list.isEmpty()) {
 			return new ResponseEntity<List<GugunCodeDto>>(list, HttpStatus.OK);

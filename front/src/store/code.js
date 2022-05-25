@@ -6,8 +6,8 @@ export default {
     sido: [{ value: null, text: "시/도 선택" }],
     gugun: [{ value: null, text: "구/군 선택" }],
     dong: [{ value: null, text: "동 선택" }],
-    sidoCode: null,
-    gugunCode: null,
+    sidoName: null,
+    gugunName: null,
     dongCode: null,
   },
   mutations: {
@@ -15,7 +15,7 @@ export default {
       state.sido = [{ value: null, text: "시/도 선택" }].concat(
         sidos.map((sido) => {
           return {
-            value: sido.sidoCode,
+            value: sido.sidoName,
             text: sido.sidoName,
           };
           // eslint-disable-next-line prettier/prettier
@@ -26,7 +26,7 @@ export default {
       state.gugun = [{ value: null, text: "구/군 선택" }].concat(
         guguns.map((gugun) => {
           return {
-            value: gugun.gugunCode,
+            value: gugun.gugunName,
             text: gugun.gugunName,
           };
           // eslint-disable-next-line prettier/prettier
@@ -44,14 +44,20 @@ export default {
         })
       );
     },
-    SET_SIDO_CODE(state, sidoCode) {
-      state.sidoCode = sidoCode;
+    SET_SIDO_NAME(state, sidoName) {
+      state.sidoName = sidoName;
     },
-    SET_GUGUN_CODE(state, gugunCode) {
-      state.gugunCode = gugunCode;
+    SET_GUGUN_NAME(state, gugunName) {
+      state.gugunName = gugunName;
     },
     SET_DONG_CODE(state, dongCode) {
       state.dongCode = dongCode;
+    },
+    INIT_GUGUN(state) {
+      state.gugun = [{ value: null, text: "구/군 선택" }];
+    },
+    INIT_DONG(state) {
+      state.dong = [{ value: null, text: "동 선택" }];
     },
   },
   actions: {
@@ -65,19 +71,20 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    getGugun({ commit }, sidoCode) {
+    getGugun({ commit }, sidoName) {
       http
-        .get("/code/gugun", { params: { sidoCode } })
+        .get("/code/gugun", { params: { sidoName } })
         .then((res) => {
           if (res.status == 200) {
+            console.log(res.data);
             commit("SET_GUGUN", res.data);
           }
         })
         .catch((err) => console.log(err));
     },
-    getDong({ commit }, { sidoCode, gugunCode }) {
+    getDong({ commit }, { sidoName, gugunName }) {
       http
-        .get("/code/dong", { params: { sidoCode, gugunCode } })
+        .get("/code/dong", { params: { sidoName, gugunName } })
         .then((res) => {
           if (res.status == 200) {
             commit("SET_DONG", res.data);
@@ -85,14 +92,20 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    setSidoCode({ commit }, sidoCode) {
-      commit("SET_SIDO_CODE", sidoCode);
+    setSidoName({ commit }, sidoName) {
+      commit("SET_SIDO_NAME", sidoName);
     },
-    setGugunCode({ commit }, gugunCode) {
-      commit("SET_GUGUN_CODE", gugunCode);
+    setGugunName({ commit }, gugunName) {
+      commit("SET_GUGUN_NAME", gugunName);
     },
     setDongCode({ commit }, dongCode) {
       commit("SET_DONG_CODE", dongCode);
+    },
+    initGugun({ commit }) {
+      commit("INIT_GUGUN");
+    },
+    initDong({ commit }) {
+      commit("INIT_DONG");
     },
   },
 };

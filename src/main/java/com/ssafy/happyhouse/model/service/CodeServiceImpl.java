@@ -23,8 +23,8 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public List<GugunCodeDto> getGugun(String sidoCode) {
-		return codeMapper.getGugun(sidoCode);
+	public List<GugunCodeDto> getGugun(String sidoName) {
+		return codeMapper.getGugun(sidoName);
 	}
 
 	@Override

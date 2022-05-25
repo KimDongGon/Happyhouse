@@ -4,7 +4,7 @@
       <b-row>
         <b-col>
           <b-form-select
-            v-model="sidoCode"
+            v-model="sidoName"
             :options="sido"
             @change="sidoChanged"
             class="bg-dark text-light"
@@ -13,7 +13,7 @@
         </b-col>
         <b-col>
           <b-form-select
-            v-model="gugunCode"
+            v-model="gugunName"
             :options="gugun"
             @change="gugunChanged"
             class="bg-dark text-light"
@@ -48,8 +48,8 @@ export default {
   },
   data() {
     return {
-      sidoCode: null,
-      gugunCode: null,
+      sidoName: null,
+      gugunName: null,
       dongCode: null,
     };
   },
@@ -57,8 +57,8 @@ export default {
     ...mapState("code", ["sido", "gugun", "dong"]),
   },
   created() {
-    this.sidoCode = this.$store.state.code.sidoCode;
-    this.gugunCode = this.$store.state.code.gugunCode;
+    this.sidoName = this.$store.state.code.sidoName;
+    this.gugunName = this.$store.state.code.gugunName;
     this.dongCode = this.$store.state.code.dongCode;
     if (this.sido.length === 1) {
       this.getSido();
@@ -69,37 +69,44 @@ export default {
       "getSido",
       "getGugun",
       "getDong",
-      "setSidoCode",
-      "setGugunCode",
+      "setSidoName",
+      "setGugunName",
       "setDongCode",
+      "initGugun",
+      "initDong",
     ]),
     sidoChanged() {
-      this.setSidoCode(this.sidoCode);
+      this.setSidoName(this.sidoName);
 
-      this.gugunCode = null;
+      this.gugunName = null;
       this.dongCode = null;
-      this.setGugunCode(null);
+      this.setGugunName(null);
       this.setDongCode(null);
-      if (this.sidoCode !== null) {
-        this.getGugun(this.sidoCode);
+      this.initGugun();
+      this.initDong();
+
+      if (this.sidoName !== null) {
+        this.getGugun(this.sidoName);
       }
     },
     gugunChanged() {
-      this.setGugunCode(this.gugunCode);
+      this.setGugunName(this.gugunName);
 
       this.dongCode = null;
       this.setDongCode(null);
-      if (this.gugunCode !== null) {
-        this.getDong({ sidoCode: this.sidoCode, gugunCode: this.gugunCode });
+      this.initDong();
+
+      if (this.gugunName !== null) {
+        this.getDong({ sidoName: this.sidoName, gugunName: this.gugunName });
       }
     },
     dongChanged() {
       this.setDongCode(this.dongCode);
     },
     search() {
-      if (this.sidoCode === null) {
+      if (this.sidoName === null) {
         alert("시/도를 선택해주세요.");
-      } else if (this.gugunCode === null) {
+      } else if (this.gugunName === null) {
         alert("구/군을 선택해주세요.");
       } else if (this.dongCode === null) {
         alert("동을 선택해주세요.");

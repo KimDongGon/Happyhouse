@@ -5,20 +5,22 @@
 <mapper namespace="com.ssafy.happyhouse.model.mapper.CodeMapper">
 
 	<select id="getSido" resultType="SidoCodeDto">
-		select *
-		from sidocode
+		select sidoName
+		from sido
 	</select>
 	
 	<select id="getGugun" parameterType="string" resultType="GugunCodeDto">
-		select *
-		from guguncode
-		where sidoCode = #{sidoCode}
+		select gugunName
+		from gugun
+		where sidoName = #{sidoName}
 	</select>
 	
 	<select id="getDong" parameterType="map" resultType="DongCodeDto">
-		select *
+		select dongName, dongCode
 		from dongcode
-		where sidoCode = #{sidoCode} and gugunCode = #{gugunCode}
+		where sidoName = #{sidoName} 
+		and gugunName = #{gugunName}
+		and dongName is not null
 	</select>
 	
 </mapper>

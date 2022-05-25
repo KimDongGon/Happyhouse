@@ -10,7 +10,7 @@ import com.ssafy.happyhouse.model.dto.SidoCodeDto;
 public interface CodeService {
 	List<SidoCodeDto> getSido();
 
-	List<GugunCodeDto> getGugun(String sidoCode);
+	List<GugunCodeDto> getGugun(String sidoName);
 
 	List<DongCodeDto> getDong(Map<String, String> map);
 }
