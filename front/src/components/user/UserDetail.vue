@@ -71,6 +71,8 @@ export default {
   },
   methods: {
     ...mapActions("user", ["deleteUserInfo"]),
+    ...mapActions("access", ["deleteAccessToken"]),
+    ...mapActions("refresh", ["deleteRefreshToken"]),
     moveHome() {
       this.$router.push("/");
     },
@@ -88,6 +90,8 @@ export default {
             msg = "탈퇴가 정상적으로 처리되었습니다.";
           }
           alert(msg);
+          this.deleteAccessToken();
+          this.deleteRefreshToken();
           this.deleteUserInfo();
         });
       }
