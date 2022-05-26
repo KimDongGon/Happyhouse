@@ -12,12 +12,6 @@ export default {
     ],
   },
   getters: {
-    searchHouse(state) {
-      return state.houseList.filter((house) =>
-        // eslint-disable-next-line prettier/prettier
-        house.aptName.includes(state.searchKeyword)
-      );
-    },
     houseList(state) {
       return state.houseList;
     },
@@ -44,7 +38,7 @@ export default {
       http
         .get("/house/search", {
           params: {
-            dongCode: rootState.code.dongCode,
+            dongCode: rootState.code.dongCode.toString(),
             ...pageNavigation,
           },
         })

@@ -17,7 +17,7 @@
     </b-row>
     <b-table
       :fields="houseFields"
-      :items="searchHouse"
+      :items="houseList"
       label-sort-asc=""
       label-sort-desc=""
       label-sort-clear=""
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "HouseSearchList",
   data() {
@@ -40,8 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("house", ["houseFields"]),
-    ...mapGetters("house", ["searchHouse"]),
+    ...mapState("house", ["houseFields", "houseList"]),
   },
   methods: {
     ...mapActions("house", ["searchHouseList"]),
