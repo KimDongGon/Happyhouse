@@ -32,13 +32,9 @@ public class HouseController {
 	public ResponseEntity<?> search(
 			@RequestParam int offset, 
 			@RequestParam int limit, 
-			@RequestParam int dongCode,
+			@RequestParam String dongCode,
 			@RequestParam(required = false) String apartmentName) {
 		try {
-//			for (Entry<String, Object> s : map.entrySet()) {
-//				logger.debug(s.getKey() + " " + s.getValue());
-//			}
-			
 			List<HouseDto> list = houseService.search(offset, limit, dongCode, apartmentName);
 			if (list != null && !list.isEmpty()) {
 				return new ResponseEntity<List<HouseDto>>(list, HttpStatus.OK);
@@ -51,7 +47,7 @@ public class HouseController {
 	}
 	
 	@GetMapping("/count")
-	public ResponseEntity<?> search(@RequestParam int dongCode) {
+	public ResponseEntity<?> search(@RequestParam String dongCode) {
 		try {
 			int count = houseService.getTotalCount(dongCode);
 			return new ResponseEntity<Integer>(count, HttpStatus.OK);
