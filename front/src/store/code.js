@@ -76,7 +76,6 @@ export default {
         .get("/code/gugun", { params: { sidoName } })
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data);
             commit("SET_GUGUN", res.data);
           }
         })
