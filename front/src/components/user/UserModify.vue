@@ -31,7 +31,6 @@
               ref="password"
               v-model="user.password"
               type="text"
-              required
               placeholder="PASSWORD..."
             ></b-form-input>
           </b-form-group>
@@ -80,7 +79,7 @@
 </template>
 
 <script>
-import http from "@/api/http";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "mypageModify",
@@ -95,12 +94,17 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState("user", ["userid", "username", "useraddress", "usermobile"]),
+  },
   created() {
-    http.get(`/admin/user/${this.$route.params.id}`).then(({ data }) => {
-      this.user = data;
-    });
+    this.user.id = this.userid;
+    this.user.name = this.username;
+    this.user.address = this.useraddress;
+    this.user.number = this.usermobile;
   },
   methods: {
+    ...mapActions("user", ["modifyUserInfo"]),
     onSubmit(event) {
       event.preventDefault();
 
@@ -108,11 +112,6 @@ export default {
       let msg = "";
       !this.user.id &&
         ((msg = "아이디를 입력해주세요"), (err = false), this.$refs.id.focus());
-      err &&
-        !this.user.password &&
-        ((msg = "비밀번호를 입력해주세요"),
-        (err = false),
-        this.$refs.password.focus());
       err &&
         !this.user.name &&
         ((msg = "이름을 입력해주세요"), (err = false), this.$refs.name.focus());
@@ -128,26 +127,16 @@ export default {
         this.$refs.number.focus());
 
       if (!err) alert(msg);
-      this.modifyUser();
-    },
-    modifyUser() {
-      http
-        .put(`admin/user`, {
-          id: this.user.id,
-          passwrd: this.user.password,
-          name: this.user.name,
-          address: this.user.address,
-          number: this.user.number,
-        })
-        .then(({ data }) => {
-          let msg = "수정이 완료되었습니다.";
-          if (data === "success") {
-            msg = "수정이 완료되었습니다.";
-          }
-          alert(msg);
-          // 현재 route를 /list로 변경.
-          this.$router.push({ name: "mypage" });
-        });
+
+      const userInfo = {
+        id: this.user.id,
+        passwrd: this.user.password === "" ? null : this.user.password,
+        name: this.user.name,
+        address: this.user.address,
+        number: this.user.number,
+      };
+
+      this.modifyUserInfo(userInfo);
     },
     moveList() {
       this.$router.push({ name: "mypage" });

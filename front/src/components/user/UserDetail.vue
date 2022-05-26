@@ -20,15 +20,7 @@
           <b-col cols="2"></b-col>
           <b-col cols="2" align-self="end">아이디</b-col
           ><b-col cols="4" align-self="start" style="padding: 10px">{{
-            user.id
-          }}</b-col>
-          <b-col cols="2"></b-col>
-        </b-row>
-        <b-row>
-          <b-col cols="2"></b-col>
-          <b-col cols="2" align-self="end">비밀번호</b-col
-          ><b-col cols="4" align-self="start" style="padding: 10px">{{
-            user.password
+            userid
           }}</b-col>
           <b-col cols="2"></b-col>
         </b-row>
@@ -36,7 +28,7 @@
           <b-col cols="2"></b-col>
           <b-col cols="2" align-self="end">이름</b-col
           ><b-col cols="4" align-self="start" style="padding: 10px">{{
-            user.name
+            username
           }}</b-col>
           <b-col cols="2"></b-col>
         </b-row>
@@ -44,7 +36,7 @@
           <b-col cols="2"></b-col>
           <b-col cols="2" align-self="end">주소</b-col
           ><b-col cols="4" align-self="start" style="padding: 10px">{{
-            user.address
+            useraddress
           }}</b-col>
           <b-col cols="2"></b-col>
         </b-row>
@@ -52,7 +44,7 @@
           <b-col cols="2"></b-col>
           <b-col cols="2" align-self="end">전화번호</b-col
           ><b-col cols="4" align-self="start" style="padding: 10px">{{
-            user.number
+            usermobile
           }}</b-col>
           <b-col cols="2"></b-col>
         </b-row>
@@ -74,18 +66,8 @@ import http from "@/api/http";
 
 export default {
   name: "profileView",
-  data() {
-    return {
-      user: {},
-    };
-  },
   computed: {
-    ...mapState("user", ["userid"]),
-  },
-  created() {
-    http.get(`admin/user/${this.userid}`).then(({ data }) => {
-      this.user = data;
-    });
+    ...mapState("user", ["userid", "username", "useraddress", "usermobile"]),
   },
   methods: {
     ...mapActions("user", ["deleteUserInfo"]),

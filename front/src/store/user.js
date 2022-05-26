@@ -30,6 +30,12 @@ export default {
       state.usermobile = "";
       router.push("/").catch(() => {});
     },
+    MODIFY_USER_INFO(state, userInfo) {
+      state.userid = userInfo.id;
+      state.username = userInfo.name;
+      state.useraddress = userInfo.address;
+      state.usermobile = userInfo.number;
+    },
   },
   actions: {
     login({ commit }, user) {
@@ -70,6 +76,22 @@ export default {
     },
     deleteUserInfo({ commit }) {
       commit("DELETE_USER_INFO");
+    },
+    modifyUserInfo({ commit }, userInfo) {
+      http
+        .put(`admin/user`, {
+          ...userInfo,
+        })
+        .then(({ data }) => {
+          let msg = "수정이 완료되었습니다.";
+          if (data === "success") {
+            msg = "수정이 완료되었습니다.";
+          }
+          alert(msg);
+          // 현재 route를 /list로 변경.
+          commit("MODIFY_USER_INFO", userInfo);
+          router.push({ name: "mypage" });
+        });
     },
   },
 };
