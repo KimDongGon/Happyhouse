@@ -12,10 +12,5 @@ CREATE TABLE IF NOT EXISTS `happyhouse`.`reply` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
-
-insert into reply(replyno, no, content) 
-values(1, 3,'확인 후 개인 메일 발송드리겠습니다.'),
-	(2, 3, '메일 발송하였습니다. 확인 부탁드립니다.'),
-    (1, 1, '아파트 매매 정보는 매 주 일요일 오후에 업데이트 됩니다.');
       
-select * from reply;
+-- select * from reply;
