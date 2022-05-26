@@ -47,7 +47,7 @@ public class HouseController {
 	}
 	
 	@GetMapping("/count")
-	public ResponseEntity<?> search(@RequestParam String dongCode) {
+	public ResponseEntity<?> count(@RequestParam String dongCode) {
 		try {
 			int count = houseService.getTotalCount(dongCode);
 			return new ResponseEntity<Integer>(count, HttpStatus.OK);

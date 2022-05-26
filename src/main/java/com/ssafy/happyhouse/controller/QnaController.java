@@ -80,7 +80,7 @@ public class QnaController {
 	// Qna 게시물 작성
 	// DB 입력 성공 여부에 따라 'success' 또는 'fail'반환
 	@PostMapping(value="/regist")
-	public ResponseEntity<String> wrtieQna(@RequestBody QnaDto qnaDto) {
+	public ResponseEntity<String> writeQna(@RequestBody QnaDto qnaDto) {
 		logger.debug("writeQna호출");
 		if (qnaService.writeQna(qnaDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
