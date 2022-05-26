@@ -141,7 +141,7 @@ export default {
       return "";
     },
     ...mapGetters("user", ["isAdmin"]),
-    ...mapState(["boardNo"]),
+    ...mapState("board", ["boardNo"]),
     ...mapState("user", ["userid"]),
   },
   created() {
@@ -149,6 +149,7 @@ export default {
     if (!this.$route.params.no) {
       no = this.boardNo;
     }
+    console.log(no);
 
     http.get(`/qna/${no}`).then(({ data }) => {
       this.qna = data;
@@ -158,7 +159,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["setBoardNo"]),
+    ...mapActions("board", ["setBoardNo"]),
     checkId(id) {
       return this.userid === id;
     },
